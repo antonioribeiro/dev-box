@@ -1,5 +1,5 @@
 ---
-- hosts: proxy
+- hosts: alerj.proxy
   sudo: no
   tasks:
   - include: playbooks/nginx/playbook.yml
