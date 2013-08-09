@@ -3,7 +3,7 @@
 
 # sudo apt-get --yes install joe mc links alien apt-file zip vim rsync sudo rdate locate libterm-readkey-perl p7zip-full expect lynx less psmisc nmap lsof socat jfsutils
 
-- name: Install joe
+- name: Install common packages to all servers
   action: apt pkg={{ item }} state=latest
   with_items:
      - joe
@@ -27,5 +27,8 @@
      - lsof
      - socat
      - jfsutils
+     - git
+     - bzip2
+     - openssl
   tags: packages
 

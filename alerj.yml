@@ -9,6 +9,22 @@
   roles:
     - common
 
+- name: install squid
+  hosts: alerj_proxy_servers
+  user: antoniocarlos
+  sudo: yes
+
+  roles:
+    - squid
+
+- name: install apache2 and php5
+  hosts: alerj_webservers
+  user: antoniocarlos
+  sudo: yes
+
+  roles:
+    - apache2
+
 #- name: configure and deploy the webservers and application code
 #  hosts: alerj_webservers
 #  user: antoniocarlos

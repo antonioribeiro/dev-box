@@ -1,0 +1,12 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install apache2, php5 and related packages
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - apache2
+     - php5
+     - php5-cli
+     - libapache2-mod-php5
+  tags: apache,php
+

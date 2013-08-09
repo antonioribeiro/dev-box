@@ -1,0 +1,20 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install squid and related packages
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - squid
+     - libkrb53
+     - ldap-utils
+     - krb5-user
+     - libsasl2-modules-gssapi-mit
+     - libsasl2-modules
+     - libdb-dev
+     - libbz2-dev
+     - libcrypto++-dev
+     - libssl-dev
+     - gdb
+     - calamaris
+  tags: squid packages
+
