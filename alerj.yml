@@ -2,7 +2,7 @@
 # This playbook deploys the whole application stack in this site.  
 
 - name: apply common configuration to all nodes
-  hosts: alerj_proxy
+  hosts: alerj
   user: antoniocarlos
   sudo: yes
 
