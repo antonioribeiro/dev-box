@@ -1,6 +1,6 @@
 ---
 - hosts: alerj.proxy
-  sudo: no
+  sudo: yes
   tasks:
   - include: playbooks/nginx/playbook.yml
   handlers:
