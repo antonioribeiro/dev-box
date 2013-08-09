@@ -1,7 +1,24 @@
 ---
-- hosts: alerj.proxy
+# This playbook deploys the whole application stack in this site.  
+
+- name: apply common configuration to all nodes
+  hosts: alerj_proxy
+  user: antoniocarlos
   sudo: yes
-  tasks:
-  - include: playbooks/nginx/playbook.yml
-  handlers:
-  - include: playbooks/nginx/handlers.yml
+
+  roles:
+    - common
+
+#- name: configure and deploy the webservers and application code
+#  hosts: alerj_webservers
+#  user: antoniocarlos
+#
+#  roles:
+#    - apache2
+#
+#- name: deploy MySQL and configure the databases
+#  hosts: alerj_dbservers
+#  user: antoniocarlos
+#
+#  roles:
+#    - mysql

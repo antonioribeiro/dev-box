@@ -1,20 +1,22 @@
 [alerj_proxy]
 10.17.12.217
 
-[alerj_ansible]
-10.17.12.249
+#[alerj_ansible]
+#10.17.12.249
 
-[alerj_zabbix]
-alv117.alerj.gov.br
+#[alerj_zabbix]
+#alv117.alerj.gov.br
 
 [alerj:children]
 alerj_proxy
-alerj_zabbix
-alerj_ansible
+#alerj_zabbix
+#alerj_ansible
 
-[alerj_servers:children]
-alerj
+#[alerj_servers:children]
+#alerj
 
-[alerj_webservers:children]
-alerj_proxy
-alerj_ansible
+#[alerj_webservers:children]
+#alerj_proxy
+#alerj_ansible
+
+##########################################################################
