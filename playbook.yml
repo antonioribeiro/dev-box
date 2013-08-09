@@ -1,7 +1,0 @@
----
-- hosts: alerj_webservers
-  sudo: no
-  tasks:
-  - include: playbooks/apache2/playbook.yml
-  handlers:
-  - include: playbooks/apache2/handlers.yml
