@@ -1,0 +1,25 @@
+##
+# Ansible provided setup. See https://github.com/fourkitchens/server-playbooks.
+##
+
+##
+# This server allows a wildcard VirtualHost, so for example, going to:
+#
+# http://pete.training.example.com
+#
+# ... will set the webroot for the request to /home/pete/www/training
+#
+<VirtualHost *:80>
+	ServerAdmin {{ apache_server_admin }}
+	ServerAlias {{ apache_server_alias }}
+
+	VirtualDocumentRoot /home/%-4/www/%-3
+
+	<Directory /home/*/www/*>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+</VirtualHost>

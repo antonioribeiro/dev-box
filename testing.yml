@@ -1,0 +1,21 @@
+---
+# This playbook deploys the whole application stack in this site.  
+
+
+- name: install apache2 and php5
+  hosts: alerj_webservers
+  user: antoniocarlos
+  sudo: yes
+  roles:
+    - apache2
+
+
+- name: mysql
+  hosts: alerj_webservers
+  user: antoniocarlos
+  sudo: yes
+#  vars_files:
+#    - settings.yml
+  roles:
+    - mysql
+

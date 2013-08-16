@@ -3,7 +3,7 @@
 
 # sudo apt-get --yes install joe mc links alien apt-file zip vim rsync sudo rdate locate libterm-readkey-perl p7zip-full expect lynx less psmisc nmap lsof socat jfsutils
 
-- name: Install common packages to all servers
+- name: common packages
   action: apt pkg={{ item }} state=latest
   with_items:
      - joe
@@ -30,5 +30,8 @@
      - git
      - bzip2
      - openssl
+     - atop
   tags: packages
 
+- name: aliases
+  template: src=aliases.sh dest=/etc/aliases.sh

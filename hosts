@@ -12,17 +12,17 @@ alv117.alerj.gov.br
 ########################################## Groups
 
 [alerj:children]
-alerj_proxy
-alerj_zabbix
+###alerj_proxy
+###alerj_zabbix
 alerj_ansible
 
 [alerj_servers:children]
-alerj
+###alerj
 
 [alerj_webservers:children]
-alerj_proxy
+###alerj_proxy
 alerj_ansible
 
 [alerj_proxy_servers:children]
-alerj_proxy
+#######alerj_proxy
 alerj_ansible

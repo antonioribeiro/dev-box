@@ -1,0 +1,15 @@
+---
+
+- name: mysql
+  hosts: alerj_webservers
+  user: antoniocarlos
+  sudo: yes
+  vars:
+    - passphrase2: mypassword
+  vars_files:
+    - settings.yml
+  vars_prompt:
+      passphrase: "Please enter the passphrase for the SSL certificate"
+  roles:
+    - mysql
+

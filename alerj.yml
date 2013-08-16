@@ -1,6 +1,8 @@
 ---
 # This playbook deploys the whole application stack in this site.  
 
+########################################################################################
+
 - name: apply common configuration to all nodes
   hosts: alerj
   user: antoniocarlos
@@ -8,6 +10,8 @@
 
   roles:
     - common
+
+########################################################################################
 
 - name: install squid
   hosts: alerj_proxy_servers
@@ -17,6 +21,8 @@
   roles:
     - squid
 
+########################################################################################
+
 - name: install apache2 and php5
   hosts: alerj_webservers
   user: antoniocarlos
@@ -24,6 +30,28 @@
 
   roles:
     - apache2
+#    - mysql
+#    - postgresql
+#    - css-tools
+#    - redis
+#    - node.js
+
+########################################################################################
+
+#- name: mysql
+#  hosts: alerj_webservers
+#  user: antoniocarlos
+#  sudo: yes
+#  vars:
+#    - passphrase2: mypassword
+#  vars_files:
+#    - settings.yml
+#  vars_prompt:
+#      passphrase: "Please enter the passphrase for the SSL certificate"
+#  roles:
+#    - mysql
+
+########################################################################################
 
 #- name: configure and deploy the webservers and application code
 #  hosts: alerj_webservers

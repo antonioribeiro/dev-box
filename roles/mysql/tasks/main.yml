@@ -1,0 +1,16 @@
+##
+# MySQL database setup.
+#
+
+- name: mysql
+  action: apt pkg=$item state=installed
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+    - php5-mysql
+
+- name: MySQL | Config for easy access as root user
+  action: template src=root-my-cnf.j2 dest=/root/.my.cnf
+  tags: common
+
