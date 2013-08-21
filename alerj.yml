@@ -4,7 +4,7 @@
 ########################################################################################
 
 - name: apply common configuration to all nodes
-  hosts: alerj
+  hosts: alerj_all_servers
   user: antoniocarlos
   sudo: yes
 
