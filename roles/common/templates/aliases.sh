@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export TERM=linux                 
 export HISTFILESIZE=50000         
 alias l='sudo ls -laF --color=auto'

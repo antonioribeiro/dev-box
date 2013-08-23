@@ -31,7 +31,18 @@
      - bzip2
      - openssl
      - atop
-  tags: packages
+     - python-software-properties
+  tags: common
 
-- name: aliases
-  template: src=aliases.sh dest=/etc/aliases.sh
+- name: create aliases file
+  template: src=aliases.sh dest=/etc/aliases.sh mode=755
+  tags: common
+
+- name: create scripts directory.
+  file: state=directory path=/etc/scripts group=root owner=root
+  tags: common
+
+- name: create add apt repository script
+  template: src=add-apt-repository.sh dest=/etc/scripts/add-apt-repository.sh mode=755
+  tags: common
+

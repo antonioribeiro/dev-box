@@ -14,50 +14,50 @@
 
 - name: MySQL | Configuration file, my.cnf
   action: template src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
-  tags: common
+  tags: mysql
 
 
 ################# Secure MySQL
 
 - name: MySQL | Config for easy access as root user
   action: template src=root-my-cnf.j2 dest=/root/.my.cnf
-  tags: common
+  tags: mysql
 
 - name: MySQL | Set the root password.
   action: mysql_user user=root password=$mysql_root_password host=localhost
-  tags: common
+  tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for $server_hostname
   action: mysql_user user="" host="$server_hostname" state="absent"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for localhost
   action: mysql_user user="" state="absent"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Secure the MySQL root user for IPV6 localhost (::1)
   action: mysql_user user="root" password="$mysql_root_password" host="::1"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Secure the MySQL root user for IPV4 localhost (127.0.0.1)
   action: mysql_user user="root" password="$mysql_root_password" host="127.0.0.1"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Secure the MySQL root user for localhost domain (localhost)
   action: mysql_user user="root" password="$mysql_root_password" host="localhost"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Secure the MySQL root user for $server_hostname domain
   action: mysql_user user="root" password="$mysql_root_password" host="$server_hostname"
-  tags: common
+  tags: mysql
 
 - name: MySQL | Remove the MySQL test database
   action: mysql_db db=test state=absent
-  tags: common
+  tags: mysql
 
 
 ################# Restart services
 
 - name: Restart MySQL
   action: service name=mysql state=restarted
-  tags: common
+  tags: mysql

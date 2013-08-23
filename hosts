@@ -23,3 +23,6 @@ alerj_ansible
 [alerj_proxy_servers:children]
 #######alerj_proxy
 alerj_ansible
+
+[alerj_webmin_servers:children]
+alerj_ansible

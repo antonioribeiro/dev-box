@@ -36,15 +36,15 @@
 
 - name: Apache | Configuration file for our site
   action: template src=etc-apache2-sites-available-devserver.j2 dest=/etc/apache2/sites-available/devserver
-  tags: common
+  tags: apache2
 
 - name: Apache | Disable the default site
   action: command a2dissite default
-  tags: common
+  tags: apache2
 
 - name: Apache | Enable our new site
   action: command a2ensite devserver
-  tags: common
+  tags: apache2
 
 
 ##################### PHP Setup.
@@ -62,4 +62,4 @@
 
 - name: Restart Apache
   action: service name=apache2 state=restarted
-  tags: common
+  tags: apache2

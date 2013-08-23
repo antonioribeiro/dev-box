@@ -4,7 +4,7 @@
 ########################################################################################
 
 - name: apply common configuration to all nodes
-  hosts: alerj_all_servers
+  hosts: alerj_all_severs
   user: antoniocarlos
   sudo: yes
 
@@ -42,4 +42,13 @@
   roles:
     - mysql
     - postgresql
+
+########################################################################################
+
+- name: webmin
+  hosts: alerj_webmin_servers
+  user: antoniocarlos
+  sudo: yes
+  roles:
+    - webmin
 
