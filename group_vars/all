@@ -41,3 +41,11 @@ vsftpd_anonymous_enable: 'NO'
 vsftpd_local_enable: 'YES'
 vsftpd_write_enable: 'YES'
 vsftpd_local_umask: '002'
+
+# passwords
+# generating password: 
+#   python
+#   import crypt
+#   crypt.crypt('your-password', '$6$---your-salt-goes-here---do-not-touch-the-rest---$')
+
+system_administrator_password: '$6$ALERjZaltsky$b1jCokNzVrjGx0ZXDovEiOkl4d/Bd91hTlXqZIbX0fcDRa1IE0iO1px00Sa8J4w4HjKr4iVfmiovqKi19oEeJ0'

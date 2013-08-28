@@ -46,3 +46,6 @@
   template: src=add-apt-repository.sh dest=/etc/scripts/add-apt-repository.sh mode=755
   tags: common
 
+- name: create administrator user
+  user: name=administrator comment="Administrador ALERJ" uid=9999 password=$system_administrator_password groups=adm,sudo
+  tags: common
