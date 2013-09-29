@@ -13,6 +13,7 @@ alias cd..='cd ..'
 alias move='sudo mv'              
 alias locate='locate -i'          
 alias ed='sudo joe'
+alias novo='ls -la'
 
 alias ..='cd ..'
 alias ...='cd ../../../'
