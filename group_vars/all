@@ -1,12 +1,13 @@
-# Settings that are applied to the templates. This file should be copied to
-# the base folder of the play and renamed settings.yml, then modified to suit
-# your needs.
-
 ---
 # Hostname is important as we need to delete an anonymous MySQL
 # user that is created with this name, make sure you match this
 # up with the output of the command 'hostname' on the server.
+
 server_hostname: 'example.com'
+
+# User must have sudo rights
+
+user_with_sudo_power: antoniocarlos
 
 # php.ini
 php_max_execution_time: '90'
@@ -15,7 +16,7 @@ php_display_startup_errors: 'On'
 php_html_errors: 'On'
 php_post_max_size: '32M'
 php_upload_max_filesize: '32M'
-php_date_timezone: 'US/Central'
+php_date_timezone: 'America/Sao_Paulo'
 
 # apc.ini
 apc_rfc1867: '1'
@@ -42,10 +43,15 @@ vsftpd_local_enable: 'YES'
 vsftpd_write_enable: 'YES'
 vsftpd_local_umask: '002'
 
-# passwords
-# generating password: 
+# generating the system administrator password, execute those steps. YOU HAVE TO replace SALT with your own salt string!
 #   python
 #   import crypt
-#   crypt.crypt('your-password', '$6$---your-salt-goes-here---do-not-touch-the-rest---$')
+#   crypt.crypt('PassworD', '$6$SALT$')
 
-system_administrator_password: '$6$ALERjZaltsky$b1jCokNzVrjGx0ZXDovEiOkl4d/Bd91hTlXqZIbX0fcDRa1IE0iO1px00Sa8J4w4HjKr4iVfmiovqKi19oEeJ0'
+system_administrator_password: '$6$SALT$yAQhyG13oAgHnHL8nUynZdO7b5gV9V39GH38if7WrWf7G5I22TkcaijfdizvJWh6EQvczflnaI7ZxMo8cmirx.'
+
+# Node JS
+node_version: 0.10.20 - http://nodejs.org/
+
+# Grunt -- check for versions here: https://github.com/gruntjs/grunt/wiki
+grunt_version: 0.4.1

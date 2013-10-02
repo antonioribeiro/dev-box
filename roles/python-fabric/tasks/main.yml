@@ -1,0 +1,6 @@
+---
+
+- name: Fabric | Install python-fabric package using pip
+  action: command pip install fabric
+  tags: python-fabric
+

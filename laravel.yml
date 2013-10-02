@@ -1,0 +1,113 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+########################################################################################
+
+- name: apply common configuration to all nodes
+  hosts: all
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - common
+
+########################################################################################
+
+- name: install php55
+  hosts: php55
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - php55
+
+########################################################################################
+
+- name: install memcached
+  hosts: memcached
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - memcached
+
+########################################################################################
+
+- name: install node.js
+  hosts: nodejs
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - nodejs
+
+########################################################################################
+
+- name: install redis
+  hosts: redis
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - redis
+
+########################################################################################
+
+- name: install mysql
+  hosts: mysql
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - mysql
+
+########################################################################################
+
+- name: install postgresql
+  hosts: postgresql
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - postgresql
+
+########################################################################################
+
+- name: install beanstalkd
+  hosts: beanstalkd
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - beanstalkd
+
+########################################################################################
+
+- name: install grunt
+  hosts: grunt
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - grunt
+
+########################################################################################
+
+- name: install python-fabric
+  hosts: python-fabric
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - python-fabric
+
+########################################################################################
+
+- name: install docker
+  hosts: docker
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - docker
+

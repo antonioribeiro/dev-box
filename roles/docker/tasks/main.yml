@@ -1,0 +1,54 @@
+---
+
+- name: Docker | Install raring kernel image
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - linux-image-generic-lts-raring 
+     - linux-headers-generic-lts-raring
+  register: reboot_needed
+  tags: docker
+
+- name: Docker | Install Linux Containers
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - lxc
+  tags: docker
+    
+# instalation via packages having problems to apt-get update
+#
+# - name: Docker | Installing apt-key
+#   apt_key: url=https://get.docker.io/gpg state=present
+#   tags: docker
+
+# - name: Docker | Installing apt package prerequisites
+#   apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
+#   register: last_result
+#   tags: docker
+
+# - name: Docker | Update the apt cache for the new repositories
+#   action: apt update-cache=yes
+#   when: last_result.changed
+#   tags: docker
+
+# - name: Docker | Installing packagess
+#   action: apt pkg={{ item }} state=latest
+#   with_items:
+#      - lxc-docker
+#   tags: docker
+
+- name: Docker | Downloading and Installing
+  get_url: dest=/usr/bin/docker url=https://get.docker.io/builds/Linux/x86_64/docker-latest
+  tags: docker
+ 
+- name: Docker | Setting up permissions
+  file: path=/usr/bin/docker owner=root group=root mode=0755
+  tags: docker
+
+- name: Docker | Copy upstart script
+  copy: src=docker.upstart dest=/etc/init/docker.conf owner=root group=root mode=0644
+  tags: docker
+
+- name: Docker | Check if Linux image has changed and reboot server
+  action: command /sbin/reboot
+  when: reboot_needed.changed
+  tags: docker

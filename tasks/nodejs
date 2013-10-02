@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# From http://jpmens.net/2012/07/05/shell-scripts-as-ansible-modules/
+eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+
+if [ -z $version ]
+then
+  echo "{\"failed\": true, \"msg\": \"version is required. E.g. 0.10.8\"}"
+  exit 1
+fi
+
+have=$(node -v 2>/dev/null)
+
+# check if node is already installed
+if [ ! $have ]
+then
+  # NO NODE
+  cd /tmp
+  file="node-v$version-linux-x64"
+  wget http://nodejs.org/dist/v$version/$file.tar.gz &>/dev/null
+  if [ ! -f $file.tar.gz ]
+  then
+    echo "{\"failed\": true, \"msg\": \"Failed to download node.js binary\"}"
+    exit
+  fi
+  tar xf $file.tar.gz
+  cd $file
+  ./bin/npm install n &>/dev/null
+  if [ ! $? -eq 0 ]
+  then
+    echo "{\"failed\": true, \"msg\": \"Failed to install 'n' locally\"}"
+    exit 1
+  fi
+  ./node_modules/.bin/n $version &>/dev/null
+  if [ ! $? -eq 0 ]
+  then
+    echo "{\"failed\": true, \"msg\": \"Failed to install node.js to system\"}"
+    exit 1
+  fi
+  installed=$(node -v 2>/dev/null)
+  if [ $installed != "v$version" ]
+  then
+    echo "{\"failed\": true, \"msg\": \"Failed to install node.js version $version\"}"
+    exit 1
+  else
+    echo "{\"changed\": true, \"version\": \"$version\"}"
+    exit
+  fi
+else
+  # WRONG VERSION
+  if [ $have != "v$version" ]
+  then
+    # do we have n?
+    nversion=$(n -V 2> /dev/null)
+    if [ ! $nversion ]
+    then
+      npm install -g n &> /dev/null
+      if [ ! $? -eq 0 ]
+      then
+        echo "{\"failed\": true, \"msg\": \"Failed to install 'n' globally\"}"
+        exit 1
+      fi
+    fi
+    n $version &> /dev/null
+    if [ ! $? -eq 0 ]
+    then
+      echo "{\"failed\": true, \"msg\": \"Failed to install node.js version $version\"}"
+      exit 1
+    fi
+    installed=$(node -v 2>/dev/null)
+    if [ $installed != "v$version" ]
+    then
+      echo "{\"failed\": true, \"msg\": \"Failed to install node.js version $version\"}"
+      exit 1
+    else
+      echo "{\"changed\": true, \"version\": \"$version\"}"
+      exit
+    fi
+  else
+    echo "{\"changed\": false, \"version\": \"$version\"}"
+  fi
+fi

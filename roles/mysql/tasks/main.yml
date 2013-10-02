@@ -1,30 +1,56 @@
 ################# MySQL database setup.
 
-- name: mysql
+- name: MySQL | Set debconf vars
+  action: raw sudo echo mysql-server mysql-server/root_password password $mysql_root_password | sudo /usr/bin/debconf-set-selections
+  tags: mysql
+
+- name: MySQL | Set debconf vars
+  action: raw sudo echo mysql-server mysql-server/root_password_again password $mysql_root_password | sudo /usr/bin/debconf-set-selections
+  tags: mysql
+
+- name: MySQL | Install server
   action: apt pkg=$item state=installed
   with_items:
     - mysql-server
+  register: last_result
+  tags: mysql
+
+- name: MySQL | Install client and libs
+  action: apt pkg=$item state=installed
+  with_items:
     - mysql-client
     - python-mysqldb
     - php5-mysql
+  tags: mysql
+
+- name: MySQL | Start the MySQL service
+  action: service name=mysqld state=started
+
+################# Set root password on .my.cnf and all hosts
 
 - name: MySQL | Config for easy access as root user
   action: template src=root-my-cnf.j2 dest=/root/.my.cnf
+  when: last_result.changed
   tags: mysql
 
-- name: MySQL | Configuration file, my.cnf
-  action: template src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
-  tags: mysql
-
+- name: update mysql root password for all root accounts
+  mysql_user: name=root host=$item password=$mysql_root_password
+  with_items:
+    - $ansible_hostname
+    - 127.0.0.1
+    - ::1
+    - localhost
 
 ################# Secure MySQL
 
-- name: MySQL | Config for easy access as root user
-  action: template src=root-my-cnf.j2 dest=/root/.my.cnf
+- name: MySQL | Configuration file, my.cnf
+  action: template src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
+  when: last_result.changed
   tags: mysql
 
-- name: MySQL | Set the root password.
-  action: mysql_user user=root password=$mysql_root_password host=localhost
+- name: MySQL | Config for easy access as root user
+  action: template src=root-my-cnf.j2 dest=/root/.my.cnf
+  when: last_result.changed
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for $server_hostname
@@ -35,29 +61,6 @@
   action: mysql_user user="" state="absent"
   tags: mysql
 
-- name: MySQL | Secure the MySQL root user for IPV6 localhost (::1)
-  action: mysql_user user="root" password="$mysql_root_password" host="::1"
-  tags: mysql
-
-- name: MySQL | Secure the MySQL root user for IPV4 localhost (127.0.0.1)
-  action: mysql_user user="root" password="$mysql_root_password" host="127.0.0.1"
-  tags: mysql
-
-- name: MySQL | Secure the MySQL root user for localhost domain (localhost)
-  action: mysql_user user="root" password="$mysql_root_password" host="localhost"
-  tags: mysql
-
-- name: MySQL | Secure the MySQL root user for $server_hostname domain
-  action: mysql_user user="root" password="$mysql_root_password" host="$server_hostname"
-  tags: mysql
-
 - name: MySQL | Remove the MySQL test database
   action: mysql_db db=test state=absent
-  tags: mysql
-
-
-################# Restart services
-
-- name: Restart MySQL
-  action: service name=mysql state=restarted
   tags: mysql

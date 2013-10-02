@@ -1,7 +1,7 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
-- name: PostgreSQL
+- name: PostgreSQL | Install packages 
   action: apt pkg={{ item }} state=latest
   with_items:
      - postgresql
@@ -9,13 +9,13 @@
      - php5-pgsql
      - postgresql-doc
      - postgresql-doc-9.1
-     - slony1-bin
+     - slony1-2-bin
   tags: postgresql
 
 ##
 # Restart services
 #
 
-- name: Restart Apache
+- name: PostgreSQL | Restart Apache
   action: service name=apache2 state=restarted
   tags: postgresql

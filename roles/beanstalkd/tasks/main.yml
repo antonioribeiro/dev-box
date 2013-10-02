@@ -1,0 +1,13 @@
+---
+
+- name: Beanstalkd | Install packages 
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - beanstalkd
+  tags: beanstalkd
+
+##### Console - https://github.com/ptrofimov/beanstalk_console
+
+- name: Beanstalkd | Install Console
+  git: repo=https://github.com/ptrofimov/beanstalk_console.git dest=/var/www/beanstalk_console
+  tags: beanstalkd

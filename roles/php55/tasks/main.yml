@@ -1,0 +1,41 @@
+---
+
+- name: PHP5.5 | Add Ondrej's PPA for PHP55
+  apt_repository: repo='ppa:ondrej/php5'
+  tags: php55
+
+- name: PHP5.5 | Update the apt cache for the new repository
+  action: apt update-cache=yes
+  tags: php55
+
+- name: PHP5.5 | Install PHP and all related packages
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - php5
+     - php5-cli
+     - php-apc
+     - php-pear
+     - php5-dev
+     - php-xml-parser
+     - php5-cgi
+     - php5-common
+     - php5-curl
+     - php5-geoip
+     - php5-ldap
+     - php5-mcrypt
+     - php5-pgsql
+     - php5-xmlrpc
+     - php5-imagick
+     - php5-xdebug
+     - php5-apcu
+     - php5-memcached
+  tags: php55
+
+- name: PHP5.5 | Install XDebug
+  action: command pecl install xdebug
+  tags: php55
+
+- name: PHP5.5 | Install memcached
+  action: apt pkg=memcached state=latest
+  tags: php55
+

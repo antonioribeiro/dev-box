@@ -1,0 +1,13 @@
+---
+
+- name: Redis | Install Redis Server
+  action: apt pkg=redis-server state=latest
+  tags: redis
+
+- name: Redis | Install Redis Commander
+  action: command /usr/bin/npm install -g redis-commander
+  tags: redis
+
+- name: Redis | Install Redis Doc
+  action: command /usr/bin/npm install -g redis-doc
+  tags: redis

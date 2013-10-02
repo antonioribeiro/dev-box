@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# source all parameters received from ansible
+. $1
+
+NODEJS_VERSION=$version
+PLATFORM=linux
+ARCH=`arch`
+PREFIX=/usr/local
+TEMP_DIR=/tmp/ansible
+DATE=`date +%F\ %T`
+LOG_FILE=`mktemp`
+PROGRAM=`type -p npm`
+CHANGED=false
+
+# delete temporary files
+
+rm -rf $TEMP_DIR
+mkdir -p $TEMP_DIR
+rm -rf /tmp/tmp\.*
+
+if [ "$ARCH" == "x86_64" ]; then
+    ARCH="x64"
+else
+    ARCH="x32"
+fi
+
+if [ "$NODEJS_VERSION" == "" ]; then
+    # this is the latest stable version
+    NODEJS_VERSION=0.10.18
+fi
+
+#check if the version to be installed is the version already installed
+if [[ "$PROGRAM" != "" ]]; then
+    CURRENT_VERSION=`node --version`
+    if [[ "$CURRENT_VERSION" != "v$NODEJS_VERSION" ]]; then
+        PROGRAM=""
+    fi
+fi
+
+if [[ "$PROGRAM" == "" ]]; then
+    mkdir -p "$PREFIX" 2>&1 | tee -a $LOG_FILE &> /dev/null
+
+    curl http://nodejs.org/dist/v$NODEJS_VERSION/node-v$NODEJS_VERSION-$PLATFORM-$ARCH.tar.gz | tar xzvf - --strip-components=1 -C "$PREFIX" 2>&1 | tee -a $LOG_FILE &> /dev/null
+
+    CHANGED=true
+fi
+
+RESULT="{\"changed\": $CHANGED, \"time\": \"$DATE\"}"
+
+# some debugging lines
+
+echo $NODEJS_VERSION 2>&1 | tee -a $LOG_FILE &> /dev/null
+echo $DATE 2>&1 | tee -a $LOG_FILE &> /dev/null
+echo $LOG_FILE 2>&1 | tee -a $LOG_FILE &> /dev/null
+echo $PROGRAM 2>&1 | tee -a $LOG_FILE &> /dev/null
+echo $CHANGED 2>&1 | tee -a $LOG_FILE &> /dev/null
+echo $RESULT 2>&1 | tee -a $LOG_FILE &> /dev/null
+set  2>&1 | tee -a $LOG_FILE &> /dev/null
+
+# ansible result
+
+echo $RESULT

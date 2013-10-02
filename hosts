@@ -1,5 +1,8 @@
 ########################################### Hosts
 
+[laravel]
+172.17.0.15
+
 [alerj_proxy]
 10.200.1.10
 
@@ -19,6 +22,7 @@ alerj_proxy
 alerj_zabbix
 alerj_ansible
 alerj_web_teste
+laravel
 
 [alerj_webservers:children]
 alerj_proxy
@@ -30,3 +34,6 @@ alerj_ansible
 
 [alerj_webmin_servers:children]
 alerj_ansible
+
+[php55]
+laravel

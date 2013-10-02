@@ -1,6 +1,12 @@
-##
-# Redis server.
-#
-- name: Redis | Install redis
-  action: apt pkg=redis-server state=installed
+---
+
+- name: Redis | Install Redis Server and Doc
+  action: apt pkg={{ item }} state=latest
+  with_items:
+     - redis-server
+     - redis-doc
+  tags: redis
+
+- name: Redis | Install Redis Commander
+  action: command npm install -g redis-commander
   tags: redis

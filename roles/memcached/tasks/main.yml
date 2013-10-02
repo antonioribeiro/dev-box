@@ -1,0 +1,5 @@
+---
+
+- name: Memcached | Install
+  action: apt pkg=memcached state=latest
+  tags: memcached
