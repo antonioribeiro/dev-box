@@ -24,6 +24,12 @@
   tags: mysql
 
 - name: MySQL | Start the MySQL service
+  when: ansible_lsb.codename == "luna"
+  register: result
+  action: service name=mysql state=started
+
+- name: MySQL | Start the MySQL service
+  when: result|skipped
   action: service name=mysqld state=started
 
 ################# Set root password on .my.cnf and all hosts

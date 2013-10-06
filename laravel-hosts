@@ -3,37 +3,43 @@
 [laravel]
 172.17.0.120
 
+[tank]
+localhost ansible_ssh_port=922 ansible_ssh_user=antoniocarlos ansible_ssh_pass=foda-se
+
 ########################################## Groups
 
 [all-servers:children]
-laravel
+tank
 
 [php55:children]
-laravel
+tank
+
+[apache2:children]
+tank
 
 [memcached:children]
-laravel
+tank
 
 [redis:children]
-laravel
+tank
 
 [nodejs:children]
-laravel
+tank
 
 [mysql:children]
-laravel
+tank
 
 [postgresql:children]
-laravel
+tank
 
 [beanstalkd:children]
-laravel
+tank
 
 [grunt:children]
-laravel
+tank
 
 [python-fabric:children]
-laravel
+tank
 
 [docker:children]
-laravel
+tank

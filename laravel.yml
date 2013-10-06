@@ -23,6 +23,16 @@
 
 ########################################################################################
 
+- name: install apache2
+  hosts: apache2
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - apache2
+
+########################################################################################
+
 - name: install memcached
   hosts: memcached
   user: $user_with_sudo_power

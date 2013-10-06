@@ -36,6 +36,12 @@
      - python-pip
      - g++ 
      - make
+     - tmux
+     - irssi
+     - build-essential
+     - python-dev
+     - sshpass
+     - subversion
   tags: common
 
 - name: create aliases file

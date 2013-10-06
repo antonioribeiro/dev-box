@@ -1,37 +1,22 @@
 ---
 ##################### Apache2 install.
 
-- name: apache2, php5
+- name: apache2
   action: apt pkg={{ item }} state=latest
   with_items:
      - apache2
-     - php5
-     - php5-cli
-     - php-apc
      - libapache2-mod-php5
-     - php-pear
-     - php-xml-parser
-     - php5-cgi
-     - php5-common
-     - php5-curl
-     - php5-dev
-     - php5-geoip
-     - php5-ldap
-     - php5-mcrypt
-     - php5-pgsql
-     - php5-xmlrpc
-     - php5-imagick
   tags: apache2
-
 
 ##################### Apache2 setup.
 
 - name: enable modules
-  command: a2enmod {{item}}
+  command: a2enmod {{item}} creates=/etc/apache2/mods-enabled/{{item}}.load
   with_items:
      - rewrite
      - headers
      - vhost_alias
+     - expires
   tags: apache2
 
 - name: Apache | Configuration file for our site
@@ -40,12 +25,13 @@
 
 - name: Apache | Disable the default site
   action: command a2dissite default
+  ignore_errors: True
   tags: apache2
 
 - name: Apache | Enable our new site
   action: command a2ensite devserver
+  ignore_errors: True
   tags: apache2
-
 
 ##################### PHP Setup.
 
@@ -54,9 +40,22 @@
   tags: apache2
 
 - name: APC | Cache configuration file, apc.ini
-  action: template src=etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
+  action: template src=etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cli/conf.d/apc.ini
   tags: apache2
 
+- name: APC | Cache configuration file, apc.ini
+  action: template src=etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cgi/conf.d/apc.ini
+  tags: apache2
+
+# mod_pagespeed is needs apache2.2-common wich conflicts with apache2.2-bin
+# 
+# - name: PHP | Download mod-pagespeed
+#   action: get_url url=https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb dest=/tmp/mod-pagespeed-stable_current_amd64.deb
+#   tags: apache2
+
+# - name: PHP | Install mod-pagespeed
+#   action: command dpkg -i /tmp/mod-pagespeed-stable_current_amd64.deb
+#   tags: apache2
 
 ##################### Restart services
 
