@@ -71,6 +71,12 @@
   roles:
     - mysql
 
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
+    - name: restart mysql
+      service: name=mysql state=restarted
+
 ########################################################################################
 
 - name: install postgresql
@@ -80,6 +86,10 @@
 
   roles:
     - postgresql
+
+  handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
 
 ########################################################################################
 

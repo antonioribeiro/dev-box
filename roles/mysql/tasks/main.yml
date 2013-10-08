@@ -1,23 +1,17 @@
 ################# MySQL database setup.
 
 - name: MySQL | Set debconf vars
-  action: raw sudo echo mysql-server mysql-server/root_password password $mysql_root_password | sudo /usr/bin/debconf-set-selections
+  raw: sudo echo mysql-server mysql-server/root_password password $mysql_root_password | sudo /usr/bin/debconf-set-selections
   tags: mysql
 
 - name: MySQL | Set debconf vars
-  action: raw sudo echo mysql-server mysql-server/root_password_again password $mysql_root_password | sudo /usr/bin/debconf-set-selections
+  raw: sudo echo mysql-server mysql-server/root_password_again password $mysql_root_password | sudo /usr/bin/debconf-set-selections
   tags: mysql
 
-- name: MySQL | Install server
-  action: apt pkg=$item state=installed
+- name: MySQL | Install server and components
+  apt: pkg=$item state=installed
   with_items:
     - mysql-server
-  register: last_result
-  tags: mysql
-
-- name: MySQL | Install client and libs
-  action: apt pkg=$item state=installed
-  with_items:
     - mysql-client
     - python-mysqldb
     - php5-mysql
@@ -26,47 +20,101 @@
 - name: MySQL | Start the MySQL service
   when: ansible_lsb.codename == "luna"
   register: result
-  action: service name=mysql state=started
+  service: name=mysql state=started
 
 - name: MySQL | Start the MySQL service
   when: result|skipped
-  action: service name=mysqld state=started
+  service: name=mysqld state=started
+
+# ################# Create database
+
+# - name: MySQL | Create a database
+#   mysql_db: name=laravel state=present
+#   tags: mysql
 
 ################# Set root password on .my.cnf and all hosts
 
 - name: MySQL | Config for easy access as root user
-  action: template src=root-my-cnf.j2 dest=/root/.my.cnf
-  when: last_result.changed
+  template: src=root-my-cnf.j2 dest=/root/.my.cnf
   tags: mysql
 
-- name: update mysql root password for all root accounts
-  mysql_user: name=root host=$item password=$mysql_root_password
+- name: MySQL | Update mysql root password for all root accounts
+  mysql_user: name=root host=$item password=$mysql_root_password state=present priv=*.*:ALL
   with_items:
     - $ansible_hostname
     - 127.0.0.1
     - ::1
     - localhost
+  tags: mysql
+
+################# Create secondary user
+
+- name: MySQL | Create a secondary user for mysql
+  mysql_user: name=$mysql_secondary_user host=$item password=$mysql_secondary_password priv=laravel.*:ALL state=present
+  with_items:
+    - $ansible_hostname
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: mysql_secondary_user != ""
+  tags: mysql
 
 ################# Secure MySQL
 
 - name: MySQL | Configuration file, my.cnf
-  action: template src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
-  when: last_result.changed
+  template: src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
+  notify:
+    - restart mysql
   tags: mysql
 
 - name: MySQL | Config for easy access as root user
-  action: template src=root-my-cnf.j2 dest=/root/.my.cnf
-  when: last_result.changed
+  template: src=root-my-cnf.j2 dest=/root/.my.cnf
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for $server_hostname
-  action: mysql_user user="" host="$server_hostname" state="absent"
+  mysql_user: user="" host="$server_hostname" state="absent"
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for localhost
-  action: mysql_user user="" state="absent"
+  mysql_user: user="" state="absent"
   tags: mysql
 
 - name: MySQL | Remove the MySQL test database
-  action: mysql_db db=test state=absent
+  mysql_db: db=test state=absent
+  tags: mysql
+
+################# phpMyAdmin
+
+- name: MySQL | phpMyAdmin | Check if apache2 is installed
+  stat: path=/usr/sbin/apache2
+  register: apache2
+  tags: mysql
+
+- name: MySQL | phpMyAdmin | Check if php5 is installed
+  stat: path=/usr/bin/php5
+  register: php5
+  tags: mysql
+
+- name: MySQL | phpMyAdmin | debconf-set-selection for php
+  raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
+  when: php5.stat.exists
+  with_items: 
+    - phpmyadmin phpmyadmin/dbconfig-install boolean true
+    - phpmyadmin phpmyadmin/app-password-confirm password $mysql_phpmyadmin_password
+    - phpmyadmin phpmyadmin/mysql/admin-pass password $mysql_root_password
+    - phpmyadmin phpmyadmin/mysql/app-pass password $mysql_root_password
+  tags: mysql
+
+- name: MySQL | phpMyAdmin | debconf-set-selection for apache2
+  raw: sudo echo phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2 | sudo /usr/bin/debconf-set-selections
+  when: php5.stat.exists and apache2.stat.exists
+  notify:
+    - restart apache
+  tags: mysql
+
+- name: MySQL | phpMyAdmin | Install
+  apt: pkg=$item state=installed
+  with_items:
+    - phpmyadmin
+  when: php5.stat.exists
   tags: mysql

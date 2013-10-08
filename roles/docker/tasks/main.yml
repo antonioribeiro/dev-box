@@ -1,7 +1,7 @@
 ---
 
 - name: Docker | Install raring kernel image
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
      - linux-image-generic-lts-raring 
      - linux-headers-generic-lts-raring
@@ -9,7 +9,7 @@
   tags: docker
 
 - name: Docker | Install Linux Containers
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
      - lxc
   tags: docker
@@ -26,12 +26,12 @@
 #   tags: docker
 
 # - name: Docker | Update the apt cache for the new repositories
-#   action: apt update-cache=yes
+#   apt: update-cache=yes
 #   when: last_result.changed
 #   tags: docker
 
 # - name: Docker | Installing packagess
-#   action: apt pkg={{ item }} state=latest
+#   apt: pkg={{ item }} state=latest
 #   with_items:
 #      - lxc-docker
 #   tags: docker
@@ -49,6 +49,6 @@
   tags: docker
 
 - name: Docker | Check if Linux image has changed and reboot server
-  action: command /sbin/reboot
+  command: /sbin/reboot
   when: reboot_needed.changed
   tags: docker

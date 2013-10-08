@@ -6,12 +6,12 @@
   tags: php55
 
 - name: PHP5.5 | Update the apt cache for the new repository
-  action: apt update-cache=yes
+  apt: update-cache=yes
   when: last_result.changed
   tags: php55
 
 - name: PHP5.5 | Install PHP and all related packages
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   register: result
   with_items:
      - php5
@@ -37,13 +37,46 @@
   tags: php55
 
 - name: PHP5.5 | Install XDebug
-  action: command pecl install xdebug creates=/usr/share/php/.registry/.channel.pecl.php.net/xdebug.reg
+  command: pecl install xdebug creates=/usr/share/php/.registry/.channel.pecl.php.net/xdebug.reg
   tags: php55
 
 - name: PHP5.5 | Install Imagick
-  action: command pecl install imagick creates=/usr/share/php/.registry/.channel.pecl.php.net/imagick.reg
+  command: pecl install imagick creates=/usr/share/php/.registry/.channel.pecl.php.net/imagick.reg
   tags: php55
 
 - name: PHP5.5 | Install memcached
-  action: apt pkg=memcached state=latest
+  apt: pkg=memcached state=latest
+  tags: php55
+
+- name: PHP5.5 | Browsecap download
+  command: wget -N --output-document=/etc/php5/browscap.ini http://tempdownloads.browserscap.com/stream.asp?PHP_BrowsCapINI creates=/etc/php5/browscap.ini
+  tags: php55
+
+- name: PHP5.5 | Browsecap configure ini files
+  ini_file: dest={{ item }}
+            section=browscap
+            option=browscap
+            value=/etc/php5/browscap.ini
+            backup=yes
+  with_items:
+    - /etc/php5/cgi/php.ini
+    - /etc/php5/cli/php.ini
+  tags: php55
+
+- name: PHP5.5 | APC Cache configuration file, apc.ini
+  template: src=../../../global/templates/php55/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cli/conf.d/apc.ini
+  tags: php55
+
+- name: PHP5.5 | APC Cache configuration file, apc.ini
+  template: src=../../../global/templates/php55/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cgi/conf.d/apc.ini
+  tags: php55
+
+- name: PHP5.5 | Check if apache2 is installed to restart it
+  stat: path=/usr/sbin/apache2
+  register: apache2
+  tags: php55
+
+- name: PHP5.5 | Restart apache
+  service: name=apache2 state=restarted
+  when: apache2.stat.exists
   tags: php55

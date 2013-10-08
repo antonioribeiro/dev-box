@@ -1,8 +1,7 @@
 ---
-# This playbook contains common plays that will be run on all nodes.
 
 - name: Install squid and related packages
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
      - squid
      - libkrb53

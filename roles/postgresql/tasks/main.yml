@@ -1,21 +1,103 @@
 ---
-# This playbook contains common plays that will be run on all nodes.
 
-- name: PostgreSQL | Install packages 
-  action: apt pkg={{ item }} state=latest
-  with_items:
-     - postgresql
-     - phppgadmin
-     - php5-pgsql
-     - postgresql-doc
-     - postgresql-doc-9.1
-     - slony1-2-bin
+- name: PostgreSQL | Create user
+  user: name={{ postgresql_user }} comment="PosgreSQL user" password={{ postgresql_user_password_hashed }} state=present
   tags: postgresql
 
-##
-# Restart services
-#
+- name: PostgreSQL | Install packages 
+  apt: pkg={{ item }} state=latest
+  with_items:
+     - postgresql-{{ postgresql_version }}
+     - postgresql-doc-{{ postgresql_version }}
+     - postgresql-client-{{ postgresql_version }}
+     - postgresql-{{ postgresql_version }}-pgmemcache
+     - phppgadmin
+     - python-psycopg2
+     - postgresql-doc
+     - slony1-2-bin
+     - php5-pgsql
+     - libpq-dev
+  tags: postgresql
+
+# - name: PostgreSQL | Initiate database
+#   command: sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb
+#             creates=/var/lib/pgsql/data/postgresql.conf
+#   tags: postgresql
+
+- name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 1
+  lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    regexp='^#?listen_addresses\s*='
+    line="listen_addresses = '*'"
+    state=present
+  notify: restart postgresql
+  tags: postgresql
+
+- name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 2
+  lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+               regexp='host\s+all\s+all\s+127.0.0.1/32\s+md5'
+               line='host all all  0.0.0.0/0 md5'
+               insertbefore=BOF
+  notify: restart postgresql
+  tags: postgresql
+
+### Add postgres to sudoers 
+
+- name: Copy sudoers file for safety
+  command: cp -f /etc/sudoers /etc/sudoers.tmp
+  tags: postgresql
+
+- name: Create sudoers file backup
+  command: cp -f /etc/sudoers /etc/sudoers.bak
+  tags: postgresql
+
+- name: make sure we can sudo as admin group
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^postgres' line='postgres ALL=(ALL) NOPASSWD:ALL'
+  tags: postgresql
+
+- name: Final sudoers file check
+  shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
+  tags: postgresql
+
+###
+
+- name: PostgreSQL | ensure database is created
+  action: postgresql_db login_user=postgres login_password={{ postgresql_user_password }} db={{ postgresql_dbname }}
+  sudo_user: "{{ postgresql_user }}"
+  sudo: True
+  tags: postgresql
+
+- name: PostgreSQL | ensure user has access to database
+  action: postgresql_user login_user=postgres login_password={{ postgresql_user_password }} db={{ postgresql_dbname }} user={{ postgresql_dbuser }} password={{ postgresql_dbpassword }} priv=ALL
+  sudo_user: "{{ postgresql_user }}"
+  sudo: True
+  tags: postgresql
+
+- name: PostgreSQL | ensure user does not have unnecessary privilege
+  action: postgresql_user login_user=postgres login_password={{ postgresql_user_password }} user={{ postgresql_dbname }} role_attr_flags=NOSUPERUSER,NOCREATEDB
+  sudo_user: "{{ postgresql_user }}"
+  sudo: True
+  tags: postgresql
+
+- name: PostgreSQL | Check if apache2 is installed
+  stat: path=/usr/sbin/apache2
+  register: apache2
+  tags: postgresql
+
+### get sudoers to its original config
+
+- name: Create sudoers file backup
+  command: cp -f /etc/sudoers.bak /etc/sudoers 
+  tags: postgresql
+
+### 
+
+- name: PostgreSQL | Start database server and enable it at boot
+  service: name=postgresql
+            enabled=yes
+            state=started
+  tags: postgresql
 
 - name: PostgreSQL | Restart Apache
-  action: service name=apache2 state=restarted
+  service: name=apache2 state=restarted
+  when: apache2.stat.exists
   tags: postgresql

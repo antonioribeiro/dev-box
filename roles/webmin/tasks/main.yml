@@ -6,5 +6,5 @@
   tags: webmin
 
 - name: install webmin
-  action: shell /tmp/install-webmin.sh
+  shell: /tmp/install-webmin.sh
   tags: webmin

@@ -1,7 +1,7 @@
 ########################################### Hosts
 
-[laravel]
-172.17.0.120
+#[laravel]
+#172.17.0.120
 
 [tank]
 localhost ansible_ssh_port=922 ansible_ssh_user=antoniocarlos ansible_ssh_pass=foda-se

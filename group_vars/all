@@ -32,6 +32,24 @@ innodb_file_per_table: 'innodb_file_per_table'
 
 # mysql
 mysql_root_password: 'password'
+mysql_secondary_user: '' # keep it blank to not create a secondary user
+mysql_secondary_password: ''
+mysql_phpmyadmin_password: 'foda-se'
+
+# postgresql
+
+# create password using
+#   python -c 'import crypt; print crypt.crypt("postgresqlPASSWORD", "$1$2zB3D4a0Z$")'
+# wich generates
+#   $1$2zB3D4a0$l5eDRqqERnY.A48EKzSHz0
+
+postgresql_version: '9.1'
+postgresql_user: 'postgres'
+postgresql_user_password: 'postgresqlPASSWORD'
+postgresql_user_password_hashed: '$1$2zB3D4a0$l5eDRqqERnY.A48EKzSHz0'
+postgresql_dbname: 'laravel'
+postgresql_dbuser: 'laravel'
+postgresql_dbpassword: 'laravel'
 
 # apache
 apache_server_admin: 'webmaster@example.com'

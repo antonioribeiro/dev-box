@@ -1,7 +1,7 @@
 ---
 
 - name: Beanstalkd | Install packages 
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
      - beanstalkd
   tags: beanstalkd

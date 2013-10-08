@@ -1,7 +1,7 @@
 ---
 
 - name: Grunt | Installs grunt-cli globally using npm
-  action: command npm install -g grunt-cli
+  command: npm install -g grunt-cli
   tags: grunt
 
 # Grunt itself is installed for each project, developer should run himself:
@@ -9,6 +9,6 @@
 # npm install grunt
   
 # - name: Grunt | Installs grunt globally using npm
-#   action: command npm install grunt@$grunt_version -g
+#   command: npm install grunt@$grunt_version -g
 #   tags: grunt
 

@@ -2,7 +2,7 @@
 ##################### Apache2 install.
 
 - name: apache2
-  action: apt pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
      - apache2
      - libapache2-mod-php5
@@ -19,46 +19,48 @@
      - expires
   tags: apache2
 
-- name: Apache | Configuration file for our site
-  action: template src=etc-apache2-sites-available-devserver.j2 dest=/etc/apache2/sites-available/devserver
-  tags: apache2
-
 - name: Apache | Disable the default site
-  action: command a2dissite default
+  command: a2dissite default
   ignore_errors: True
   tags: apache2
 
-- name: Apache | Enable our new site
-  action: command a2ensite devserver
-  ignore_errors: True
-  tags: apache2
+# - name: Apache | Configuration file for our site
+#   template: src=etc-apache2-sites-available-devserver.j2 dest=/etc/apache2/sites-available/devserver
+#   tags: apache2
+
+# - name: Apache | Enable our new site
+#   command: a2ensite devserver
+#   ignore_errors: True
+#   tags: apache2
 
 ##################### PHP Setup.
 
-- name: PHP | Configuration file, php.ini
-  action: template src=etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
+- name: Apache | PHP5 | Configuration file, php.ini
+  template: src=../../../global/templates/php55/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
   tags: apache2
 
-- name: APC | Cache configuration file, apc.ini
-  action: template src=etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cli/conf.d/apc.ini
-  tags: apache2
-
-- name: APC | Cache configuration file, apc.ini
-  action: template src=etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/cgi/conf.d/apc.ini
+- name: Apache | PHP5 | Browsecap configure ini files
+  ini_file: dest={{ item }}
+            section=browscap
+            option=browscap
+            value=/etc/php5/browscap.ini
+            backup=yes
+  with_items:
+    - /etc/php5/apache2/php.ini
   tags: apache2
 
 # mod_pagespeed is needs apache2.2-common wich conflicts with apache2.2-bin
 # 
 # - name: PHP | Download mod-pagespeed
-#   action: get_url url=https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb dest=/tmp/mod-pagespeed-stable_current_amd64.deb
+#   get_url: url=https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb dest=/tmp/mod-pagespeed-stable_current_amd64.deb
 #   tags: apache2
 
 # - name: PHP | Install mod-pagespeed
-#   action: command dpkg -i /tmp/mod-pagespeed-stable_current_amd64.deb
+#   command: dpkg -i /tmp/mod-pagespeed-stable_current_amd64.deb
 #   tags: apache2
 
 ##################### Restart services
 
 - name: Restart Apache
-  action: service name=apache2 state=restarted
+  service: name=apache2 state=restarted
   tags: apache2
