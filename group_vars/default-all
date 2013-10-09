@@ -107,8 +107,8 @@ composer_executable: '/usr/bin/composer'
 
 # Beanstalkd 
 
-beanstalkd_server_port: '11300'
 beanstalkd_server_hostname: '{{ ansible_hostname }}'
+beanstalkd_server_port: '11300'
 
 # PHPUnit
 
