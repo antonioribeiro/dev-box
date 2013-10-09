@@ -9,5 +9,5 @@
   tags: webmin
 
 - name: install webmin
-  shell: {{ tmp_path }}/install-webmin.sh
+  shell: $tmp_path/install-webmin.sh
   tags: webmin

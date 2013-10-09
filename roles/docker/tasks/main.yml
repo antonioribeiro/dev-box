@@ -64,6 +64,6 @@
   tags: docker
 
 - name: Docker | Check if Linux image has changed and reboot server
-  command: {{ reboot_command }}
+  command: $reboot_command
   when: reboot_needed.changed
   tags: docker

@@ -68,7 +68,7 @@ mysql_collation_server: 'utf8_general_ci'
 innodb_file_per_table: 'innodb_file_per_table'
 
 # mysql
-mysql_root_username: {{ root_username }}
+mysql_root_username: $root_username
 mysql_root_password: 'PASSWORD'
 mysql_secondary_user: '' # keep it blank to not create a secondary user
 mysql_secondary_password: 'PASSWORD'
