@@ -38,10 +38,23 @@
 - name: Beanstalkd | Configure Apache virtualhost
   template: 
     src=apache2-virtualhost.tpl 
-    dest=/etc/apache2/conf.d/beanstalkd-console.conf
+    dest=/etc/apache2/sites-available/beanstalkd-console.conf
     owner={{ root_username }} 
     group={{ root_username }}     
     mode=0644 
   notify: restart apache2
+  when: apache2.stat.exists
+  tags: beanstalkd
+
+- name: Beanstalkd | Configure Apache virtualhost
+  file: 
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  when: apache2.stat.exists
+  tags: beanstalkd
+
+- name: PHPUnit | Put executable in the environment path variable
+  command: a2ensite beanstalkd-console
   when: apache2.stat.exists
   tags: beanstalkd
