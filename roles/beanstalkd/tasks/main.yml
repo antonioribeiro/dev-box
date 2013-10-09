@@ -17,7 +17,6 @@
   git: 
     repo=https://github.com/ptrofimov/beanstalk_console.git 
     dest={{ webserver_document_root }}/beanstalk_console
-    creates={{ webserver_document_root }}/beanstalk_console/config.php
   tags: beanstalkd
 
 - name: Beanstalkd | Create first server on config.php
