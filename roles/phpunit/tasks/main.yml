@@ -15,9 +15,9 @@
     dest={{ phpunit_directory }}/composer.json
   tags: phpunit
 
-# - name: PHPUnit | Install using composer
-#   command: composer --working-dir={{ phpunit_directory }} update 
-#   tags: phpunit
+- name: PHPUnit | Install using composer
+  command: composer --working-dir={{ phpunit_directory }} update 
+  tags: phpunit
 
 - name: PHPUnit | Set executable bit
   file: 

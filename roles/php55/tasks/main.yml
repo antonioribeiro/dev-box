@@ -53,6 +53,14 @@
            creates=/etc/php5/browscap.ini
   tags: php55
 
+- name: PHP5.5 | Remove formatting errors from php ini files
+  shell: 
+    sed -i ':a;N;$!ba;s/\n ;/\n;/g' {{ item }}
+  with_items:
+    - /etc/php5/cgi/php.ini
+    - /etc/php5/cli/php.ini
+  tags: php55
+
 - name: PHP5.5 | Browsecap configure ini files
   ini_file: 
     dest={{ item }}
