@@ -2,8 +2,8 @@
 
 - name: Redis | Install Redis Server and Doc
   apt: 
-  	pkg={{ item }} 
-  	state=latest
+    pkg={{ item }} 
+    state=latest
   with_items:
      - redis-server
      - redis-doc

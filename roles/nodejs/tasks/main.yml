@@ -4,8 +4,8 @@
 
 - name: Node.js | Check and install NodeJS
   nodejs: 
-  	version=${node_version} 
-  	xxx=${node_version}
+    version=${node_version} 
+    xxx=${node_version}
   tags: nodejs
 
 # - name: Node.js | Installing package prerequisites for node.js
