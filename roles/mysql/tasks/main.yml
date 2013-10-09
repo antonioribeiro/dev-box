@@ -20,13 +20,8 @@
   tags: mysql
 
 - name: MySQL | Start the MySQL service
-  when: ansible_lsb.codename == "luna"
   register: result
   service: name=mysql state=started
-
-- name: MySQL | Start the MySQL service
-  when: result|skipped
-  service: name=mysqld state=started
 
 # ################# Create database
 
