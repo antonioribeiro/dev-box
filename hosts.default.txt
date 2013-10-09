@@ -4,7 +4,9 @@
 ###
 
 [phpbox]
-192.168.1.100 ansible_ssh_port=22 ansible_ssh_user=YOUR_USERNAME ansible_ssh_pass=YOUR_PASSWORD
+192.168.1.100 ansible_ssh_port=22 ansible_ssh_user=YOUR_USERNAME 
+
+# ansible_ssh_pass=YOUR_PASSWORD
 
 # Add as many servers as you need here, just copy the line above
 
