@@ -12,5 +12,5 @@
 - name: Redis | Install Redis Commander
   command: 
     npm install -g redis-commander
-    creates: /usr/local/bin/redis-commander
+    creates="/usr/local/bin/redis-commander"
   tags: redis
