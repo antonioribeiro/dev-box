@@ -34,7 +34,7 @@
 - name: MySQL | Config for easy access as root user
   template: 
     src=root-my-cnf.j2 
-    dest=/{{ root_username }}/.my.cnf
+    dest="/{{ root_username }}/.my.cnf"
   tags: mysql
 
 - name: MySQL | Update mysql root password for all root accounts
@@ -73,7 +73,7 @@
 - name: MySQL | Configuration file, my.cnf
   template: 
     src=etc-mysql-my-cnf.j2 
-    dest={{ mysql_configuration_path }}/my.cnf 
+    dest="{{ mysql_configuration_path }}/my.cnf"
     owner={{ root_username }} 
     mode=0600
   notify:
@@ -83,7 +83,7 @@
 - name: MySQL | Config for easy access as root user
   template: 
     src=root-my-cnf.j2 
-    dest=/{{ root_username }} /.my.cnf
+    dest="/{{ root_username }}/.my.cnf"
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for $server_hostname
