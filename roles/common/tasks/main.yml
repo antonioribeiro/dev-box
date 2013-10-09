@@ -52,15 +52,27 @@
      - libxslt-dev
   tags: common
 
-- name: create aliases file
-  template: src=aliases.sh dest=/etc/aliases.sh mode=755
+- name: create scripts directory.
+  file: 
+    state=directory 
+    path={{ scripts_path }} 
+    group={{ root_username }} 
+    owner={{ root_username }}
   tags: common
 
-- name: create scripts directory.
-  file: state=directory path=/etc/scripts group=root owner=root
+- name: create aliases file
+  template: 
+    src=aliases.sh.tpl 
+    dest={{ scripts_path }}/aliases.sh 
+    mode=755
   tags: common
 
 - name: create administrator user
-  user: name=administrator comment="Administrador ALERJ" uid=9999 password=$system_administrator_password groups=adm,sudo
+  user: 
+    name={{ system_administrator_name }} 
+    comment={{ system_administrator_comment }} 
+    uid={{ system_administrator_uid }} 
+    password=$system_administrator_password 
+    groups=adm,sudo
+  when: system_administrator_name != ""
   tags: common
-

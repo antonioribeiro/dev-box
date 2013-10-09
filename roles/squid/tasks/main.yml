@@ -1,7 +1,9 @@
 ---
 
 - name: Install squid and related packages
-  apt: pkg={{ item }} state=latest
+  apt: 
+    pkg={{ item }} 
+    state=latest
   with_items:
      - squid
      - libkrb53

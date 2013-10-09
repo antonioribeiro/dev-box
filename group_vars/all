@@ -1,14 +1,51 @@
 ---
+
+# root, if you have a different name for it, set it here
+
+root_username: 'root'
+
+# System Administrator - Ansible will create this user for you and give root (sudo) power to it
+# If you don't need it to be created, just blank the variable system_administrator_name
+#
+# generating the system administrator password, execute those steps. YOU HAVE TO replace SALT with your own salt string!
+#   python
+#   import crypt
+#   crypt.crypt('PassworD', '$6$SALT$')
+
+system_administrator_name: 'administrator'
+system_administrator_comment: 'Administrador ALERJ'
+system_administrator_uid: '9999'
+system_administrator_password: '$6$SALT$yAQhyG13oAgHnHL8nUynZdO7b5gV9V39GH38if7WrWf7G5I22TkcaijfdizvJWh6EQvczflnaI7ZxMo8cmirx.'
+
 # Hostname is important as we need to delete an anonymous MySQL
 # user that is created with this name, make sure you match this
 # up with the output of the command 'hostname' on the server.
 
 server_hostname: '{{ ansible_hostname }}'
+
+# Document root: where are you storing your pages?
+
 webserver_document_root: '/var/www'
 
 # User must have sudo rights
 
-user_with_sudo_power: antoniocarlos
+user_with_sudo_power: 'antoniocarlos'
+
+# general scripts folder
+
+scripts_path: '/etc/scripts'
+
+# temporary files folder
+
+tmp_path: '/tmp'
+
+# upstart folder
+
+upstart_path: '/etc/init'
+
+# reboot command
+
+reboot_command: '/sbin/reboot'
 
 # php.ini
 php_max_execution_time: '90'
@@ -32,10 +69,12 @@ mysql_collation_server: 'utf8_general_ci'
 innodb_file_per_table: 'innodb_file_per_table'
 
 # mysql
+mysql_root_username: {{ root_username }}
 mysql_root_password: 'password'
 mysql_secondary_user: '' # keep it blank to not create a secondary user
 mysql_secondary_password: ''
 mysql_phpmyadmin_password: 'foda-se'
+mysql_configuration_path: '/etc/mysql'
 
 # postgresql
 
@@ -55,6 +94,7 @@ postgresql_dbpassword: 'laravel'
 # apache
 apache_server_admin: 'webmaster@example.com'
 apache_server_alias: '*.*.example.com'
+apache_config_directory: '/etc/apache2'
 
 # vsftpd
 vsftpd_anonymous_enable: 'NO'
@@ -62,18 +102,15 @@ vsftpd_local_enable: 'YES'
 vsftpd_write_enable: 'YES'
 vsftpd_local_umask: '002'
 
-# generating the system administrator password, execute those steps. YOU HAVE TO replace SALT with your own salt string!
-#   python
-#   import crypt
-#   crypt.crypt('PassworD', '$6$SALT$')
-
-system_administrator_password: '$6$SALT$yAQhyG13oAgHnHL8nUynZdO7b5gV9V39GH38if7WrWf7G5I22TkcaijfdizvJWh6EQvczflnaI7ZxMo8cmirx.'
-
 # Node JS
 node_version: 0.10.20 - http://nodejs.org/
 
 # Grunt -- check for versions here: https://github.com/gruntjs/grunt/wiki
 grunt_version: 0.4.1
+
+# Composer
+
+composer_executable: '/usr/bin/composer'
 
 # Beanstalkd 
 
@@ -86,3 +123,6 @@ phpunit_directory: '/usr/share/phpunit'
 phpunit_executable: '/usr/bin/phpunit'
 phpunit_version: '3.7.*'
 
+# Docker
+
+docker_executable: '/usr/bin/docker'

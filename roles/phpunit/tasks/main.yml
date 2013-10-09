@@ -1,11 +1,18 @@
 ---
 
 - name: PHPUnit | Create directory
-  file: path={{ phpunit_directory }} state=directory owner=root group=root mode=0755
+  file: 
+  	path={{ phpunit_directory }} 
+  	state=directory 
+  	owner={{ root_username }} 
+  	group={{ root_username }} 
+  	mode=0755
   tags: phpunit
 
 - name: PHPUnit | Create composer.json file
-  template: src=composer.json.tpl dest={{ phpunit_directory }}/composer.json
+  template: 
+  	src=composer.json.tpl 
+  	dest={{ phpunit_directory }}/composer.json
   tags: phpunit
 
 # - name: PHPUnit | Install using composer
@@ -13,9 +20,18 @@
 #   tags: phpunit
 
 - name: PHPUnit | Set executable bit
-  file: path={{ phpunit_directory }}/vendor/phpunit/phpunit/composer/bin/phpunit owner=root group=root mode=0755
+  file: 
+  	path={{ phpunit_directory }}/vendor/phpunit/phpunit/composer/bin/phpunit 
+  	owner={{ root_username }} 
+  	group={{ root_username }} 
+  	mode=0755
   tags: phpunit
 
-- name: PHPUnit | Put executable on path
-  file: state=link src={{ phpunit_directory }}/vendor/phpunit/phpunit/composer/bin/phpunit dest={{ phpunit_executable }} owner=root group=root
+- name: PHPUnit | Put executable in the environment path variable
+  file: 
+  	state=link 
+  	src={{ phpunit_directory }}/vendor/phpunit/phpunit/composer/bin/phpunit 
+  	dest={{ phpunit_executable }} 
+  	owner={{ root_username }} 
+  	group={{ root_username }}
   tags: phpunit

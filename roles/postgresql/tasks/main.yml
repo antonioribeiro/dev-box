@@ -1,11 +1,17 @@
 ---
 
 - name: PostgreSQL | Create user
-  user: name={{ postgresql_user }} comment="PosgreSQL user" password={{ postgresql_user_password_hashed }} state=present
+  user: 
+    name={{ postgresql_user }} 
+    comment="PosgreSQL user" 
+    password={{ postgresql_user_password_hashed }} 
+    state=present
   tags: postgresql
 
 - name: PostgreSQL | Install packages 
-  apt: pkg={{ item }} state=latest
+  apt: 
+    pkg={{ item }} 
+    state=latest
   with_items:
      - postgresql-{{ postgresql_version }}
      - postgresql-doc-{{ postgresql_version }}
@@ -25,7 +31,8 @@
 #   tags: postgresql
 
 - name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 1
-  lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+  lineinfile: 
+    dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
     regexp='^#?listen_addresses\s*='
     line="listen_addresses = '*'"
     state=present
@@ -33,10 +40,11 @@
   tags: postgresql
 
 - name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 2
-  lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
-               regexp='host\s+all\s+all\s+127.0.0.1/32\s+md5'
-               line='host all all  0.0.0.0/0 md5'
-               insertbefore=BOF
+  lineinfile: 
+    dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    regexp='host\s+all\s+all\s+127.0.0.1/32\s+md5'
+    line='host all all  0.0.0.0/0 md5'
+    insertbefore=BOF
   notify: restart postgresql
   tags: postgresql
 
@@ -51,7 +59,11 @@
   tags: postgresql
 
 - name: make sure we can sudo as admin group
-  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^postgres' line='postgres ALL=(ALL) NOPASSWD:ALL'
+  lineinfile: 
+    dest=/etc/sudoers.tmp 
+    state=present 
+    regexp='^postgres' 
+    line='postgres ALL=(ALL) NOPASSWD:ALL'
   tags: postgresql
 
 - name: Final sudoers file check
@@ -61,19 +73,32 @@
 ###
 
 - name: PostgreSQL | ensure database is created
-  action: postgresql_db login_user=postgres login_password={{ postgresql_user_password }} db={{ postgresql_dbname }}
+  postgresql_db:  
+    login_user=postgres 
+    login_password={{ postgresql_user_password }} 
+    db={{ postgresql_dbname }}
   sudo_user: "{{ postgresql_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user has access to database
-  action: postgresql_user login_user=postgres login_password={{ postgresql_user_password }} db={{ postgresql_dbname }} user={{ postgresql_dbuser }} password={{ postgresql_dbpassword }} priv=ALL
+  postgresql_user: 
+    login_user=postgres 
+    login_password={{ postgresql_user_password }} 
+    db={{ postgresql_dbname }} 
+    user={{ postgresql_dbuser }} 
+    password={{ postgresql_dbpassword }} 
+    priv=ALL
   sudo_user: "{{ postgresql_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user does not have unnecessary privilege
-  action: postgresql_user login_user=postgres login_password={{ postgresql_user_password }} user={{ postgresql_dbname }} role_attr_flags=NOSUPERUSER,NOCREATEDB
+  postgresql_user: 
+    login_user=postgres 
+    login_password={{ postgresql_user_password }} 
+    user={{ postgresql_dbname }} 
+    role_attr_flags=NOSUPERUSER,NOCREATEDB
   sudo_user: "{{ postgresql_user }}"
   sudo: True
   tags: postgresql
@@ -102,13 +127,16 @@
 ### 
 
 - name: PostgreSQL | Start database server and enable it at boot
-  service: name=postgresql
-            enabled=yes
-            state=started
+  service: 
+    name=postgresql
+    enabled=yes
+    state=started
   tags: postgresql
 
 - name: PostgreSQL | Restart Apache
-  service: name=apache2 state=restarted
+  service: 
+    name=apache2 
+    state=restarted
   when: apache2.stat.exists
   tags: postgresql
 

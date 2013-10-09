@@ -2,11 +2,14 @@
 # CSS compiling tools.
 #
 - name: CSS | Install rubygems package
-  apt: pkg=rubygems state=installed
+  apt: 
+    pkg=rubygems 
+    state=installed
   tags: css
 
 - name: CSS | Install SASS
-  command: gem install sass creates=/usr/local/bin/sass
+  command: gem install sass 
+           creates=/usr/local/bin/sass
   tags: css
 
 - name: CSS | Install Susy (no more --pre required as it is 1.0 now)
@@ -14,7 +17,8 @@
   tags: css
 
 - name: CSS | Install Compass
-  command: gem install compass creates=/usr/local/bin/compass
+  command: gem install compass 
+           creates=/usr/local/bin/compass
   tags: css
 
 - name: CSS | Install Aurora (which will install breakpoint, sass-buttons, respond-to)

@@ -9,7 +9,9 @@
   tags: mysql
 
 - name: MySQL | Install server and components
-  apt: pkg=$item state=installed
+  apt: 
+    pkg=$item 
+    state=installed
   with_items:
     - mysql-server
     - mysql-client
@@ -35,11 +37,18 @@
 ################# Set root password on .my.cnf and all hosts
 
 - name: MySQL | Config for easy access as root user
-  template: src=root-my-cnf.j2 dest=/root/.my.cnf
+  template: 
+    src=root-my-cnf.j2 
+    dest=/{{ root_username }}/.my.cnf
   tags: mysql
 
 - name: MySQL | Update mysql root password for all root accounts
-  mysql_user: name=root host=$item password=$mysql_root_password state=present priv=*.*:ALL
+  mysql_user: 
+    name={{ mysql_root_username }}
+    host=$item 
+    password={{ mysql_root_password }}
+    state=present 
+    priv=*.*:ALL
   with_items:
     - $ansible_hostname
     - 127.0.0.1
@@ -50,7 +59,12 @@
 ################# Create secondary user
 
 - name: MySQL | Create a secondary user for mysql
-  mysql_user: name=$mysql_secondary_user host=$item password=$mysql_secondary_password priv=laravel.*:ALL state=present
+  mysql_user: 
+    name=$mysql_secondary_user 
+    host=$item 
+    password=$mysql_secondary_password 
+    priv=laravel.*:ALL 
+    state=present
   with_items:
     - $ansible_hostname
     - 127.0.0.1
@@ -62,25 +76,38 @@
 ################# Secure MySQL
 
 - name: MySQL | Configuration file, my.cnf
-  template: src=etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0600
+  template: 
+    src=etc-mysql-my-cnf.j2 
+    dest={{ mysql_configuration_path }}/my.cnf 
+    owner={{ root_username }} 
+    mode=0600
   notify:
     - restart mysql
   tags: mysql
 
 - name: MySQL | Config for easy access as root user
-  template: src=root-my-cnf.j2 dest=/root/.my.cnf
+  template: 
+    src=root-my-cnf.j2 
+    dest=/{{ root_username }} /.my.cnf
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for $server_hostname
-  mysql_user: user="" host="$server_hostname" state="absent"
+  mysql_user: 
+    user="" 
+    host="$server_hostname" 
+    state=absent
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for localhost
-  mysql_user: user="" state="absent"
+  mysql_user: 
+    user="" 
+    state=absent
   tags: mysql
 
 - name: MySQL | Remove the MySQL test database
-  mysql_db: db=test state=absent
+  mysql_db: 
+    db=test 
+    state=absent
   tags: mysql
 
 ################# phpMyAdmin
@@ -113,7 +140,9 @@
   tags: mysql
 
 - name: MySQL | phpMyAdmin | Install
-  apt: pkg=$item state=installed
+  apt: 
+    pkg=$item 
+    state=latest
   with_items:
     - phpmyadmin
   when: php5.stat.exists
