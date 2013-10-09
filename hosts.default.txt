@@ -1,51 +1,79 @@
 ########################################### Hosts
+###
+### Set the ip address of your box(es), and username (and password) of a user with sudo righs on it
+###
 
-#[laravel]
-#172.17.0.120
+[phpbox]
+192.168.1.100 ansible_ssh_port=22 ansible_ssh_user=YOUR_USERNAME ansible_ssh_pass=YOUR_PASSWORD
 
-[tank]
-localhost ansible_ssh_port=922 ansible_ssh_user=antoniocarlos ansible_ssh_pass=foda-se
+# Add as many servers as you need here, just copy the line above
 
 ########################################## Groups
+###
+### Add your host to the services you want to install on your box
+###
 
-[all-servers:children]
-tank
-
+# PHP 5.5
+#
 [php55:children]
-tank
+phpbox
 
+# Composer
+#
 [composer:children]
-tank
+phpbox
 
+# PHPUnit
+#
 [phpunit:children]
-tank
+phpbox
 
+# Apache 2
+#
 [apache2:children]
-tank
+phpbox
 
+# Memcached
+#
 [memcached:children]
-tank
+phpbox
 
+# Redis
+#
 [redis:children]
-tank
+phpbox
 
+# NodeJS
+#
 [nodejs:children]
-tank
+phpbox
 
+# MySQL
+#
 [mysql:children]
-tank
+phpbox
 
+# PostgreSQL
+#
 [postgresql:children]
-tank
+phpbox
 
+# Beanstalkd
+#
 [beanstalkd:children]
-tank
+phpbox
 
+# Grunt
+#
 [grunt:children]
-tank
+phpbox
 
+# Python Fabric
+#
 [python-fabric:children]
-tank
+phpbox
 
+# Docker (disabled by default)
+#
 [docker:children]
-tank
+#phpbox

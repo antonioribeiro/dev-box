@@ -1,11 +1,7 @@
 ---
-# This playbook deploys the whole application stack in this site.
-
-########################################################################################
 
 - name: apply common configuration to all nodes
   hosts: all
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -15,7 +11,6 @@
 
 - name: install php55
   hosts: php55
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -25,7 +20,6 @@
 
 - name: install composer
   hosts: composer
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -35,7 +29,6 @@
 
 - name: install phpunit
   hosts: phpunit
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -45,7 +38,6 @@
 
 - name: install apache2
   hosts: apache2
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -55,7 +47,6 @@
 
 - name: install memcached
   hosts: memcached
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -65,7 +56,6 @@
 
 - name: install node.js
   hosts: nodejs
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -75,7 +65,6 @@
 
 - name: install redis
   hosts: redis
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -85,7 +74,6 @@
 
 - name: install mysql
   hosts: mysql
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -101,7 +89,6 @@
 
 - name: install postgresql
   hosts: postgresql
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -115,7 +102,6 @@
 
 - name: install beanstalkd
   hosts: beanstalkd
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -129,7 +115,6 @@
 
 - name: install grunt
   hosts: grunt
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -139,7 +124,6 @@
 
 - name: install python-fabric
   hosts: python-fabric
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
@@ -149,9 +133,7 @@
 
 - name: install docker
   hosts: docker
-  user: $user_with_sudo_power
   sudo: yes
 
   roles:
     - docker
-
