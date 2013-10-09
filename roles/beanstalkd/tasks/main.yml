@@ -39,6 +39,9 @@
   template: 
     src=apache2-virtualhost.tpl 
     dest=/etc/apache2/conf.d/beanstalkd-console.conf
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
   notify: restart apache2
   when: apache2.stat.exists
   tags: beanstalkd
