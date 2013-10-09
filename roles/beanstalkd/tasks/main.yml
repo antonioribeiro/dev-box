@@ -46,15 +46,7 @@
   when: apache2.stat.exists
   tags: beanstalkd
 
-- name: Beanstalkd | Configure Apache virtualhost
-  file: 
-    owner={{ root_username }} 
-    group={{ root_username }}     
-    mode=0644 
-  when: apache2.stat.exists
-  tags: beanstalkd
-
-- name: PHPUnit | Put executable in the environment path variable
+- name: Beanstalkd | Enable beanstalkd-console site
   command: a2ensite beanstalkd-console
   when: apache2.stat.exists
   tags: beanstalkd
