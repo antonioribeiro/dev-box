@@ -23,6 +23,26 @@
 
 ########################################################################################
 
+- name: install composer
+  hosts: composer
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - composer
+
+########################################################################################
+
+- name: install phpunit
+  hosts: phpunit
+  user: $user_with_sudo_power
+  sudo: yes
+
+  roles:
+    - phpunit
+
+########################################################################################
+
 - name: install apache2
   hosts: apache2
   user: $user_with_sudo_power
@@ -72,7 +92,7 @@
     - mysql
 
   handlers:
-    - name: restart apache
+    - name: restart apache2
       service: name=apache2 state=restarted
     - name: restart mysql
       service: name=mysql state=restarted
@@ -100,6 +120,10 @@
 
   roles:
     - beanstalkd
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
 
 ########################################################################################
 

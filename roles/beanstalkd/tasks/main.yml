@@ -6,8 +6,27 @@
      - beanstalkd
   tags: beanstalkd
 
+- name: Beanstalkd | Check if apache2 is installed
+  stat: path=/usr/sbin/apache2
+  register: apache2
+  tags: beanstalkd
+
 ##### Console - https://github.com/ptrofimov/beanstalk_console
 
 - name: Beanstalkd | Install Console
-  git: repo=https://github.com/ptrofimov/beanstalk_console.git dest=/var/www/beanstalk_console
+  git: repo=https://github.com/ptrofimov/beanstalk_console.git dest={{ webserver_document_root }}/beanstalk_console
+  tags: beanstalkd
+
+- name: Beanstalkd | Create first server on config.php
+  template: src=config.php.tpl dest={{ webserver_document_root }}/beanstalk_console/config.php
+  tags: beanstalkd
+
+- name: Beanstalkd | Set directory permissions
+  file: path={{ webserver_document_root }}/beanstalk_console/ owner=root group=root mode=0755 state=directory recurse=yes
+  tags: beanstalkd
+
+- name: Beanstalkd | Configure Apache virtualhost
+  template: src=apache2-virtualhost.tpl dest=/etc/apache2/conf.d/beanstalkd-console.conf
+  notify: restart apache2
+  when: apache2.stat.exists
   tags: beanstalkd

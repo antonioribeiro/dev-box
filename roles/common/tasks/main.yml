@@ -26,6 +26,7 @@
      - socat
      - jfsutils
      - git
+     - git-core
      - bzip2
      - openssl
      - atop
@@ -43,6 +44,12 @@
      - telnet
      - debconf-utils
      - tree
+     - patch
+     - zip
+     - unzip 
+     - rar
+     - libxml2-dev 
+     - libxslt-dev
   tags: common
 
 - name: create aliases file

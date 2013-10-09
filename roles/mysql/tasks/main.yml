@@ -109,7 +109,7 @@
   raw: sudo echo phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2 | sudo /usr/bin/debconf-set-selections
   when: php5.stat.exists and apache2.stat.exists
   notify:
-    - restart apache
+    - restart apache2
   tags: mysql
 
 - name: MySQL | phpMyAdmin | Install

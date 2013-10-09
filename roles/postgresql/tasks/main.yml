@@ -83,6 +83,16 @@
   register: apache2
   tags: postgresql
 
+### PostgreSQL Studio ()
+###   http://www.postgresqlstudio.org/about/
+###   https://bitbucket.org/openscg/pgstudio/src
+###
+###  NOT INSTALLED, IT'S A JSP APPLICATION
+
+# - name: PostgreSQL | PostgreSQL Studio
+#   git: repo=https://bitbucket.org/openscg/pgstudio.git dest={{ webserver_document_root }}/pgstudio
+#   tags: postgresql
+
 ### get sudoers to its original config
 
 - name: Create sudoers file backup
@@ -101,3 +111,4 @@
   service: name=apache2 state=restarted
   when: apache2.stat.exists
   tags: postgresql
+

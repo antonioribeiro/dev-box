@@ -1,0 +1,12 @@
+---
+
+- name: Composer | Install
+  shell:
+    cd /tmp && curl -sS https://getcomposer.org/installer | /usr/bin/php && /bin/mv -f /tmp/composer.phar /usr/bin/composer
+    creates=/usr/bin/composer
+  tags: composer
+
+- name: Composer | Set permissions
+  file: 
+  file: path=/usr/bin/composer owner=root group=root mode=0755
+  tags: composer
