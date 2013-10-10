@@ -41,7 +41,14 @@
 
 - name: PostgreSQL | Configure phppgadmin virtual host
   command: 
-    mv {{ apache_config_directory }}/conf.d/phppgadmin {{ apache_config_directory }}/sites-available/phppgadmin.conf
+    rm {{ apache_config_directory }}/conf.d/phppgadmin
+  when: phppgadmin.changed and apache2.stat.exists
+  tags: postgresql
+
+- name: PostgreSQL | Configure phppgadmin virtual host
+  template: 
+    src=phppgadmin.conf.tpl
+    dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
   when: phppgadmin.changed and apache2.stat.exists
   tags: postgresql
 
