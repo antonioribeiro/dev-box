@@ -8,6 +8,12 @@
     state=present
   tags: postgresql
 
+- name: PostgreSQL | Check if apache2 is installed
+  stat: 
+    path=/usr/sbin/apache2
+  register: apache2
+  tags: postgresql
+
 - name: PostgreSQL | Install packages 
   apt: 
     pkg={{ item }} 
@@ -34,11 +40,16 @@
   tags: postgresql
 
 - name: PostgreSQL | Configure phppgadmin virtual host
-  shell: 
+  command: 
     mv {{ apache_config_directory }}/conf.d/phppgadmin {{ apache_config_directory }}/sites-available/phppgadmin.conf
-  when: phppgadmin.changed
+  when: phppgadmin.changed and apache2.stat.exists
   tags: postgresql
 
+- name: PostgreSQL | Enable phppgadmin virtual host
+  command: 
+    a2ensite phppgadmin
+  when: phppgadmin.changed and apache2.stat.exists
+  tags: postgresql
 
 # - name: PostgreSQL | Initiate database
 #   command: sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb
@@ -116,11 +127,6 @@
     role_attr_flags=NOSUPERUSER,NOCREATEDB
   sudo_user: "{{ postgresql_user }}"
   sudo: True
-  tags: postgresql
-
-- name: PostgreSQL | Check if apache2 is installed
-  stat: path=/usr/sbin/apache2
-  register: apache2
   tags: postgresql
 
 ### PostgreSQL Studio ()
