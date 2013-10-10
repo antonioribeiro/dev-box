@@ -17,13 +17,28 @@
      - postgresql-doc-{{ postgresql_version }}
      - postgresql-client-{{ postgresql_version }}
      - postgresql-{{ postgresql_version }}-pgmemcache
-     - phppgadmin
      - python-psycopg2
      - postgresql-doc
      - slony1-2-bin
      - php5-pgsql
      - libpq-dev
   tags: postgresql
+
+- name: PostgreSQL | Install phppgadmin
+  apt: 
+    pkg={{ item }} 
+    state=latest
+  with_items:
+     - phppgadmin
+  register: phppgadmin
+  tags: postgresql
+
+- name: PostgreSQL | Configure phppgadmin virtual host
+  shell: 
+    mv {{ apache_config_directory }}/conf.d/phppgadmin {{ apache_config_directory }}/sites-available/phppgadmin.conf
+  when: phppgadmin.changed
+  tags: postgresql
+
 
 # - name: PostgreSQL | Initiate database
 #   command: sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb
