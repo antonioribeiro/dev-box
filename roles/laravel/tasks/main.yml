@@ -19,8 +19,10 @@
     dest={{ laravel_document_root }}
   tags: laravel
 
-- name: Laravel | Run Composer update
-  command: composer --working-dir={{ laravel_document_root }} update 
+- name: Laravel | Run Composer install
+  command: 
+    composer --working-dir={{ laravel_document_root }} install
+    creates={{ laravel_document_root }}/vendor/autoload.php
   tags: laravel
 
 - name: Laravel | Set directory permissions
@@ -33,7 +35,7 @@
     recurse=yes
   tags: laravel
 
-- name: Laravel | Configure Apache virtualhost - create file
+- name: Laravel | Configure Apache 2 virtualhost - create file
   template: 
     src=laravel-apache-virtualhost.conf.tpl
     dest=/etc/apache2/sites-available/laravel.conf
@@ -44,7 +46,7 @@
   when: apache2.stat.exists
   tags: laravel
 
-- name: Laravel | Configure Apache virtualhost - enable site
+- name: Laravel | Configure Apache 2 virtualhost - enable site
   template: 
     src=laravel-apache-virtualhost.conf.tpl
     dest=/etc/apache2/sites-available/laravel.conf
@@ -55,7 +57,7 @@
   when: apache2.stat.exists
   tags: laravel
 
-- name: Laravel | Enable beanstalkd-console site
+- name: Laravel | Enable Apache 2 laravel.conf site
   command: a2ensite laravel
   when: apache2.stat.exists
   tags: laravel

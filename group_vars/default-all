@@ -37,7 +37,7 @@ webserver_username: 'www-data'
 
 # Laravel 
 
-laravel_document_root: {{ webserver_document_root }}/laravel
+laravel_document_root: '{{ webserver_document_root }}/laravel'
 laravel_root_url: '/'
 
 # This is your main user, the one you used to login into the box and it must have sudo rights
