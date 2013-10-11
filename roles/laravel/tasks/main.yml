@@ -23,6 +23,13 @@
   command: 
     composer --working-dir={{ laravel_document_root }} install
     creates={{ laravel_document_root }}/vendor/autoload.php
+  register: composerinstall
+  tags: laravel
+
+- name: Laravel | Run Composer update
+  command: 
+    composer --working-dir={{ laravel_document_root }} update
+  when: composerinstall.skipped
   tags: laravel
 
 - name: Laravel | Set directory permissions
