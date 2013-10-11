@@ -137,3 +137,16 @@
 
   roles:
     - docker
+
+########################################################################################
+
+- name: install laravel
+  hosts: laravel
+  sudo: yes
+
+  roles:
+    - laravel
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted

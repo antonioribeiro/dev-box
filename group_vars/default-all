@@ -5,7 +5,7 @@
 root_username: 'root'
 
 # System Administrator - Ansible will create this user for you and give root (sudo) power to it
-# If you don't need it to be created, just blank the variable system_administrator_name
+# If you don't need it to be created, just set system_administrator_name to ''
 #
 # generating the system administrator password, execute those steps. YOU HAVE TO replace SALT with your own salt string!
 #
@@ -22,11 +22,25 @@ system_administrator_password: '$6$SALT$3MUMz4cNIRjQ/Knnc3gXjJLV1vdwFs2nLvh//nGt
 
 server_hostname: '{{ ansible_hostname }}'
 
-# Document root: where are you storing your pages?
+########
+#
+# Webserver general info
+#
 
+# Document root: where are you storing your pages?
 webserver_document_root: '/var/www'
 
-# This user must have sudo rights
+# Webserver user
+webserver_username: 'www-data'
+
+########
+
+# Laravel 
+
+laravel_document_root: {{ webserver_document_root }}/laravel
+laravel_root_url: '/'
+
+# This is your main user, the one you used to login into the box and it must have sudo rights
 
 user_with_sudo_power: 'YOUR-BOX-MAIN-USERNAME'
 

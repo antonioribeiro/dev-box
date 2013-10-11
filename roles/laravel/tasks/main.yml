@@ -1,0 +1,61 @@
+---
+
+- name: Laravel | Check if apache2 is installed
+  stat: path=/usr/sbin/apache2
+  register: apache2
+  tags: laravel
+
+- name: Laravel | Create directory 
+  file: 
+    state=directory
+    path={{ laravel_document_root }}
+    group={{ root_username }} 
+    owner={{ root_username }}
+  tags: laravel
+
+- name: Laravel | Download git repository
+  git: 
+    repo=https://github.com/laravel/laravel.git 
+    dest={{ laravel_document_root }}
+  tags: laravel
+
+- name: Laravel | Run Composer update
+  command: composer --working-dir={{ laravel_document_root }} update 
+  tags: laravel
+
+- name: Laravel | Set directory permissions
+  file: 
+    path={{ laravel_document_root }}/app/storage
+    owner={{ root_username }}
+    group={{ webserver_username }}
+    mode=0775
+    state=directory
+    recurse=yes
+  tags: laravel
+
+- name: Laravel | Configure Apache virtualhost - create file
+  template: 
+    src=laravel-apache-virtualhost.conf.tpl
+    dest=/etc/apache2/sites-available/laravel.conf
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: restart apache2
+  when: apache2.stat.exists
+  tags: laravel
+
+- name: Laravel | Configure Apache virtualhost - enable site
+  template: 
+    src=laravel-apache-virtualhost.conf.tpl
+    dest=/etc/apache2/sites-available/laravel.conf
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: restart apache2
+  when: apache2.stat.exists
+  tags: laravel
+
+- name: Laravel | Enable beanstalkd-console site
+  command: a2ensite laravel
+  when: apache2.stat.exists
+  tags: laravel
