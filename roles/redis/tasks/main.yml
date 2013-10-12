@@ -1,12 +1,20 @@
 ---
 
-- name: Redis | Install Redis Server and Doc
+- name: Redis | Install Redis Server
   apt: 
     pkg={{ item }} 
     state=latest
   with_items:
      - redis-server
+  tags: redis
+
+- name: Redis | Install Redis Doc
+  apt: 
+    pkg={{ item }} 
+    state=latest
+  with_items:
      - redis-doc
+  ignore_errors: True
   tags: redis
 
 - name: Redis | Install Redis Commander
