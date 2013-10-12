@@ -115,7 +115,7 @@
   tags: postgresql
 
 - name: PostgreSQL | ensure user has access to database
-  postgresql_system_user: 
+  postgresql_user: 
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }} 
     db={{ postgresql_db_name }} 
@@ -127,7 +127,7 @@
   tags: postgresql
 
 - name: PostgreSQL | ensure user does not have unnecessary privilege
-  postgresql_system_user: 
+  postgresql_user: 
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }} 
     user={{ postgresql_db_name }} 
