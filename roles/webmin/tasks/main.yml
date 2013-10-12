@@ -4,10 +4,10 @@
 - name: copy webmin install script
   copy: 
     src=install-webmin.sh 
-    dest={{ tmp_path }}
+    dest={{ temporary_files_path }}
     mode=0555
   tags: webmin
 
 - name: install webmin
-  shell: $tmp_path/install-webmin.sh
+  shell: $temporary_files_path/install-webmin.sh
   tags: webmin

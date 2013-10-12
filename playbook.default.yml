@@ -1,5 +1,10 @@
 ---
 
+#### Todo:
+# http://git-legit.org/
+#
+
+
 - name: apply common configuration to all nodes
   hosts: all
   sudo: yes

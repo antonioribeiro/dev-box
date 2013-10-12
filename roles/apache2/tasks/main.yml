@@ -61,7 +61,7 @@
 #   tags: apache2
 
 # - name: PHP | Install mod-pagespeed
-#   command: dpkg -i {{ tmp_path }}/mod-pagespeed-stable_current_amd64.deb
+#   command: dpkg -i {{ temporary_files_path }}/mod-pagespeed-stable_current_amd64.deb
 #   tags: apache2
 
 ##################### Restart services

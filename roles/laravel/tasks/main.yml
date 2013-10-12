@@ -68,3 +68,15 @@
   command: a2ensite laravel
   when: apache2.stat.exists
   tags: laravel
+
+- name: Laravel | Download mod-pagespeed
+  get_url: url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh dest={{ laravel_artisan_executable }}
+  tags: laravel
+
+- name: Laravel | Download and install Artisan Anywhere
+  file: 
+    path={{ laravel_artisan_executable }}
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0755 
+  tags: laravel

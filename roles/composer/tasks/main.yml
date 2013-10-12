@@ -2,7 +2,7 @@
 
 - name: Composer | Install
   shell:
-    cd {{ tmp_path }} && curl -sS https://getcomposer.org/installer | /usr/bin/php && /bin/mv -f /tmp/composer.phar {{ composer_executable }}
+    cd {{ temporary_files_path }} && curl -sS https://getcomposer.org/installer | /usr/bin/php && /bin/mv -f /tmp/composer.phar {{ composer_executable }}
     creates={{ composer_executable }}
   tags: composer
 

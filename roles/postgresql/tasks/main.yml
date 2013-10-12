@@ -2,9 +2,9 @@
 
 - name: PostgreSQL | Create user
   user: 
-    name={{ postgresql_user }} 
+    name={{ postgresql_system_user }} 
     comment="PosgreSQL user" 
-    password={{ postgresql_user_password_hashed }} 
+    password={{ postgresql_system_user_password_hashed }} 
     state=present
   tags: postgresql
 
@@ -106,33 +106,33 @@
 ###
 
 - name: PostgreSQL | ensure database is created
-  postgresql_db:  
-    login_user=postgres 
-    login_password={{ postgresql_user_password }} 
-    db={{ postgresql_dbname }}
-  sudo_user: "{{ postgresql_user }}"
+  postgresql_db_:  
+    login_user={{ postgresql_system_user }}
+    login_password={{ postgresql_system_user_password }} 
+    db={{ postgresql_db_name }}
+  sudo_user: "{{ postgresql_system_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user has access to database
-  postgresql_user: 
-    login_user=postgres 
-    login_password={{ postgresql_user_password }} 
-    db={{ postgresql_dbname }} 
-    user={{ postgresql_dbuser }} 
-    password={{ postgresql_dbpassword }} 
+  postgresql_system_user: 
+    login_user={{ postgresql_system_user }}
+    login_password={{ postgresql_system_user_password }} 
+    db={{ postgresql_db_name }} 
+    user={{ postgresql_db_user }} 
+    password={{ postgresql_db_password }} 
     priv=ALL
-  sudo_user: "{{ postgresql_user }}"
+  sudo_user: "{{ postgresql_system_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user does not have unnecessary privilege
-  postgresql_user: 
-    login_user=postgres 
-    login_password={{ postgresql_user_password }} 
-    user={{ postgresql_dbname }} 
+  postgresql_system_user: 
+    login_user={{ postgresql_system_user }}
+    login_password={{ postgresql_system_user_password }} 
+    user={{ postgresql_db_name }} 
     role_attr_flags=NOSUPERUSER,NOCREATEDB
-  sudo_user: "{{ postgresql_user }}"
+  sudo_user: "{{ postgresql_system_user }}"
   sudo: True
   tags: postgresql
 
