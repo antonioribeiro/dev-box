@@ -110,7 +110,7 @@
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }} 
     db={{ postgresql_db_name }}
-  sudo_user: "{{ postgresql_system_user }}"
+  sudo_user: "{{ user_with_sudo_power }}"
   sudo: True
   tags: postgresql
 
@@ -122,7 +122,7 @@
     user={{ postgresql_db_user }} 
     password={{ postgresql_db_password }} 
     priv=ALL
-  sudo_user: "{{ postgresql_system_user }}"
+  sudo_user: "{{ user_with_sudo_power }}"
   sudo: True
   tags: postgresql
 
@@ -130,9 +130,10 @@
   postgresql_user: 
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }} 
-    user={{ postgresql_db_name }} 
+    user={{ postgresql_db_user }} 
+    password={{ postgresql_db_password }}
     role_attr_flags=NOSUPERUSER,NOCREATEDB
-  sudo_user: "{{ postgresql_system_user }}"
+  sudo_user: "{{ user_with_sudo_power }}"
   sudo: True
   tags: postgresql
 
