@@ -106,7 +106,7 @@
 ###
 
 - name: PostgreSQL | ensure database is created
-  postgresql_db_:  
+  postgresql_db:  
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }} 
     db={{ postgresql_db_name }}
