@@ -12,7 +12,9 @@
 
 - name: phpMyAdmin | debconf-set-selection for php
   raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
-  when: php5.stat.exists
+  when: 
+    php5.stat.exists and 
+    apache2.stat.exists
   with_items: 
     - phpmyadmin phpmyadmin/dbconfig-install boolean true
     - phpmyadmin phpmyadmin/app-password-confirm password $mysql_phpmyadmin_password
@@ -22,7 +24,9 @@
 
 - name: phpMyAdmin | debconf-set-selection for apache2
   raw: sudo echo phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2 | sudo /usr/bin/debconf-set-selections
-  when: php5.stat.exists and apache2.stat.exists
+  when: 
+    php5.stat.exists and 
+    apache2.stat.exists
   notify:
     - restart apache2
   tags: phpmyadmin
@@ -41,7 +45,7 @@
   command: 
     rm {{ apache_config_directory }}/conf.d/phpmyadmin.conf
   when: 
-    not install.skipped and 
+    (not install.changed or install.changed) and
     apache2.stat.exists
   tags: phpmyadmin
 
@@ -50,7 +54,7 @@
     src=phpmyadmin-apache2-virtualhost.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phpmyadmin.conf
   when: 
-    not install.skipped and 
+    (not install.changed or install.changed) and
     apache2.stat.exists
   tags: phpmyadmin
 
@@ -58,6 +62,6 @@
   command: 
     a2ensite phpmyadmin
   when: 
-    not install.skipped and 
+    (not install.changed or install.changed) and
     apache2.stat.exists
   tags: phpmyadmin
