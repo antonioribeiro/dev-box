@@ -13,13 +13,16 @@
 - name: phpMyAdmin | debconf-set-selection for php
   raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
   when: 
-    php5.stat.exists and 
-    apache2.stat.exists
+    php5.stat.exists
   with_items: 
     - phpmyadmin phpmyadmin/dbconfig-install boolean true
     - phpmyadmin phpmyadmin/app-password-confirm password $mysql_phpmyadmin_password
     - phpmyadmin phpmyadmin/mysql/admin-pass password $mysql_root_password
     - phpmyadmin phpmyadmin/mysql/app-pass password $mysql_root_password
+    - phpmyadmin phpmyadmin/password-confirm password $mysql_root_password
+    - phpmyadmin phpmyadmin/setup-password password $mysql_root_password
+    - phpmyadmin phpmyadmin/setup-username string $mysql_root_username
+    - phpmyadmin phpmyadmin/db/app-user string $mysql_root_username
   tags: phpmyadmin
 
 - name: phpMyAdmin | debconf-set-selection for apache2
@@ -64,7 +67,5 @@
 - name: phpMyAdmin | Enable virtual host
   command: 
     a2ensite phpmyadmin
-  when: 
-    (not install.changed or install.changed) and
-    apache2.stat.exists
+  when: (not last_result.changed or last_result.changed) and apache2.stat.exists
   tags: phpmyadmin
