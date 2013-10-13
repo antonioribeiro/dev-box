@@ -95,7 +95,8 @@
     password="pmapass"
     priv=phpmyadmin.*:ALL 
     state=present
-  tags: phpmyadmin
+    login_password={{ mysql_root_password }}
+    login_user={{ mysql_root_username }}
 
 - name: phpMyAdmin | Create config.inc.php
   copy: 
