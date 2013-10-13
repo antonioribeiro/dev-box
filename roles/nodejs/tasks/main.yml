@@ -16,7 +16,7 @@
 # - name: Node.js | Update the apt cache for the new repository
 #   apt: update-cache=yes
 #   tags: nodejs
-#   only_if: '${last_result.changed}'
+#   only_if: '${last_result|changed}'
 
 # - name: Node.js | Install nodejs and npm
 #   apt: pkg=$item state=installed

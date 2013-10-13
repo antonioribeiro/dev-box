@@ -42,20 +42,20 @@
 - name: PostgreSQL | Delete conf.d virtual host
   command: 
     rm {{ apache_config_directory }}/conf.d/phppgadmin
-  when: phppgadmin.changed and apache2.stat.exists
+  when: phppgadmin|changed and apache2.stat.exists
   tags: postgresql
 
 - name: PostgreSQL | Configure virtual host
   template: 
     src=phppgadmin.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
-  when: phppgadmin.changed and apache2.stat.exists
+  when: phppgadmin|changed and apache2.stat.exists
   tags: postgresql
 
 - name: PostgreSQL | Enable virtual host
   command: 
     a2ensite phppgadmin
-  when: phppgadmin.changed and apache2.stat.exists
+  when: phppgadmin|changed and apache2.stat.exists
   tags: postgresql
 
 # - name: PostgreSQL | Initiate database

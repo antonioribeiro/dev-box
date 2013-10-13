@@ -34,24 +34,24 @@
   with_items:
     - phpmyadmin
   when: php5.stat.exists
-  register: 
+  register: phpmyadmin
   tags: phpmyadmin
 
 - name: phpMyAdmin | Delete conf.d virtualhost
   command: 
     rm {{ apache_config_directory }}/conf.d/phpmyadmin.conf
-  when: phpmyadmin.changed and apache2.stat.exists
+  when: phpmyadmin|changed and apache2.stat.exists
   tags: phpmyadmin
 
 - name: phpMyAdmin | Configure virtual host
   template: 
     src=phpmyadmin-apache2-virtualhost.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phpmyadmin.conf
-  when: phpmyadmin.changed and apache2.stat.exists
+  when: phpmyadmin|changed and apache2.stat.exists
   tags: phpmyadmin
 
 - name: phpMyAdmin | Enable virtual host
   command: 
     a2ensite phpmyadmin
-  when: phpmyadmin.changed and apache2.stat.exists
+  when: phpmyadmin|changed and apache2.stat.exists
   tags: phpmyadmin
