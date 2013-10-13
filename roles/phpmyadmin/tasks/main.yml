@@ -57,6 +57,8 @@
   when: 
     (not install.changed or install.changed) and
     apache2.stat.exists
+  notify:
+    - restart apache2    
   tags: phpmyadmin
 
 - name: phpMyAdmin | Enable virtual host
