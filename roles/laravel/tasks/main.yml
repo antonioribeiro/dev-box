@@ -29,7 +29,7 @@
 - name: Laravel | Run Composer update
   command: 
     composer --working-dir={{ laravel_document_root }} update
-  when: composerinstall.skipped
+  when: composerinstall|skipped
   tags: laravel
 
 - name: Laravel | Set directory permissions

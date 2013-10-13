@@ -8,6 +8,21 @@
      - linux-image-generic-lts-raring 
      - linux-headers-generic-lts-raring
   register: reboot_needed
+  when: 
+    ansible_distribution != "Ubuntu" or 
+    ansible_distribution_version < "13.04"
+  tags: docker
+
+- name: Docker | Install Linux Extra Image (for 13.04+)
+  apt: 
+    pkg={{ item }} 
+    state=latest
+  with_items:
+     - linux-image-extra-{{ ansible_kernel }}
+  register: reboot_needed
+  when: 
+    ansible_distribution == "Ubuntu" 
+    ansible_distribution_version >= "13.04"
   tags: docker
 
 - name: Docker | Install Linux Containers
