@@ -41,7 +41,7 @@
   command: 
     rm {{ apache_config_directory }}/conf.d/phpmyadmin.conf
   when: 
-    !install.skipped and 
+    not install.skipped and 
     apache2.stat.exists
   tags: phpmyadmin
 
@@ -50,7 +50,7 @@
     src=phpmyadmin-apache2-virtualhost.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phpmyadmin.conf
   when: 
-    !install.skipped and 
+    not install.skipped and 
     apache2.stat.exists
   tags: phpmyadmin
 
@@ -58,6 +58,6 @@
   command: 
     a2ensite phpmyadmin
   when: 
-    !install.skipped and 
+    not install.skipped and 
     apache2.stat.exists
   tags: phpmyadmin
