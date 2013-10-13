@@ -67,5 +67,7 @@
 - name: phpMyAdmin | Enable virtual host
   command: 
     a2ensite phpmyadmin
-  when: (not last_result.changed or last_result.changed) and apache2.stat.exists
+  when: 
+    (not install.changed or install.changed) and 
+    apache2.stat.exists
   tags: phpmyadmin
