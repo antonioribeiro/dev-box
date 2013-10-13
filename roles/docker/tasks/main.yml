@@ -46,7 +46,7 @@
 
 # - name: Docker | Update the apt cache for the new repositories
 #   apt: update-cache=yes
-#   when: last_result|changed
+#   when: last_result.changed
 #   tags: docker
 
 # - name: Docker | Installing packagess
@@ -80,5 +80,5 @@
 
 - name: Docker | Check if Linux image has changed and reboot server
   command: $reboot_command
-  when: reboot_needed|changed
+  when: reboot_needed.changed
   tags: docker

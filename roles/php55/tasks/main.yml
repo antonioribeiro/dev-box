@@ -7,7 +7,7 @@
 
 - name: PHP5.5 | Update the apt cache for the new repository
   apt: update-cache=yes
-  when: last_result|changed
+  when: last_result.changed
   tags: php55
 
 - name: PHP5.5 | Install PHP and all related packages
