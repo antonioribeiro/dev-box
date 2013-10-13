@@ -71,3 +71,19 @@
     (not install.changed or install.changed) and 
     apache2.stat.exists
   tags: phpmyadmin
+
+- name: phpMyAdmin | Create database
+  mysql_db: 
+    name=phpmyadmin 
+    state=present
+  when: 
+    not install.changed or install.changed
+  register: database
+  tags: phpmyadmin
+
+- name: phpMyAdmin | Create database metadata
+  shell: 
+    mysql phpmyadmin < /usr/share/dbconfig-common/data/phpmyadmin/install/mysql
+  when: 
+    database.changed
+  tags: phpmyadmin
