@@ -39,7 +39,7 @@
   register: phppgadmin
   tags: postgresql
 
-- name: PostgreSQL | Configure virtual host
+- name: PostgreSQL | Delete conf.d virtual host
   command: 
     rm {{ apache_config_directory }}/conf.d/phppgadmin
   when: phppgadmin.changed and apache2.stat.exists

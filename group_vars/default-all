@@ -80,7 +80,7 @@ webserver_document_root: '/var/www' # Document root: where are you storing your 
 
 laravel_document_root: '{{ webserver_document_root }}/laravel' # Where your Laravel site files should be stored?
 
-laravel_site_base_url: '/laravel' # Site base URL - http://localhost/ == '/'
+laravel_site_base_url: '/' # Site base URL - http://localhost/ == '/'
 
 laravel_artisan_executable: '/usr/bin/artisan'
 
