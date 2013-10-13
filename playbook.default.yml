@@ -92,6 +92,19 @@
 
 ########################################################################################
 
+- name: install phpmyadmin
+  hosts: phpmyadmin
+  sudo: yes
+
+  roles:
+    - phpmyadmin
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+########################################################################################
+
 - name: install postgresql
   hosts: postgresql
   sudo: yes
