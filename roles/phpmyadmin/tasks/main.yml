@@ -87,3 +87,24 @@
   when: 
     database.changed
   tags: phpmyadmin
+
+- name: phpMyAdmin | Create database user (pma)
+  mysql_user: 
+    name="pma"
+    host="localhost"
+    password="pmapass"
+    priv=phpmyadmin.*:ALL 
+    state=present
+  when: 
+    database.changed
+  tags: phpmyadmin
+
+- name: phpMyAdmin | Create config.inc.php
+  copy: 
+    src=/usr/share/phpmyadmin/config.sample.inc.php
+    dest=/usr/share/phpmyadmin/config.inc.php
+    force=false
+    state=present
+  when: 
+    database.changed
+  tags: phpmyadmin
