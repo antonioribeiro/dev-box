@@ -42,8 +42,9 @@
   tags: phpmyadmin
 
 - name: phpMyAdmin | Delete conf.d virtualhost
-  command: 
-    rm {{ apache_config_directory }}/conf.d/phpmyadmin.conf
+  file: 
+    path={{ apache_config_directory }}/conf.d/phpmyadmin.conf 
+    state=absent
   when: 
     (not install.changed or install.changed) and
     apache2.stat.exists
