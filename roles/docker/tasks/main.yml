@@ -21,7 +21,7 @@
      - linux-image-extra-{{ ansible_kernel }}
   register: reboot_needed
   when: 
-    ansible_distribution == "Ubuntu" 
+    ansible_distribution == "Ubuntu" and
     ansible_distribution_version >= "13.04"
   tags: docker
 
