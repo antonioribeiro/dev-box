@@ -2,6 +2,9 @@
 # purging mysql:
 #   sudo apt-get --yes --purge remove mysql-server mysql-common mysql-client
 #
+# installing 
+#   sudo apt-get --yes install mysql-server mysql-common mysql-client
+#
 
 - name: MySQL | Set debconf vars
   raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
