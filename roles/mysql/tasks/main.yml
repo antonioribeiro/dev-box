@@ -1,4 +1,7 @@
 ################# MySQL database setup.
+# purging mysql:
+#   sudo apt-get --yes --purge remove mysql-server mysql-common mysql-client
+#
 
 - name: MySQL | Set debconf vars
   raw: sudo echo mysql-server mysql-server/root_password password $mysql_root_password | sudo /usr/bin/debconf-set-selections
@@ -23,12 +26,6 @@
   register: result
   service: name=mysql state=started
 
-# ################# Create database
-
-# - name: MySQL | Create a database
-#   mysql_db: name=laravel state=present
-#   tags: mysql
-
 ################# Set root password on .my.cnf and all hosts
 
 - name: MySQL | Config for easy access as root user
@@ -43,6 +40,7 @@
     host=$item 
     password={{ mysql_root_password }}
     state=present 
+    priv=*.*:ALL,*.*:GRANT
   with_items:
     - $ansible_hostname
     - 127.0.0.1
