@@ -4,6 +4,10 @@
 #
 # installing 
 #   sudo apt-get --yes install mysql-server mysql-common mysql-client
+# 
+#  create database base;
+#  GRANT ALL PRIVILEGES ON base.* TO 'root'@'localhost' WITH GRANT OPTION;
+#
 #
 
 - name: MySQL | Set debconf vars
@@ -44,7 +48,6 @@
     host=$item 
     password={{ mysql_root_password }}
     state=present 
-    priv=*.*:ALL/*.*:GRANT
   with_items:
     - $ansible_hostname
     - 127.0.0.1
