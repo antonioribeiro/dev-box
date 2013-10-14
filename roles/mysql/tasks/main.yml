@@ -67,7 +67,9 @@
     - 127.0.0.1
     - ::1
     - localhost
-  tags: mysql,testing
+  tags: 
+    - mysql 
+    - testing
 
 ################# Create secondary user
 
