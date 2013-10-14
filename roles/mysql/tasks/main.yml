@@ -4,11 +4,12 @@
 #
 
 - name: MySQL | Set debconf vars
-  raw: sudo echo mysql-server mysql-server/root_password password $mysql_root_password | sudo /usr/bin/debconf-set-selections
-  tags: mysql
-
-- name: MySQL | Set debconf vars
-  raw: sudo echo mysql-server mysql-server/root_password_again password $mysql_root_password | sudo /usr/bin/debconf-set-selections
+  raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
+  with_items:
+    - mysql-server mysql-server/root_password password $mysql_root_password  
+    - mysql-server mysql-server/root_password_again password $mysql_root_password
+    - mysql-server mysql-server/root_password seen $mysql_root_password  
+    - mysql-server mysql-server/root_password_again seen $mysql_root_password
   tags: mysql
 
 - name: MySQL | Install server and components
