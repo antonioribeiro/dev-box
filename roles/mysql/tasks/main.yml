@@ -56,12 +56,8 @@
   tags: mysql
 
 - name: MySQL | Grant root remote access via your workstation
-  mysql_user: 
-    name={{ mysql_root_username }}
-    host={{ workstation_ip_address }}
-    password={{ mysql_root_password }}
-    state=present
-    priv=*.*:GRANT
+  shell: 
+    echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'{{ workstation_ip_address }}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u {{ mysql_root_username }} -p{{ mysql_root_password }}
   tags: 
     - mysql 
     - testing
