@@ -55,6 +55,20 @@
     - localhost
   tags: mysql
 
+- name: MySQL | Grant root remote access via your workstation
+  mysql_user: 
+    name={{ mysql_root_username }}
+    host={{ workstation_ip_address }}
+    password={{ mysql_root_password }}
+    state=present
+    priv=*.*:ALL/*.*:GRANT
+  with_items:
+    - $ansible_hostname
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags: mysql,testing
+
 ################# Create secondary user
 
 - name: MySQL | Create a secondary user for mysql

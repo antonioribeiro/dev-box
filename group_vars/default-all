@@ -11,6 +11,15 @@ server_hostname: '{{ ansible_hostname }}'
 
 #######################
 #
+#  Workstation
+#
+
+workstation_ip_address: 'YOUR-WORKSTATION-IP-ADDRESS' # some rights will be given just for this IP address
+
+
+
+#######################
+#
 #  Users and passwords
 #
 #
