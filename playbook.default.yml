@@ -6,6 +6,7 @@
 
 
 - name: apply common configuration to all nodes
+  accelerate: true
   hosts: all
   sudo: yes
 
@@ -15,6 +16,7 @@
 ########################################################################################
 
 - name: install php55
+  accelerate: true
   hosts: php55
   sudo: yes
 
@@ -24,6 +26,7 @@
 ########################################################################################
 
 - name: install composer
+  accelerate: true
   hosts: composer
   sudo: yes
 
@@ -33,6 +36,7 @@
 ########################################################################################
 
 - name: install phpunit
+  accelerate: true
   hosts: phpunit
   sudo: yes
 
@@ -42,6 +46,7 @@
 ########################################################################################
 
 - name: install apache2
+  accelerate: true
   hosts: apache2
   sudo: yes
 
@@ -51,6 +56,7 @@
 ########################################################################################
 
 - name: install memcached
+  accelerate: true
   hosts: memcached
   sudo: yes
 
@@ -60,6 +66,7 @@
 ########################################################################################
 
 - name: install node.js
+  accelerate: true
   hosts: nodejs
   sudo: yes
 
@@ -69,6 +76,7 @@
 ########################################################################################
 
 - name: install redis
+  accelerate: true
   hosts: redis
   sudo: yes
 
@@ -78,6 +86,7 @@
 ########################################################################################
 
 - name: install mysql
+  accelerate: true
   hosts: mysql
   sudo: yes
 
@@ -93,6 +102,7 @@
 ########################################################################################
 
 - name: install phpmyadmin
+  accelerate: true
   hosts: phpmyadmin
   sudo: yes
 
@@ -106,6 +116,7 @@
 ########################################################################################
 
 - name: install postgresql
+  accelerate: true
   hosts: postgresql
   sudo: yes
 
@@ -119,6 +130,7 @@
 ########################################################################################
 
 - name: install beanstalkd
+  accelerate: true
   hosts: beanstalkd
   sudo: yes
 
@@ -132,6 +144,7 @@
 ########################################################################################
 
 - name: install grunt
+  accelerate: true
   hosts: grunt
   sudo: yes
 
@@ -141,6 +154,7 @@
 ########################################################################################
 
 - name: install python-fabric
+  accelerate: true
   hosts: python-fabric
   sudo: yes
 
@@ -150,6 +164,7 @@
 ########################################################################################
 
 - name: install docker
+  accelerate: true
   hosts: docker
   sudo: yes
 
@@ -159,6 +174,7 @@
 ########################################################################################
 
 - name: install laravel
+  accelerate: true
   hosts: laravel
   sudo: yes
 

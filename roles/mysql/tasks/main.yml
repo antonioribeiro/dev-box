@@ -62,11 +62,6 @@
     password={{ mysql_root_password }}
     state=present
     priv=*.*:ALL/*.*:GRANT
-  with_items:
-    - $ansible_hostname
-    - 127.0.0.1
-    - ::1
-    - localhost
   tags: 
     - mysql 
     - testing
