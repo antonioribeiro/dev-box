@@ -61,7 +61,7 @@
     host={{ workstation_ip_address }}
     password={{ mysql_root_password }}
     state=present
-    priv=*.*:ALL/*.*:GRANT
+    priv=*.*:GRANT
   tags: 
     - mysql 
     - testing
