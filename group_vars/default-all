@@ -177,8 +177,9 @@ nginx_delete_default_vhost: false
 nginx_user: '{{ webserver_username }}'
 nginx_worker_processes: '{{ ansible_processor_count }}'
 nginx_pid: '/var/run/nginx.pid'
-nginx_worker_connections: '768'
-
+nginx_worker_connections: '8000'
+nginx_worker_rlimit_nofile: '10000'
+nginx_config_directory: '/etc/nginx'
 
 
 ########################

@@ -7,6 +7,8 @@ events {
     # multi_accept on;
 }
 
+worker_rlimit_nofile {{ nginx_worker_rlimit_nofile }};
+
 http {
 
     ##
@@ -23,7 +25,7 @@ http {
     # server_names_hash_bucket_size 64;
     # server_name_in_redirect off;
 
-    include /etc/nginx/mime.types;
+    include {{ nginx_config_directory }}/mime.types;
     default_type application/octet-stream;
 
     ##
@@ -53,7 +55,7 @@ http {
     # Uncomment it if you installed nginx-naxsi
     ##
 
-    #include /etc/nginx/naxsi_core.rules;
+    #include {{ nginx_config_directory }}/naxsi_core.rules;
 
     ##
     # nginx-passenger config
@@ -68,8 +70,8 @@ http {
     # Virtual Host Configs
     ##
 
-    include /etc/nginx/conf.d/*.conf;
-    include /etc/nginx/sites-enabled/*;
+    include {{ nginx_config_directory }}/conf.d/*.conf;
+    include {{ nginx_config_directory }}/sites-enabled/*;
 }
 
 

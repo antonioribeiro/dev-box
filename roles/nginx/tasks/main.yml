@@ -4,14 +4,41 @@
   tags: nginx
 
 - name: Nginx | write nginx.conf
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  template: src=nginx.conf.j2 dest={{ nginx_config_directory }}/nginx.conf
   notify:
     - restart nginx
   tags: nginx
 
 - name: Nginx | delete default vhost
-  file: path=/etc/nginx/sites-enabled/default state=absent
+  file: path={{ nginx_config_directory }}/sites-enabled/default state=absent
   when: nginx_delete_default_vhost
   notify:
     - restart nginx
+  tags: nginx
+
+- name: Nginx | grab a better list of MIME types for it to use
+  get_url: 
+    url=https://raw.github.com/h5bp/server-configs-nginx/master/mime.types
+    dest={{ nginx_config_directory }}/mime.types
+  tags: nginx
+
+- name: Nginx | Create /conf directory
+  file: 
+    path={{ nginx_config_directory }}/conf/ 
+    owner={{ root_username }}
+    group={{ root_username }}
+    mode=0755 
+    state=directory
+  tags: nginx
+
+- name: Nginx | grab h5bp security files
+  get_url: 
+    url=https://raw.github.com/h5bp/server-configs-nginx/master/conf/{{ item }}
+    dest={{ nginx_config_directory }}/conf/{{ item }}
+  with_items:
+    - h5bp.conf
+    - expires.conf
+    - x-ua-compatible.conf
+    - protect-system-files.conf
+    - cross-domain-fonts.conf
   tags: nginx
