@@ -1,14 +1,16 @@
 ---
 
 - name: PHP5.5 | Add Ondrej's PPA for PHP 5.5
-  apt_repository: repo='ppa:ondrej/php5'
-  update_cache: yes
+  apt_repository: 
+    repo=ppa:ondrej/php5
+    update_cache=yes
   when: php_version == "5.5"
   tags: php
 
 - name: PHP5.5 | Add Ondrej's PPA for PHP 5.4
-  apt_repository: repo='ppa:ondrej/php5-oldstable'
-  update_cache: yes
+  apt_repository: 
+    repo=ppa:ondrej/php5-oldstable
+    update_cache=yes
   when: php_version == "5.4"
   tags: php
 
