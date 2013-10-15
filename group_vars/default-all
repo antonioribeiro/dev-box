@@ -115,6 +115,16 @@ php_date_timezone: 'America/Sao_Paulo'
 
 ########################
 #
+# PHP-FPM
+#
+#
+
+php_fpm_config_directory: '/etc/php5/fpm/'
+
+
+
+########################
+#
 # APC - apc.ini configuration
 #
 # 

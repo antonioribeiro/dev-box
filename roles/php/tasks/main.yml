@@ -64,6 +64,7 @@
   with_items:
     - /etc/php5/cgi/php.ini
     - /etc/php5/cli/php.ini
+    - /etc/php5/fpm/php.ini
   tags: php
 
 - name: PHP | Browsecap configure ini files
@@ -76,6 +77,51 @@
   with_items:
     - /etc/php5/cgi/php.ini
     - /etc/php5/cli/php.ini
+  tags: php
+
+- name: PHP | configure FPM fix_pathinfo
+  ini_file: 
+    dest={{ item }}
+    section=PHP
+    option=cgi.fix_pathinfo
+    value=0
+    backup=yes
+  tags: php
+
+- name: PHP | configure FPM post_max_size
+  ini_file: 
+    dest=/etc/php5/fpm/php.ini
+    section=PHP
+    option=post_max_size
+    value=8M
+    backup=yes
+  tags: php
+
+- name: PHP | configure FPM upload_max_filesize
+  ini_file: 
+    dest=/etc/php5/fpm/php.ini
+    section=PHP
+    option=upload_max_filesize
+    value=8M
+    backup=yes
+  tags: php
+
+- name: PHP | configure FPM max_file_uploads
+  ini_file: 
+    dest=/etc/php5/fpm/php.ini
+    section=PHP
+    option=max_file_uploads
+    value=5
+    backup=yes
+  tags: php
+
+- name: PHP | configure FPM expose_php
+  ini_file: 
+    dest=/etc/php5/fpm/php.ini
+    section=PHP
+    option=expose_php
+    value=off
+    backup=yes
   tags: php
 
 - name: PHP | APC Cache configuration file, apc.ini
@@ -91,7 +137,7 @@
   tags: php
 
 - name: PHP | Check if apache2 is installed to restart it
-  stat: path=/usr/sbin/apache2
+  stat: path=/etc/init/apache2.conf
   register: apache2
   tags: php
 

@@ -7,7 +7,7 @@
   tags: beanstalkd
 
 - name: Beanstalkd | Check if apache2 is installed
-  stat: path=/usr/sbin/apache2
+  stat: path=/etc/init/apache2.conf
   register: apache2
   tags: beanstalkd
 
