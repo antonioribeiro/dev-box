@@ -81,7 +81,7 @@
 
 - name: PHP | configure FPM fix_pathinfo
   ini_file: 
-    dest={{ item }}
+    dest=/etc/php5/fpm/php.ini
     section=PHP
     option=cgi.fix_pathinfo
     value=0
