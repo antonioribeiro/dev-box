@@ -55,12 +55,12 @@
     - localhost
   tags: mysql
 
+################# Aloow remote connection from your workstation
+
 - name: MySQL | Grant root remote access via your workstation
   shell: 
     echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'{{ workstation_ip_address }}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u {{ mysql_root_username }} -p{{ mysql_root_password }}
-  tags: 
-    - mysql 
-    - testing
+  tags: mysql 
 
 ################# Create secondary user
 

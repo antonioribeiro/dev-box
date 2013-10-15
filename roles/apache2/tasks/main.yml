@@ -39,7 +39,7 @@
 
 - name: Apache | PHP5 | Configuration file, php.ini
   template: 
-    src=../../../global/templates/php55/etc-php5-apache2-php-ini.j2 
+    src=../../../global/templates/php/etc-php5-apache2-php-ini.j2 
     dest=/etc/php5/apache2/php.ini
   tags: apache2
 

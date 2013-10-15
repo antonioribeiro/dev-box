@@ -45,6 +45,8 @@ postgresql_db_password: 'phpboxdev'
 #  System properties
 #
 
+php_version: '5.5'
+
 scripts_path: '/etc/scripts' # general scripts folder
 
 temporary_files_path: '/tmp'
