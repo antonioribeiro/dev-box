@@ -1,9 +1,9 @@
-user {{ user }};
-worker_processes {{ worker_processes }};
-pid {{ pid }};
+user {{ nginx_user }};
+worker_processes {{ nginx_worker_processes }};
+pid {{ nginx_pid }};
 
 events {
-    worker_connections {{ worker_connections }};
+    worker_connections {{ nginx_worker_connections }};
     # multi_accept on;
 }
 
