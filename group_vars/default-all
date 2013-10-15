@@ -169,6 +169,20 @@ apache_config_directory: '/etc/apache2'
 
 ########################
 #
+# Nginx
+#
+#
+
+delete_default_vhost: false
+user: {{ webserver_username }}
+worker_processes: {{ ansible_processor_count }}
+pid: /var/run/nginx.pid
+worker_connections: 768
+
+
+
+########################
+#
 # Node JS
 #
 # 

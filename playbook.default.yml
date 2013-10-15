@@ -48,6 +48,20 @@
   roles:
     - apache2
 
+
+########################################################################################
+
+- name: install nginx
+  hosts: nginx
+  sudo: yes
+
+  roles:
+    - nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
 ########################################################################################
 
 - name: install memcached
