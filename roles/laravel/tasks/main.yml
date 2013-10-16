@@ -57,6 +57,7 @@
 - name: Laravel | Check if nginx is installed
   shell: apt-cache policy nginx | grep Installed
   register: nginx
+  ignore_errors: true
   tags: 
     - laravel
     - testing
@@ -64,6 +65,7 @@
 - name: Laravel | Check if apache2 is installed
   shell: apt-cache policy apache2 | grep Installed
   register: apache2
+  ignore_errors: true
   tags: 
     - laravel
     - testing
@@ -78,7 +80,7 @@
     group={{ root_username }}     
     mode=0644 
   notify: restart apache2
-  when: apache2.stdout != '  Installed\: (none)'
+  when: apache2.stdout != <%= "  Installed: (none)" %>
   tags: 
     - laravel
     - testing
@@ -91,14 +93,14 @@
     group={{ root_username }}     
     mode=0644 
   notify: restart apache2
-  when: apache2.stdout != '  Installed\: (none)'
+  when: apache2.stdout != <%= "  Installed: (none)" %>
   tags: 
     - laravel
     - testing
 
 - name: Laravel | Enable Apache 2 laravel.conf site
   command: a2ensite laravel
-  when: apache2.stdout != '  Installed\: (none)'
+  when: apache2.stdout != <%= "  Installed: (none)" %>
   tags: 
     - laravel
     - testing
@@ -113,7 +115,7 @@
 #     group={{ root_username }}     
 #     mode=0644 
 #   notify: restart apache2
-#   when: nginx.stdout != '  Installed\: (none)'
+#   when: nginx.stdout != <%= "  Installed: (none)" %>
 #   tags: laravel
 
 # - name: Laravel | Configure Nginx virtualhost - enable site
@@ -124,5 +126,5 @@
 #     group={{ root_username }}     
 #     mode=0644 
 #   notify: restart apache2
-#   when: nginx.stdout != '  Installed\: (none)'
+#   when: nginx.stdout != <%= "  Installed: (none)" %>
 #   tags: laravel
