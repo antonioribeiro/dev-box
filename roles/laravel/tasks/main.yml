@@ -55,9 +55,11 @@
   tags: laravel
 
 - name: Laravel | Check if apache2 is installed
-  stat: path=/etc/init/apache2.conf
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
   register: apache2
-  tags: laravel
+  tags: 
+    - laravel
+    - testing
 
 - name: Laravel | Check if nginx is installed
   shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
