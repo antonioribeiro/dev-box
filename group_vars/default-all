@@ -190,6 +190,7 @@ nginx_pid: '/var/run/nginx.pid'
 nginx_worker_connections: '8000'
 nginx_worker_rlimit_nofile: '10000'
 nginx_config_directory: '/etc/nginx'
+nginx_logs_directory: '/var/log/nginx'
 
 
 ########################

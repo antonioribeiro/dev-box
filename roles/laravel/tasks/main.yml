@@ -105,26 +105,29 @@
     - laravel
     - testing
 
-# ####### Nginx 2 configuration
+####### Nginx 2 configuration
 
-# - name: Laravel | Configure Nginx virtualhost - create file
-#   template: 
-#     src=laravel-apache-virtualhost.conf.tpl
-#     dest=/etc/apache2/sites-available/laravel.conf
-#     owner={{ root_username }} 
-#     group={{ root_username }}     
-#     mode=0644 
-#   notify: restart apache2
-#   when: nginx.rc == 0
-#   tags: laravel
+- name: Laravel | Configure Nginx virtualhost - create file
+  template: 
+    src=laravel-nginx-virtualhost-conf.tpl
+    dest=/etc/nginx/sites-available/laravel
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: restart nginx
+  when: nginx.rc == 0
+  tags: 
+    - laravel
+    - testing
 
-# - name: Laravel | Configure Nginx virtualhost - enable site
-#   template: 
-#     src=laravel-apache-virtualhost.conf.tpl
-#     dest=/etc/apache2/sites-available/laravel.conf
-#     owner={{ root_username }} 
-#     group={{ root_username }}     
-#     mode=0644 
-#   notify: restart apache2
-#   when: nginx.rc == 0
-#   tags: laravel
+- name: Laravel | Configure Nginx virtualhost - enable site
+  file: 
+    state=link 
+    src=/etc/nginx/sites-available/laravel
+    dest=/etc/nginx/sites-enabled/laravel
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: restart nginx
+  tags: 
+    - laravel
+    - testing

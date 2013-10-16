@@ -37,8 +37,15 @@
     dest={{ nginx_config_directory }}/conf/{{ item }}
   with_items:
     - h5bp.conf
-    - expires.conf
     - x-ua-compatible.conf
     - protect-system-files.conf
     - cross-domain-fonts.conf
+  tags: nginx
+
+- name: Nginx | writing conf/expires.conf
+  template: 
+    src=etc-nginx-conf-expires.conf.tpl 
+    dest={{ nginx_config_directory }}/conf/expires.conf
+  notify:
+    - restart nginx
   tags: nginx

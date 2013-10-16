@@ -48,6 +48,12 @@
            creates=/usr/share/php/.registry/.channel.pecl.php.net/xdebug.reg
   tags: php
 
+- name: PHP | Install APC
+  shell: printf "\n" | sudo pecl install apc
+           creates=/usr/share/php/.registry/.channel.pecl.php.net/apc.reg
+  when: php_version == "5.4"
+  tags: php
+
 - name: PHP | Install Imagick
   command: pecl install imagick 
            creates=/usr/share/php/.registry/.channel.pecl.php.net/imagick.reg
@@ -128,12 +134,14 @@
   template: 
     src=../../../global/templates/php/etc-php5-conf-d-apc-ini.j2 
     dest=/etc/php5/cli/conf.d/apc.ini
+  when: php_version == "5.4"
   tags: php
 
 - name: PHP | APC Cache configuration file, apc.ini
   template: 
     src=../../../global/templates/php/etc-php5-conf-d-apc-ini.j2 
     dest=/etc/php5/cgi/conf.d/apc.ini
+  when: php_version == "5.4"
   tags: php
 
 - name: PHP | Check if apache2 is installed to restart it
