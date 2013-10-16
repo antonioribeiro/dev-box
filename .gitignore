@@ -1,2 +1,5 @@
 *~
 settings.yml
+hosts.ini
+playbook.yml
+group_vars/all
