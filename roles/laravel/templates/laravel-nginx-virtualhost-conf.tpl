@@ -1,35 +1,55 @@
 server {
 
-    listen       80 default_server;
+    listen       172.17.0.158:80;
 
-    server_name  _;
+    server_name  "";   ## this is an IP address (or wrong server_name) based server
 
     root /var/www/laravel/public/;
 
     access_log /var/log/nginx/laravel-access.log;
-    error_log  /var/log/nginx/laravel-error.log error;
+    error_log  /var/log/nginx/laravel-error.log debug;
 
-    index index.php;
+    location ~ ^/laravel(/?(.*))$ {
 
-    location /laravel/ {
-        autoindex on;
-        alias /var/www/laravel.dev/public/;
-        try_files $uri $uri/ /index.php?q=$uri&$args;
+        # URLs to attempt, including pretty ones.
+        try_files   $uri /index.php?$2;
+
     }
+
+    rewrite  ^/laravel/(.+)/$ /laravel/$1 permanent;
+    rewrite  ^/laravel/index\.php/?(.*)$ /laravel/$1 permanent;
 
     location ~ \.php$ {
-          fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-    
-          # With php5-cgi alone:
-          # fastcgi_pass 127.0.0.1:9000;
-          # With php5-fpm:
-          fastcgi_pass unix:/var/run/php5-fpm.sock;
-          fastcgi_index index.php;
-          include fastcgi_params;
+        fastcgi_pass              unix:/var/run/php5-fpm.sock;
+        fastcgi_index             index.php;
+        fastcgi_split_path_info   ^(.+\.php)(.*)$;
+        include                   /etc/nginx/fastcgi_params;
+        fastcgi_param             SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 
+    # We don't need .ht files with nginx.
+    location ~ /\.ht {
+        deny all;
+    }
+
+    # Set header expirations on per-project basis
+    location ~* \.(?:ico|css|js|jpe?g|JPE?G|png|svg|woff|webp)$ {
+
+        expires max;
+
+    }        
+
 }
+
+# server {
+
+#     listen       80;
+
+#     server_name  laravel;
+
+
+# }
+
 
 # server {
 
