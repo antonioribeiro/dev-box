@@ -1,0 +1,25 @@
+---
+
+### check apache, nginx and php
+
+- name: Detector | Check if nginx is installed
+  shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
+  register: nginx
+  ignore_errors: true
+  tags: 
+    - helpers
+
+
+- name: Detector | Check if apache2 is installed
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
+  register: apache2
+  ignore_errors: true
+  tags: 
+    - helpers
+
+
+- name: Detector | Check if php5 is installed
+  stat: path=/usr/bin/php5
+  register: php5
+  tags: 
+    - helpers

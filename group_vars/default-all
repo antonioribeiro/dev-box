@@ -119,7 +119,7 @@ php_date_timezone: 'America/Sao_Paulo'
 #
 #
 
-php_fpm_config_directory: '/etc/php5/fpm/'
+php_fpm_config_directory: '{{ php_config_directory }}/fpm/'
 
 
 

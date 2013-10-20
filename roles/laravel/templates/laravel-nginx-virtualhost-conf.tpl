@@ -1,29 +1,28 @@
 server {
 
-    listen       172.17.0.158:80;
+    listen       {{ ansible_default_ipv4.address }}:80;
 
     server_name  "";   ## this is an IP address (or wrong server_name) based server
 
-    root /var/www/laravel/public/;
-
-    access_log /var/log/nginx/laravel-access.log;
-    error_log  /var/log/nginx/laravel-error.log debug;
-
-    location ~ ^/laravel(/?(.*))$ {
+    location ~ ^{{ laravel_site_base_url }}(/?(.*))$ {
 
         # URLs to attempt, including pretty ones.
         try_files   $uri /index.php?$2;
 
+        root {{ webserver_document_root }}{{ laravel_site_base_url }}/public/;
+
+        access_log /var/log/nginx{{ laravel_site_base_url }}-access.log;
+        error_log  /var/log/nginx{{ laravel_site_base_url }}-error.log error;
+
     }
 
-    rewrite  ^/laravel/(.+)/$ /laravel/$1 permanent;
-    rewrite  ^/laravel/index\.php/?(.*)$ /laravel/$1 permanent;
+    rewrite ^/(.*)/$ /$1 permanent;
 
     location ~ \.php$ {
         fastcgi_pass              unix:/var/run/php5-fpm.sock;
         fastcgi_index             index.php;
         fastcgi_split_path_info   ^(.+\.php)(.*)$;
-        include                   /etc/nginx/fastcgi_params;
+        include                   {{ nginx_config_directory }}/fastcgi_params;
         fastcgi_param             SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 
@@ -40,70 +39,6 @@ server {
     }        
 
 }
-
-# server {
-
-#     listen       80;
-
-#     server_name  laravel;
-
-
-# }
-
-
-# server {
-
-#     # Document root
-#     root /var/www/laravel/public;
-
-#     # Try static files first, then php
-#     index index.php;
-
-#     # Specific logs for this vhost
-#     access_log /var/log/nginx/laravel-access.log;
-#     error_log  /var/log/nginx/laravel-error.log error;
-
-#     # Make site accessible from http://localhost/
-#     server_name laravel
-#                 10.17.12.246;
-
-#     # Specify a character set
-#     charset utf-8;
-
-#     # h5bp nginx configs
-#     include conf/h5bp.conf;
-
-#     # Redirect needed to "hide" index.php
-#     location / {
-#         try_files $uri $uri/ /index.php?q=$uri&$args;
-#     }
-
-#     # Don't log robots.txt or favicon.ico files
-#     location = /favicon.ico { log_not_found off; access_log off; }
-#     location = /robots.txt  { access_log off; log_not_found off; }
-
-#     # 404 errors handled by our application, for instance Laravel or CodeIgniter
-#     error_page 404 /index.php;
-
-#     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-#     location ~ \.php$ {
-#         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-#         # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-
-#         # With php5-cgi alone:
-#         # fastcgi_pass 127.0.0.1:9000;
-#         # With php5-fpm:
-#         fastcgi_pass unix:/var/run/php5-fpm.sock;
-#         fastcgi_index index.php;
-#         include fastcgi_params;
-#     }
-
-#     # Deny access to .htaccess
-#     location ~ /\.ht {
-#         deny all;
-#     }        
-
-# }
 
 # server {
     # listen 80;

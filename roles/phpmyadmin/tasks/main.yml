@@ -1,14 +1,24 @@
 ---
 
-- name: phpMyAdmin | Check if apache2 is installed
-  stat: path=/etc/init/apache2.conf
-  register: apache2
-  tags: phpmyadmin
+####### look for installed stuff
 
-- name: phpMyAdmin | Check if php5 is installed
-  stat: path=/usr/bin/php5
-  register: php5
-  tags: phpmyadmin
+- name: Detector | Check if nginx is installed
+  shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
+  register: nginx
+  ignore_errors: true
+  tags: 
+    - detectors
+
+
+- name: Detector | Check if apache2 is installed
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
+  register: apache2
+  ignore_errors: true
+  tags: 
+    - detectors
+
+
+#### Select and install
 
 - name: phpMyAdmin | debconf-set-selection for php
   raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
@@ -23,16 +33,31 @@
     - phpmyadmin phpmyadmin/setup-password password $mysql_root_password
     - phpmyadmin phpmyadmin/setup-username string $mysql_root_username
     - phpmyadmin phpmyadmin/db/app-user string $mysql_root_username
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
 
 - name: phpMyAdmin | debconf-set-selection for apache2
   raw: sudo echo phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2 | sudo /usr/bin/debconf-set-selections
   when: 
     php5.stat.exists and 
-    apache2.stat.exists
+    apache2.rc == 0 # exists
   notify:
     - restart apache2
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
+
+- name: phpMyAdmin | debconf-set-selection for nginx
+  raw: sudo echo phpmyadmin phpmyadmin/reconfigure-webserver multiselect nginx | sudo /usr/bin/debconf-set-selections
+  when: 
+    php5.stat.exists and 
+    nginx.rc == 0 # exists
+  notify:
+    - restart nginx
+  tags: 
+    - phpmyadmin
+
 
 - name: phpMyAdmin | Install
   apt: 
@@ -40,37 +65,12 @@
     state=latest
   with_items:
     - phpmyadmin
-  when: php5.stat.exists
+  when: 
+      php5.stat.exists
   register: install
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
 
-- name: phpMyAdmin | Delete conf.d virtualhost
-  file: 
-    path={{ apache_config_directory }}/conf.d/phpmyadmin.conf 
-    state=absent
-  when: 
-    (not install.changed or install.changed) and
-    apache2.stat.exists
-  tags: phpmyadmin
-
-- name: phpMyAdmin | Configure virtual host
-  template: 
-    src=phpmyadmin-apache2-virtualhost.conf.tpl
-    dest={{ apache_config_directory }}/sites-available/phpmyadmin.conf
-  when: 
-    (not install.changed or install.changed) and
-    apache2.stat.exists
-  notify:
-    - restart apache2    
-  tags: phpmyadmin
-
-- name: phpMyAdmin | Enable virtual host
-  command: 
-    a2ensite phpmyadmin
-  when: 
-    (not install.changed or install.changed) and 
-    apache2.stat.exists
-  tags: phpmyadmin
 
 - name: phpMyAdmin | Create database
   mysql_db: 
@@ -79,14 +79,18 @@
   when: 
     not install.changed or install.changed
   register: database
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
 
 - name: phpMyAdmin | Create database metadata
   shell: 
     mysql phpmyadmin < /usr/share/dbconfig-common/data/phpmyadmin/install/mysql
   when: 
     database.changed
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
 
 - name: phpMyAdmin | Create database user (pma)
   mysql_user: 
@@ -97,11 +101,78 @@
     state=present
     login_password={{ mysql_root_password }}
     login_user={{ mysql_root_username }}
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
 
 - name: phpMyAdmin | Create config.inc.php
   copy: 
     src=/usr/share/phpmyadmin/config.sample.inc.php
     dest=/usr/share/phpmyadmin/config.inc.php
     force=false
-  tags: phpmyadmin
+  tags: 
+    - phpmyadmin
+
+
+######### for apache2
+
+- name: phpMyAdmin | Apache 2 | Delete conf.d virtualhost
+  file: 
+    path={{ apache_config_directory }}/conf.d/phpmyadmin.conf 
+    state=absent
+  when: 
+    (not install.changed or install.changed) and
+    apache2.rc == 0 # exists
+  tags: 
+    - phpmyadmin
+
+- name: phpMyAdmin | Apache 2 | Configure virtual host
+  template: 
+    src=phpmyadmin-apache2-virtualhost.conf.tpl
+    dest={{ apache_config_directory }}/sites-available/phpmyadmin.conf
+  when: 
+    (not install.changed or install.changed) and
+    apache2.rc == 0 # exists
+  notify:
+    - restart apache2    
+  tags: 
+    - phpmyadmin
+
+- name: phpMyAdmin | Apache 2 | Enable virtual host
+  command: 
+    a2ensite phpmyadmin
+  when: 
+    (not install.changed or install.changed) and 
+    apache2.rc == 0 # exists
+  tags: 
+    - phpmyadmin
+
+
+######### for nginx
+
+- name: phpMyAdmin | Nginx | Configure virtual host
+  template: 
+    src=phpmyadmin-nginx-virtualhost.conf.tpl
+    dest={{ nginx_config_directory }}/sites-available/phpmyadmin
+  when: 
+    (not install.changed or install.changed) and
+    nginx.rc == 0 # exists
+  notify:
+    - restart nginx
+  tags: 
+    - phpmyadmin
+
+- name: phpMyAdmin | Nginx | Enable virtual host
+  file: 
+    state=link 
+    src={{ nginx_config_directory }}/sites-available/phpmyadmin
+    dest={{ nginx_config_directory }}/sites-enabled/phpmyadmin
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: 
+    - restart nginx
+  when: 
+    (not install.changed or install.changed) and 
+    nginx.rc == 0 # exists
+  tags: 
+    - phpmyadmin

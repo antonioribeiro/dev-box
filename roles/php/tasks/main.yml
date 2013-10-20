@@ -1,5 +1,17 @@
 ---
 
+####### look for installed stuff
+
+- name: Detector | Check if apache2 is installed
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
+  register: apache2
+  ignore_errors: true
+  tags: 
+    - detectors
+
+
+########## Start
+
 - name: PHP | Add Ondrej's PPA for PHP 5.5
   apt_repository: 
     repo=ppa:ondrej/php5
@@ -7,12 +19,14 @@
   when: php_version == "5.5"
   tags: php
 
+
 - name: PHP | Add Ondrej's PPA for PHP 5.4
   apt_repository: 
     repo=ppa:ondrej/php5-oldstable
     update_cache=yes
   when: php_version == "5.4"
   tags: php
+
 
 - name: PHP | Install PHP and all related packages
   apt: 
@@ -43,10 +57,12 @@
 
   tags: php
 
+
 - name: PHP | Install XDebug
   command: pecl install xdebug 
            creates=/usr/share/php/.registry/.channel.pecl.php.net/xdebug.reg
   tags: php
+
 
 - name: PHP | Install APC
   shell: printf "\n" | sudo pecl install apc
@@ -54,104 +70,113 @@
   when: php_version == "5.4"
   tags: php
 
+
 - name: PHP | Install Imagick
   command: pecl install imagick 
            creates=/usr/share/php/.registry/.channel.pecl.php.net/imagick.reg
   tags: php
 
+
 - name: PHP | Browsecap download
-  command: wget -N --output-document=/etc/php5/browscap.ini http://tempdownloads.browserscap.com/stream.asp?PHP_BrowsCapINI 
-           creates=/etc/php5/browscap.ini
+  command: wget -N --output-document={{ php_config_directory }}/browscap.ini http://tempdownloads.browserscap.com/stream.asp?PHP_BrowsCapINI 
+           creates={{ php_config_directory }}/browscap.ini
   tags: php
+
 
 - name: PHP | Remove formatting errors from php ini files
   shell: 
     sed -i ':a;N;$!ba;s/\n ;/\n;/g' {{ item }}
   with_items:
-    - /etc/php5/cgi/php.ini
-    - /etc/php5/cli/php.ini
-    - /etc/php5/fpm/php.ini
+    - '{{ php_config_directory }}/cgi/php.ini'
+    - '{{ php_config_directory }}/cli/php.ini'
+    - '{{ php_config_directory }}/fpm/php.ini'
   tags: php
+
 
 - name: PHP | Browsecap configure ini files
   ini_file: 
     dest={{ item }}
     section=browscap
     option=browscap
-    value=/etc/php5/browscap.ini
+    value={{ php_config_directory }}/browscap.ini
     backup=yes
   with_items:
-    - /etc/php5/cgi/php.ini
-    - /etc/php5/cli/php.ini
+    - '{{ php_config_directory }}/cgi/php.ini'
+    - '{{ php_config_directory }}/cli/php.ini'
   tags: php
+
 
 - name: PHP | configure FPM fix_pathinfo
   ini_file: 
-    dest=/etc/php5/fpm/php.ini
+    dest={{ php_config_directory }}/fpm/php.ini
     section=PHP
     option=cgi.fix_pathinfo
     value=0
     backup=yes
   tags: php
 
+
 - name: PHP | configure FPM post_max_size
   ini_file: 
-    dest=/etc/php5/fpm/php.ini
+    dest={{ php_config_directory }}/fpm/php.ini
     section=PHP
     option=post_max_size
     value=8M
     backup=yes
   tags: php
 
+
 - name: PHP | configure FPM upload_max_filesize
   ini_file: 
-    dest=/etc/php5/fpm/php.ini
+    dest={{ php_config_directory }}/fpm/php.ini
     section=PHP
     option=upload_max_filesize
     value=8M
     backup=yes
   tags: php
 
+
 - name: PHP | configure FPM max_file_uploads
   ini_file: 
-    dest=/etc/php5/fpm/php.ini
+    dest={{ php_config_directory }}/fpm/php.ini
     section=PHP
     option=max_file_uploads
     value=5
     backup=yes
   tags: php
 
+
 - name: PHP | configure FPM expose_php
   ini_file: 
-    dest=/etc/php5/fpm/php.ini
+    dest={{ php_config_directory }}/fpm/php.ini
     section=PHP
     option=expose_php
     value=off
     backup=yes
   tags: php
 
-- name: PHP | APC Cache configuration file, apc.ini
-  template: 
-    src=../../../global/templates/php/etc-php5-conf-d-apc-ini.j2 
-    dest=/etc/php5/cli/conf.d/apc.ini
-  when: php_version == "5.4"
-  tags: php
 
 - name: PHP | APC Cache configuration file, apc.ini
   template: 
     src=../../../global/templates/php/etc-php5-conf-d-apc-ini.j2 
-    dest=/etc/php5/cgi/conf.d/apc.ini
+    dest={{ php_config_directory }}/cli/conf.d/apc.ini
   when: php_version == "5.4"
   tags: php
 
-- name: PHP | Check if apache2 is installed to restart it
-  stat: path=/etc/init/apache2.conf
-  register: apache2
+
+- name: PHP | APC Cache configuration file, apc.ini
+  template: 
+    src=../../../global/templates/php/etc-php5-conf-d-apc-ini.j2 
+    dest={{ php_config_directory }}/cgi/conf.d/apc.ini
+  when:  
+     apache2.rc == 0 # exists
   tags: php
+
 
 - name: PHP | Restart apache
   service: 
     name=apache2 
     state=restarted
-  when: apache2.stat.exists
+  when:  
+     apache2.rc == 0 # exists
   tags: php

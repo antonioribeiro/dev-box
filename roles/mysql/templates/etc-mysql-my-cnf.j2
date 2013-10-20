@@ -2,7 +2,7 @@
 # The MySQL database server configuration file.
 #
 # You can copy this to one of:
-# - "/etc/mysql/my.cnf" to set global options,
+# - "{{ mysql_configuration_path }}/my.cnf" to set global options,
 # - "~/.my.cnf" to set user-specific options.
 # 
 # One can use all long options that the program supports.
@@ -15,7 +15,7 @@
 # This will be passed to all mysql clients
 # It has been reported that passwords should be enclosed with ticks/quotes
 # escpecially if they contain "#" chars...
-# Remember to edit /etc/mysql/debian.cnf when changing the socket location.
+# Remember to edit {{ mysql_configuration_path }}/debian.cnf when changing the socket location.
 [client]
 port    = 3306
 socket    = /var/run/mysqld/mysqld.sock
@@ -75,7 +75,7 @@ query_cache_size        = 16M
 #general_log_file        = /var/log/mysql/mysql.log
 #general_log             = 1
 #
-# Error logging goes to syslog due to /etc/mysql/conf.d/mysqld_safe_syslog.cnf.
+# Error logging goes to syslog due to {{ mysql_configuration_path }}/conf.d/mysqld_safe_syslog.cnf.
 #
 # Here you can see queries with especially long duration
 #log_slow_queries  = /var/log/mysql/mysql-slow.log
@@ -104,9 +104,9 @@ max_binlog_size         = 100M
 #
 # For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
 #
-# ssl-ca=/etc/mysql/cacert.pem
-# ssl-cert=/etc/mysql/server-cert.pem
-# ssl-key=/etc/mysql/server-key.pem
+# ssl-ca={{ mysql_configuration_path }}/cacert.pem
+# ssl-cert={{ mysql_configuration_path }}/server-cert.pem
+# ssl-key={{ mysql_configuration_path }}/server-key.pem
 
 {{ innodb_file_per_table }}
 character_set_server = {{ mysql_character_set_server }}
@@ -127,4 +127,4 @@ key_buffer    = 16M
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir /etc/mysql/conf.d/
+!includedir {{ mysql_configuration_path }}/conf.d/

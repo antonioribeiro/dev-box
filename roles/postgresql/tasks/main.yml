@@ -1,5 +1,25 @@
 ---
 
+####### look for installed stuff
+
+- name: Detector | Check if nginx is installed
+  shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
+  register: nginx
+  ignore_errors: true
+  tags: 
+    - detectors
+
+
+- name: Detector | Check if apache2 is installed
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
+  register: apache2
+  ignore_errors: true
+  tags: 
+    - detectors
+
+
+########## Start
+
 - name: PostgreSQL | Create user
   user: 
     name={{ postgresql_system_user }} 
@@ -8,10 +28,6 @@
     state=present
   tags: postgresql
 
-- name: PostgreSQL | Check if apache2 is installed
-  stat: path=/etc/init/apache2.conf
-  register: apache2
-  tags: postgresql
 
 - name: PostgreSQL | Install packages 
   apt: 
@@ -44,7 +60,7 @@
     state=absent
   when: 
     phppgadmin.changed and 
-    apache2.stat.exists
+    apache2.rc == 0 # exists
   tags: postgresql
 
 
@@ -54,13 +70,15 @@
     dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
   when: 
     phppgadmin.changed and 
-    apache2.stat.exists
+    apache2.rc == 0 # exists
   tags: postgresql
 
 - name: PostgreSQL | Enable virtual host
   command: 
     a2ensite phppgadmin
-  when: phppgadmin.changed and apache2.stat.exists
+  when: 
+      phppgadmin.changed and 
+      apache2.rc == 0 # exists
   tags: postgresql
 
 # - name: PostgreSQL | Initiate database
@@ -171,6 +189,7 @@
   service: 
     name=apache2 
     state=restarted
-  when: apache2.stat.exists
+  when: 
+    apache2.rc == 0 # exists
   tags: postgresql
 

@@ -1,29 +1,22 @@
 ---
 
-- name: Beanstalkd | Install packages 
-  apt: pkg={{ item }} state=latest
-  with_items:
-     - beanstalkd
-  tags: beanstalkd
-
-- name: Beanstalkd | Check if apache2 is installed
-  stat: path=/etc/init/apache2.conf
-  register: apache2
-  tags: beanstalkd
-
 ##### Console - https://github.com/ptrofimov/beanstalk_console
 
 - name: Beanstalkd | Install Console
   git: 
     repo=https://github.com/ptrofimov/beanstalk_console.git 
     dest={{ webserver_document_root }}/beanstalk_console
+  notify: 
+    restart nginx
   tags: beanstalkd
+
 
 - name: Beanstalkd | Create first server on config.php
   template: 
     src=config.php.tpl 
     dest={{ webserver_document_root }}/beanstalk_console/config.php
   tags: beanstalkd
+
 
 - name: Beanstalkd | Set directory permissions
   file: 
@@ -35,18 +28,55 @@
     recurse=yes
   tags: beanstalkd
 
+
+#### Apache 2
+
 - name: Beanstalkd | Configure Apache virtualhost
   template: 
     src=apache2-virtualhost.tpl 
-    dest=/etc/apache2/sites-available/beanstalkd-console.conf
+    dest={{ apache_config_directory }}/sites-available/beanstalkd-console.conf
     owner={{ root_username }} 
     group={{ root_username }}     
     mode=0644 
   notify: restart apache2
-  when: apache2.stat.exists
+  when: 
+    apache2.rc == 0 # exists
   tags: beanstalkd
 
 - name: Beanstalkd | Enable beanstalkd-console site
   command: a2ensite beanstalkd-console
-  when: apache2.stat.exists
+  when: 
+    apache2.rc == 0 # exists
   tags: beanstalkd
+
+
+#### Nginx
+
+- name: Beanstalkd | Configure Nginx virtualhost
+  template: 
+    src=nginx-virtualhost.tpl 
+    dest={{ nginx_config_directory }}/sites-available/beanstalkd-console
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: 
+    restart nginx
+  when: 
+    nginx.rc == 0 # exists
+  tags: 
+    - beanstalkd
+
+- name: Laravel | Configure Nginx virtualhost - enable site
+  file: 
+    state=link 
+    src={{ nginx_config_directory }}/sites-available/beanstalkd-console
+    dest={{ nginx_config_directory }}/sites-enabled/beanstalkd-console
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: 
+    restart nginx
+  when: 
+    nginx.rc == 0 # exists
+  tags: 
+    - beanstalkd
+    

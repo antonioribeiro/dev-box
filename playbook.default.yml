@@ -4,6 +4,16 @@
 # http://git-legit.org/
 #
 
+########################################################################################
+
+- name: load helpers
+  hosts: all
+  sudo: yes
+
+  roles:
+    - helpers
+
+########################################################################################
 
 - name: apply common configuration to all nodes
   hosts: all
@@ -117,6 +127,9 @@
     - name: restart apache2
       service: name=apache2 state=restarted
 
+    - name: restart nginx
+      service: name=nginx state=restarted
+
 ########################################################################################
 
 - name: install postgresql
@@ -142,6 +155,9 @@
   handlers:
     - name: restart apache2
       service: name=apache2 state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
 
 ########################################################################################
 
