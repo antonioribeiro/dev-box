@@ -6,7 +6,7 @@
   register: nginx
   ignore_errors: true
   tags: 
-    - detectors
+    - laravel
 
 
 - name: Detector | Check if apache2 is installed
@@ -14,7 +14,7 @@
   register: apache2
   ignore_errors: true
   tags: 
-    - detectors
+    - laravel
 
 
 ########## Start
@@ -51,7 +51,7 @@
     path={{ laravel_document_root }}/app/storage
     owner={{ root_username }}
     group={{ webserver_username }}
-    mode=0775
+    mode=0777
     state=directory
     recurse=yes
   tags: laravel
@@ -82,20 +82,7 @@
   when: apache2.rc == 0 # exists
   tags: 
     - laravel
-    
-
-- name: Laravel | Configure Apache 2 virtualhost - enable site
-  template: 
-    src=laravel-apache-virtualhost.conf.tpl
-    dest={{ apache2_config_directory }}/sites-available/laravel.conf
-    owner={{ root_username }} 
-    group={{ root_username }}     
-    mode=0644 
-  notify: restart apache2
-  when: apache2.rc == 0 # exists
-  tags: 
-    - laravel
-    
+ 
 
 - name: Laravel | Enable Apache 2 laravel.conf site
   command: a2ensite laravel
@@ -106,10 +93,10 @@
 
 ####### Nginx 2 configuration
 
-- name: Laravel | Configure Nginx virtualhost - create file
+- name: Laravel | Configure Nginx location block - create file
   template: 
-    src=laravel-nginx-virtualhost-conf.tpl
-    dest={{ nginx_config_directory }}/sites-available/laravel
+    src=laravel-nginx-location-block-conf.tpl
+    dest={{ nginx_config_directory }}/locations-available/laravel.conf
     owner={{ root_username }} 
     group={{ root_username }}     
     mode=0644 
@@ -121,11 +108,40 @@
     - laravel
     
 
-- name: Laravel | Configure Nginx virtualhost - enable site
+- name: Laravel | Configure Nginx location block - enable site
   file: 
     state=link 
-    src={{ nginx_config_directory }}/sites-available/laravel
-    dest={{ nginx_config_directory }}/sites-enabled/laravel
+    src={{ nginx_config_directory }}/locations-available/laravel.conf
+    dest={{ nginx_config_directory }}/locations-enabled/laravel.conf
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: 
+    restart nginx # exists
+  when: 
+    nginx.rc == 0 # exists
+  tags: 
+    - laravel
+    
+- name: Laravel | Configure Nginx server block - create file
+  template: 
+    src=laravel-nginx-server-block-conf.tpl
+    dest={{ nginx_config_directory }}/sites-available/laravel.conf
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: 
+    restart nginx
+  when: 
+    nginx.rc == 0 # exists
+  tags: 
+    - laravel
+    
+
+- name: Laravel | Configure Nginx server block - enable site
+  file: 
+    state=link 
+    src={{ nginx_config_directory }}/sites-available/laravel.conf
+    dest={{ nginx_config_directory }}/sites-enabled/laravel.conf
     owner={{ root_username }} 
     group={{ root_username }}
   notify: 

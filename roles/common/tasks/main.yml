@@ -4,51 +4,55 @@
 - name: install common packages
   apt: pkg={{ item }} state=latest
   with_items:
-     - joe
-     - mc
-     - links
      - alien
      - apt-file
-     - zip
-     - vim
-     - rsync
-     - sudo
-     - rdate
-     - locate
-     - libterm-readkey-perl
-     - p7zip-full
+     - atop
+     - build-essential
+     - bzip2
+     - debconf-utils
      - expect
-     - lynx
-     - less
-     - psmisc
-     - nmap
-     - lsof
-     - socat
-     - jfsutils
+     - g++ 
      - git
      - git-core
-     - bzip2
-     - openssl
-     - atop
-     - python-software-properties
-     - python 
-     - python-pip
-     - g++ 
-     - make
-     - tmux
      - irssi
-     - build-essential
-     - python-dev
-     - sshpass
-     - subversion
-     - telnet
-     - debconf-utils
-     - tree
-     - patch
-     - zip
-     - unzip 
+     - jfsutils
+     - joe
+     - less
+     - libterm-readkey-perl
      - libxml2-dev 
      - libxslt1-dev
+     - links
+     - locate
+     - lsof
+     - lynx
+     - make
+     - mc
+     - nmap
+     - openssl
+     - p7zip-full
+     - patch
+     - psmisc
+     - python
+     - python-apt
+     - python-dev
+     - python-keyczar
+     - python-pip
+     - python-pycurl
+     - python-software-properties
+     - rdate
+     - rsync
+     - socat
+     - sshpass
+     - sshpass
+     - subversion
+     - sudo
+     - telnet
+     - tmux
+     - tree
+     - unzip 
+     - vim
+     - zip
+
   tags: common
 
 - name: install rar

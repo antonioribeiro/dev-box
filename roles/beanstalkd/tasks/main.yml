@@ -2,6 +2,27 @@
 
 ##### Console - https://github.com/ptrofimov/beanstalk_console
 
+
+####### look for installed stuff
+
+- name: Detector | Check if nginx is installed
+  shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
+  register: nginx
+  ignore_errors: true
+  tags: 
+    - beanstalkd
+
+
+- name: Detector | Check if apache2 is installed
+  shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
+  register: apache2
+  ignore_errors: true
+  tags: 
+    - beanstalkd
+
+
+##### Start
+
 - name: Beanstalkd | Install Console
   git: 
     repo=https://github.com/ptrofimov/beanstalk_console.git 
@@ -9,6 +30,21 @@
   notify: 
     restart nginx
   tags: beanstalkd
+
+
+- name: Beanstalkd | Configure Nginx virtualhost - enable site
+  file: 
+    state=link 
+    src={{ webserver_document_root }}/beanstalk_console/public
+    dest={{ webserver_document_root }}/beanstalk_console/beanstalk
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: 
+    restart nginx
+  when: 
+    nginx.rc == 0 # exists
+  tags: 
+    - beanstalkd
 
 
 - name: Beanstalkd | Create first server on config.php
@@ -55,7 +91,7 @@
 - name: Beanstalkd | Configure Nginx virtualhost
   template: 
     src=nginx-virtualhost.tpl 
-    dest={{ nginx_config_directory }}/sites-available/beanstalkd-console
+    dest={{ nginx_config_directory }}/locations-available/beanstalkd-console.conf
     owner={{ root_username }} 
     group={{ root_username }}     
     mode=0644 
@@ -66,11 +102,11 @@
   tags: 
     - beanstalkd
 
-- name: Laravel | Configure Nginx virtualhost - enable site
+- name: Beanstalkd | Configure Nginx virtualhost - enable site
   file: 
     state=link 
-    src={{ nginx_config_directory }}/sites-available/beanstalkd-console
-    dest={{ nginx_config_directory }}/sites-enabled/beanstalkd-console
+    src={{ nginx_config_directory }}/locations-available/beanstalkd-console.conf
+    dest={{ nginx_config_directory }}/locations-enabled/beanstalkd-console.conf
     owner={{ root_username }} 
     group={{ root_username }}
   notify: 

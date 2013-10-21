@@ -7,7 +7,7 @@
   register: nginx
   ignore_errors: true
   tags: 
-    - detectors
+    - postgresql
 
 
 - name: Detector | Check if apache2 is installed
@@ -15,7 +15,7 @@
   register: apache2
   ignore_errors: true
   tags: 
-    - detectors
+    - postgresql
 
 
 ########## Start

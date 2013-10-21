@@ -1,13 +1,16 @@
 ---
+
 - name: Nginx | install
   apt: name=nginx
   tags: nginx
+
 
 - name: Nginx | write nginx.conf
   template: src=nginx.conf.j2 dest={{ nginx_config_directory }}/nginx.conf
   notify:
     - restart nginx
   tags: nginx
+
 
 - name: Nginx | delete default vhost
   file: path={{ nginx_config_directory }}/sites-enabled/default state=absent
@@ -16,20 +19,27 @@
     - restart nginx
   tags: nginx
 
+
 - name: Nginx | grab a better list of MIME types for it to use
   get_url: 
     url=https://raw.github.com/h5bp/server-configs-nginx/master/mime.types
     dest={{ nginx_config_directory }}/mime.types
   tags: nginx
 
-- name: Nginx | Create /conf directory
+
+- name: Nginx | Create directories
   file: 
-    path={{ nginx_config_directory }}/conf/ 
+    path={{ nginx_config_directory }}/{{ item }} 
     owner={{ root_username }}
     group={{ root_username }}
     mode=0755 
     state=directory
+  with_items:
+    - locations-available
+    - locations-enabled
+    - conf
   tags: nginx
+
 
 - name: Nginx | grab h5bp security files
   get_url: 
@@ -42,6 +52,7 @@
     - cross-domain-fonts.conf
   tags: nginx
 
+
 - name: Nginx | writing conf/expires.conf
   template: 
     src=etc-nginx-conf-expires.conf.tpl 
@@ -49,3 +60,30 @@
   notify:
     - restart nginx
   tags: nginx
+
+
+- name: Nginx | Configure main server block
+  template: 
+    src=ip-based-server.conf.j2
+    dest={{ nginx_config_directory }}/sites-available/ip-based-server
+    owner={{ root_username }} 
+    group={{ root_username }}     
+    mode=0644 
+  notify: 
+    restart nginx
+  tags: 
+    - nginx
+    
+
+- name: Nginx | Enable main server block
+  file: 
+    state=link 
+    src={{ nginx_config_directory }}/sites-available/ip-based-server
+    dest={{ nginx_config_directory }}/sites-enabled/ip-based-server
+    owner={{ root_username }} 
+    group={{ root_username }}
+  notify: 
+    restart nginx
+  tags: 
+    - nginx
+    

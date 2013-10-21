@@ -2,7 +2,7 @@ server {
 
     listen       {{ ansible_default_ipv4.address }}:80;
 
-    server_name  "";   ## this is an IP address (or wrong server_name) based server
+    server_name  laravel;   ## this is an IP address (or wrong server_name) based server
 
     location ~ ^{{ laravel_site_base_url }}(/?(.*))$ {
 

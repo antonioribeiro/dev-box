@@ -7,7 +7,7 @@
   register: apache2
   ignore_errors: true
   tags: 
-    - detectors
+    - php
 
 
 ########## Start
@@ -53,6 +53,7 @@
      - php5-xdebug
      - php5-xmlrpc
      - php5-fpm
+     - php5-json
      - libmagickwand-dev
 
   tags: php
