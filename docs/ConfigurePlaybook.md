@@ -18,7 +18,8 @@ cp group_vars/default-all group_vars/all
 And edit two of them
 
 ## File: hosts.ini 
-You need to edit `/etc/dev-box/hosts.ini` and set the ip address of your box:
+
+This is where you set the ip address (or hostname) of your virtual machine:
 
 ```
 [devbox]
@@ -35,7 +36,9 @@ And you can add as many boxes as you want to the list
 10.0.0.2
 ```
 
-You select what you want installed on it, by adding the box name to the software section, for instance, to install Composer, add your hosts to the `composer:children` section:
+#### Selecting what to install
+
+You can also use hosts.ini to select what you want installed on your box, by adding the hostname to the software section, for instance, to install Composer, add your hosts to the `composer:children` section:
 
 ```
 [composer:children]
