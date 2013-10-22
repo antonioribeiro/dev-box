@@ -53,6 +53,11 @@ The estimated installation time for a virtual machine with 3000MB of memory and 
 **~16 minutes**
 
 
+### Realy, what's In The Box? TL;DR
+
+[Here's a complete list of what's installed in your box](/docs/WhatsInTheBox.md)
+
+
 ### Contributing
 
 Pull requests and issues are more than welcome.
