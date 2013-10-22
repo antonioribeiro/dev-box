@@ -23,6 +23,14 @@
 
 ##### Start
 
+- name: Beanstalkd | Install
+  apt: pkg={{ item }} state=latest
+  with_items:
+     - beanstalkd
+  tags: 
+    - beanstalkd
+
+
 - name: Beanstalkd | Install Console
   git: 
     repo=https://github.com/ptrofimov/beanstalk_console.git 
