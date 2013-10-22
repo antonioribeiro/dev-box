@@ -16,7 +16,9 @@
   apt_repository: 
     repo=ppa:ondrej/php5
     update_cache=yes
-  when: php_version == "5.5"
+  when: 
+    php_version == "5.5" and
+    not (ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'saucy')
   tags: php
 
 
@@ -24,7 +26,9 @@
   apt_repository: 
     repo=ppa:ondrej/php5-oldstable
     update_cache=yes
-  when: php_version == "5.4"
+  when: 
+    php_version == "5.4" and
+    not (ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'saucy')
   tags: php
 
 
