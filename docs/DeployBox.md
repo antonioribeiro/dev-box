@@ -13,7 +13,7 @@ PLAYBOOKDIR=/etc/dev-box
 ### Run your full playbook
 
 ```
-ansible-playbook --inventory-file=$PLAYBOOKDIR/hosts.ini $PLAYBOOKDIR/playbook.yml -K
+ansible-playbook --inventory-file=$PLAYBOOKDIR/hosts $PLAYBOOKDIR/playbook.yml -K
 ```
 
 Ansible will asks for your sudo password.
@@ -29,6 +29,6 @@ This repository, as Ansible, was creted to be idempotent, so if you break someth
 If you need to execute one role (like php or nginx) separately, you can just select the porper tag:
 
 ```
-ansible-playbook --inventory-file=$PLAYBOOKDIR/hosts.ini $PLAYBOOKDIR/playbook.yml -K --tags=php
+ansible-playbook --inventory-file=$PLAYBOOKDIR/hosts $PLAYBOOKDIR/playbook.yml -K --tags=php
 ```
 

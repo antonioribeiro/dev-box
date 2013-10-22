@@ -1,5 +1,5 @@
 *~
 settings.yml
-hosts.ini
+hosts
 playbook.yml
 group_vars/all

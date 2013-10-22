@@ -150,7 +150,7 @@ composer dump-autoload
 
 ### Docker
 
-It's not installed by default, but you can enable installation in your hosts.ini file.
+It's not installed by default, but you can enable installation in your hosts file.
 
 
 ### Grunt

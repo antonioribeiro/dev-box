@@ -43,7 +43,7 @@ function main() {
 
 	message "Cloning antonioribeiro/ansible repository"
 	sudo git clone https://github.com/antonioribeiro/ansible.git $SCRIPT_PATH 2>&1 | tee -a $LOG_FILE &> /dev/null
-	sudo cp $SCRIPT_PATH/hosts.default.ini $SCRIPT_PATH/hosts.ini
+	sudo cp $SCRIPT_PATH/hosts.default $SCRIPT_PATH/hosts
 	sudo cp $SCRIPT_PATH/playbook.default.yml $SCRIPT_PATH/playbook.yml
 	sudo cp $SCRIPT_PATH/group_vars/default-all $SCRIPT_PATH/group_vars/all
 
@@ -59,10 +59,10 @@ function main() {
 	message
 	message "First part of installation is done. Now you have to follow some steps:" 
 	message
-	message "- Edit the file hosts.ini, set your hosts configuration and add comments to disable what you don't want to install."
+	message "- Edit the file hosts, set your hosts configuration and add comments to disable what you don't want to install."
 	message "- Edit the file group_vars/all and set your personal preferences and passwords"
 	message "- Execute Ansible by running: "
-	message "     ansible-playbook --inventory-file=/etc/dev-box/hosts.ini /etc/dev-box/playbook.yml -K "
+	message "     ansible-playbook --inventory-file=/etc/dev-box/hosts /etc/dev-box/playbook.yml -K "
 	message
 	message
 

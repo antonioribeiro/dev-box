@@ -10,14 +10,14 @@ If you installed Ansible using the install-ansible.sh script, your playbook was 
 If you did not used the install-ansible.sh script, you need, first, to copy the default files:
 
 ```
-cp hosts.default.ini hosts.ini
+cp hosts.default hosts
 cp playbook.default.yml playbook.yml
 cp group_vars/default-all group_vars/all
 ```
 
 And edit two of them
 
-## File: hosts.ini 
+## File: hosts 
 
 This is where you set the ip address (or hostname) of your virtual machine:
 
@@ -38,7 +38,7 @@ And you can add as many boxes as you want to the list
 
 #### Selecting what to install
 
-You can also use hosts.ini to select what you want installed on your box, by adding or removing the hostname to software sections, for instance, to install Composer, add your hosts to the `composer:children` section:
+You can also use hosts to select what you want installed on your box, by adding or removing the hostname to software sections, for instance, to install Composer, add your hosts to the `composer:children` section:
 
 ```
 [composer:children]
