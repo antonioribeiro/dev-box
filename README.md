@@ -7,7 +7,7 @@ A Set of [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Rol
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
 
-### In The Box
+### What's In The Box?
 
 * PHP (5.5 or 5.4)
 * [Composer](http://getcomposer.org/)
@@ -24,7 +24,8 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * [NodeJS](http://nodejs.org/)
 * [Grunt](http://gruntjs.com/)
 * [Fabric](http://fabfile.org/)
-* [Docker](http://www.docker.io/)
+* [Docker](http://www.docker.io/) (optional)
+* [A nice list of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
 
 ### Requirements
 
@@ -40,6 +41,11 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 5. [Configure packages, usernames and passwords](/docs/ConfigurePlaybook.md)
 6. [Create and/or copy a SSH Key to the box](/docs/CopySSHKey.md)
 7. [Deploy your development box](/docs/DeployBox.md)
+8. [Test your stuff](/docs/DeployBox.md)
+
+### What's In The Box? TL;DR
+
+[Here's a complete list of what's installed in your box](/docs/WhatsInTheBox.md)
 
 ### Contributing
 
