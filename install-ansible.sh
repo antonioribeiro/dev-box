@@ -1,18 +1,18 @@
 #!/bin/bash
 #
 #  Just run it: 
-#    curl https://raw.github.com/antonioribeiro/php-dev-box/master/install.sh > /tmp/install.sh && source /tmp/install.sh
+#    curl https://raw.github.com/antonioribeiro/dev-box/master/install.sh > /tmp/install.sh && source /tmp/install.sh
 #
 #   
 
 LOG_FILE=`mktemp`
-SCRIPT_PATH='/etc/php-dev-box'
+SCRIPT_PATH='/etc/dev-box'
 
 function main() {
 	clear
 
 	message
-	message "## php-dev-box install script ##"
+	message "## dev-box install script ##"
 	message
 
 	if [ -f $SCRIPT_PATH/.git/config ]; then
@@ -62,7 +62,7 @@ function main() {
 	message "- Edit the file hosts.ini, set your hosts configuration and add comments to disable what you don't want to install."
 	message "- Edit the file group_vars/all and set your personal preferences and passwords"
 	message "- Execute Ansible by running: "
-	message "     ansible-playbook --inventory-file=/etc/php-dev-box/hosts.ini /etc/php-dev-box/playbook.yml -K "
+	message "     ansible-playbook --inventory-file=/etc/dev-box/hosts.ini /etc/dev-box/playbook.yml -K "
 	message
 	message
 
