@@ -158,7 +158,7 @@ It's not installed by default, but you can enable installation in your hosts.ini
 NPM Packages
 - gunt-cli 
 
-Grunt is not really installed, because it is, in fact, installed per project, so go to your project folder and type:
+Grunt is not really installed, because it must, in fact, installed per project, so go to your project folder and type:
 
 ```
 npm install grunt@0.4.1 -g
