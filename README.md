@@ -41,9 +41,6 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * [Configure your box](/docs/ConfigurePlaybook.md)
 * [Run the Playbook](/docs/RunPlaybook.md)
 
-
-* Copy your id_rsa key to your new server
-
 ### Contributing
 
 Pull requests and issues are more than welcome.
