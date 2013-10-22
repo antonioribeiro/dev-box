@@ -33,13 +33,13 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 
 ### Installing
 
-* [Install Ansible](/docs/InstallAnsible.md) locally on your Workstation
-* [Clone this repository](/docs/CloneRepository.md)
-* Install [Virtualbox](https://www.virtualbox.org/) or any other virtualization system
-* [Install an Ubuntu Box](/docs/InstallOS.md)
-* [Create and copy your SSH Key to the box](/docs/CopySSHKey.md)
-* [Configure packages, usernames and passwords](/docs/ConfigurePlaybook.md)
-* [Deploy your development box](/docs/DeployBox.md)
+1. [Install Ansible](/docs/InstallAnsible.md) locally on your Workstation
+2. [Clone this repository](/docs/CloneRepository.md)
+3. Install [Virtualbox](https://www.virtualbox.org/) or any other virtualization system
+4. [Install Ubuntu on a Virtual Machine](/docs/InstallOS.md)
+5. [Configure packages, usernames and passwords](/docs/ConfigurePlaybook.md)
+6. [Create and/or copy a SSH Key to the box](/docs/CopySSHKey.md)
+7. [Deploy your development box](/docs/DeployBox.md)
 
 ### Contributing
 
