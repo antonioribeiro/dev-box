@@ -7,6 +7,7 @@ A Set of [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Rol
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
 
+
 ### What's In The Box?
 
 * PHP (5.5 or 5.4)
@@ -32,6 +33,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * Ubuntu (tested on 12.04, 13.04 and 13.10)
 * Ansible 1.3+
 
+
 ### Installing
 
 1. [Install Ansible](/docs/InstallAnsible.md) locally on your Workstation
@@ -43,9 +45,13 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 7. [Deploy your development box](/docs/DeployBox.md)
 8. [Test your stuff](/docs/DeployBox.md)
 
-### What's In The Box? TL;DR
 
-[Here's a complete list of what's installed in your box](/docs/WhatsInTheBox.md)
+### Installation Time
+
+The estimated installation time for a virtual machine with 3000MB of memory and 4 processors, running Ubuntu Server 13.10 under an Intel Core i7 960:
+
+**~16 minutes**
+
 
 ### Contributing
 
