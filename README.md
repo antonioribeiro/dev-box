@@ -2,7 +2,7 @@
 ============================================================
 
 
-A Set of [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Roles and Playbooks to deploy an Ubuntu Based Development System.
+An [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Playbook to deploy an Ubuntu Based Development System.
 ----------------------------------------------------------------------------------
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
