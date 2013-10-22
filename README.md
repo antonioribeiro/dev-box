@@ -38,7 +38,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * Install [Virtualbox](https://www.virtualbox.org/) or any other virtualization system
 * [Install an Ubuntu Box](/docs/InstallOS.md)
 * [Create and copy your SSH Key to the box](/docs/CopySSHKey.md)
-* [Configure your box](/docs/ConfigurePlaybook.md)
+* [Configure packages, usernames and passwords](/docs/ConfigurePlaybook.md)
 * [Deploy your development box](/docs/DeployBox.md)
 
 ### Contributing
