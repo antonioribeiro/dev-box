@@ -38,7 +38,7 @@ And you can add as many boxes as you want to the list
 
 #### Selecting what to install
 
-You can also use hosts.ini to select what you want installed on your box, by adding the hostname to the software section, for instance, to install Composer, add your hosts to the `composer:children` section:
+You can also use hosts.ini to select what you want installed on your box, by adding or removing the hostname to software sections, for instance, to install Composer, add your hosts to the `composer:children` section:
 
 ```
 [composer:children]
