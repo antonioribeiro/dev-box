@@ -10,6 +10,14 @@
     - php
 
 
+- name: Detector | Check if nginx is installed
+  shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
+  register: nginx
+  ignore_errors: true
+  tags: 
+    - php
+
+
 ########## Start
 
 - name: PHP | Add Ondrej's PPA for PHP 5.5
@@ -59,6 +67,7 @@
      - php5-fpm
      - php5-json
      - libmagickwand-dev
+     - php-gettext
 
   tags: php
 
@@ -97,6 +106,33 @@
     - '{{ php_config_directory }}/fpm/php.ini'
   tags: php
 
+####### Configure modules
+
+- name: Detector | Check if mcrypt is installed
+  shell: php -m | grep mcrypt
+  register: mcrypt
+  ignore_errors: true
+  tags: 
+    - php
+
+- name: Enable MCrypt module
+  lineinfile: 
+    dest={{ item }}
+    regexp='^extension.*mcrypt.so'
+    line='extension=mcrypt.so'
+  with_items:
+    - '{{ php_config_directory }}/cgi/php.ini'
+    - '{{ php_config_directory }}/cli/php.ini'
+    - '{{ php_config_directory }}/fpm/php.ini'
+  when:  
+     mcrypt.rc == 1 # not installed
+  notify:  
+     - restart php
+  tags: php
+
+
+
+#############
 
 - name: PHP | Browsecap configure ini files
   ini_file: 
@@ -185,3 +221,12 @@
   when:  
      apache2.rc == 0 # exists
   tags: php
+
+- name: PHP | Restart nginx
+  service: 
+    name=nginx 
+    state=restarted
+  when:  
+     nginx.rc == 0 # exists
+  tags: php
+
