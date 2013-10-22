@@ -2,11 +2,12 @@
 
 #######################
 #
-#  Hostname
+#  Hostname and root
 #
 
 server_hostname: '{{ ansible_hostname }}'
 
+root_username: 'root' # don't touch this, unless you really have a different name for it
 
 
 #######################
@@ -25,8 +26,6 @@ workstation_ip_address: 'YOUR-WORKSTATION-IP-ADDRESS' # some rights will be give
 #
 
 user_with_sudo_power: 'YOUR-BOX-MAIN-USERNAME'
-
-root_username: 'root' # root, if you have a different name for it, set it here
 
 mysql_root_username: $root_username
 mysql_root_password: 'PASSWORD'

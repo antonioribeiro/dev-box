@@ -17,7 +17,7 @@ cp group_vars/default-all group_vars/all
 
 And edit two of them
 
-# hosts.ini file
+## File: hosts.ini 
 You need to edit `/etc/dev-box/hosts.ini` and set the ip address of your box:
 
 ```
@@ -45,14 +45,12 @@ phpbox
 
 The host `devbox`, default for this playbook, was already added to all sections.
 
-# group_vars/all file
+## File: group_vars/all
 
-This file contains your personal info (usernames and passwords) for each software you will install and many configuration options:
+It contains your personal info (usernames and passwords) for each software you will install and many configuration options for packages:
 
 ```
 user_with_sudo_power: 'YOUR-BOX-MAIN-USERNAME'
-
-root_username: 'root' # root, if you have a different name for it, set it here
 
 mysql_root_username: $root_username
 mysql_root_password: 'PASSWORD'
