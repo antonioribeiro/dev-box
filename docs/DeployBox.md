@@ -2,7 +2,7 @@
 ============================================================
 
 
-Run the Playbook
+Deploy your development box
 ----------------------------------------------------------------------------------
 
 # Create an environment variable pointing to your repository path

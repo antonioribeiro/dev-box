@@ -39,7 +39,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * [Install an Ubuntu Box](/docs/InstallOS.md)
 * [Create and copy your SSH Key to the box](/docs/CopySSHKey.md)
 * [Configure your box](/docs/ConfigurePlaybook.md)
-* [Run the Playbook](/docs/RunPlaybook.md)
+* [Deploy your development box](/docs/DeployBox.md)
 
 ### Contributing
 
