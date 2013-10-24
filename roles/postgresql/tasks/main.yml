@@ -81,6 +81,11 @@
       apache2.rc == 0 # exists
   tags: postgresql
 
+- name: Disable Extra Login Security
+  shell: 
+    sed -i "s/\$conf\['extra_login_security'\] \= true\;/\$conf\['extra_login_security'\] \= false\;/g" /usr/share/phppgadmin/conf/config.inc.php
+  tags: postgresql
+
 # - name: PostgreSQL | Initiate database
 #   command: sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb
 #             creates=/var/lib/pgsql/data/postgresql.conf
