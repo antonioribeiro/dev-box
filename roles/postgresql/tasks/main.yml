@@ -45,7 +45,7 @@
      - libpq-dev
   tags: postgresql
 
-- name: PostgreSQL | Install phppgadmin
+- name: PostgreSQL | phpPgAdmin | Install
   apt: 
     pkg={{ item }} 
     state=latest
@@ -54,7 +54,7 @@
   register: phppgadmin
   tags: postgresql
 
-- name: PostgreSQL | Delete conf.d virtual host
+- name: PostgreSQL | phpPgAdmin | Delete conf.d virtual host
   file: 
     path={{ apache_config_directory }}/conf.d/phppgadmin
     state=absent
@@ -64,7 +64,7 @@
   tags: postgresql
 
 
-- name: PostgreSQL | Configure virtual host
+- name: PostgreSQL | phpPgAdmin | Configure virtual host
   template: 
     src=phppgadmin.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
@@ -73,7 +73,8 @@
     apache2.rc == 0 # exists
   tags: postgresql
 
-- name: PostgreSQL | Enable virtual host
+
+- name: PostgreSQL | phpPgAdmin | Enable virtual host
   command: 
     a2ensite phppgadmin
   when: 
@@ -81,10 +82,24 @@
       apache2.rc == 0 # exists
   tags: postgresql
 
-- name: Disable Extra Login Security
+
+- name: PostgreSQL | phpPgAdmin | Disable Extra Login Security
   shell: 
     sed -i "s/\$conf\['extra_login_security'\] \= true\;/\$conf\['extra_login_security'\] \= false\;/g" /usr/share/phppgadmin/conf/config.inc.php
   tags: postgresql
+
+
+- name: PostgreSQL | phpPgAdmin | Remove PHP end
+  shell: 
+    sed -i "s/?>//g" /usr/share/phppgadmin/conf/config.inc.php
+  tags: postgresql
+
+
+- name: PostgreSQL | phpPgAdmin | Add error reporting directives
+  shell: 
+    grep -q -e "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" /usr/share/phppgadmin/conf/config.inc.php || echo "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" >> /usr/share/phppgadmin/conf/config.inc.php
+  tags: postgresql
+
 
 # - name: PostgreSQL | Initiate database
 #   command: sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb

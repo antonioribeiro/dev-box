@@ -34,8 +34,8 @@ postgresql_system_user: 'postgres'
 postgresql_system_user_password: 'password'
 postgresql_system_user_password_hashed: '$1$2zB3D4a0$oNfxJGHSNRlOzZpj6Cs8W/' # created using python -c 'import crypt; print crypt.crypt("password", "$1$2zB3D4a0Z$")'
 
-postgresql_db_user: 'phpboxdev'
-postgresql_db_password: 'phpboxdev'
+postgresql_db_user: '{{ user_with_sudo_power }}'
+postgresql_db_password: 'password'
 
 
 
