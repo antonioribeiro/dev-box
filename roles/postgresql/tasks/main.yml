@@ -8,6 +8,7 @@
   ignore_errors: true
   tags: 
     - postgresql
+    - phppgadmin
 
 
 - name: Detector | Check if apache2 is installed
@@ -16,6 +17,7 @@
   ignore_errors: true
   tags: 
     - postgresql
+    - phppgadmin
 
 
 ########## Start
@@ -45,6 +47,9 @@
      - libpq-dev
   tags: postgresql
 
+
+### phpPgAdmin
+
 - name: PostgreSQL | phpPgAdmin | Install
   apt: 
     pkg={{ item }} 
@@ -52,16 +57,20 @@
   with_items:
      - phppgadmin
   register: phppgadmin
-  tags: postgresql
+  tags: 
+    - postgresql
+    - phppgadmin
+
 
 - name: PostgreSQL | phpPgAdmin | Delete conf.d virtual host
   file: 
     path={{ apache_config_directory }}/conf.d/phppgadmin
     state=absent
   when: 
-    phppgadmin.changed and 
     apache2.rc == 0 # exists
-  tags: postgresql
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Configure virtual host
@@ -69,36 +78,48 @@
     src=phppgadmin.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
   when: 
-    phppgadmin.changed and 
     apache2.rc == 0 # exists
-  tags: postgresql
+  notify: 
+    - restart apache2
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Enable virtual host
   command: 
     a2ensite phppgadmin
   when: 
-      phppgadmin.changed and 
       apache2.rc == 0 # exists
-  tags: postgresql
+  notify: 
+    - restart apache2
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Disable Extra Login Security
   shell: 
     sed -i "s/\$conf\['extra_login_security'\] \= true\;/\$conf\['extra_login_security'\] \= false\;/g" /usr/share/phppgadmin/conf/config.inc.php
-  tags: postgresql
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Remove PHP end
   shell: 
     sed -i "s/?>//g" /usr/share/phppgadmin/conf/config.inc.php
-  tags: postgresql
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Add error reporting directives
   shell: 
     grep -q -e "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" /usr/share/phppgadmin/conf/config.inc.php || echo "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" >> /usr/share/phppgadmin/conf/config.inc.php
-  tags: postgresql
+  tags: 
+    - postgresql
+    - phppgadmin
 
 
 # - name: PostgreSQL | Initiate database
@@ -112,7 +133,8 @@
     regexp='^#?listen_addresses\s*='
     line="listen_addresses = '*'"
     state=present
-  notify: restart postgresql
+  notify: 
+    - restart postgresql
   tags: postgresql
 
 - name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 2
