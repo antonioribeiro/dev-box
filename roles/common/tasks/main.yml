@@ -84,5 +84,6 @@
     uid={{ system_administrator_uid }} 
     password=$system_administrator_password 
     groups=adm,sudo
+    state=present
   when: system_administrator_name != ""
   tags: common

@@ -52,6 +52,16 @@ alias chgrp='chgrp --preserve-root'
 alias apt-get="sudo apt-get"
 alias updatey="sudo apt-get --yes"
  
+alias ag="sudo apt-get"
+alias agi="sudo apt-get install"
+alias agiy="sudo apt-get --yes install"
+alias agu="sudo apt-get update"
+alias acs="sudo apt-cache search"
+alias ags=acs                          ### little dirty search alias for apt-get
+alias acsh='sudo apt-cache show'
+alias afs='sudo apt-file show'
+alias afl='sudo apt-file list'
+
 # update on one command 
 alias update='sudo apt-get update && sudo apt-get upgrade'
 
