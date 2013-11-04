@@ -1,12 +1,12 @@
 ---
 
-- name: Install squid and related packages
+- name: Squid | Install squid and related packages
   apt: 
     pkg={{ item }} 
     state=latest
   with_items:
      - squid
-     - libkrb53
+     - libkrb5-3
      - ldap-utils
      - krb5-user
      - libsasl2-modules-gssapi-mit
@@ -17,5 +17,61 @@
      - libssl-dev
      - gdb
      - calamaris
-  tags: squid packages
+  tags: squid
 
+
+- name: Squid | Configuration file, squid.conf
+  template: 
+    src=etc.squid.squid.conf.j2
+    dest={{ squid_config_directory }}/squid.conf
+  notify: 
+    - restart squid
+  tags: squid
+
+- name: Squid | Ensure directories exists
+  file: 
+    path={{ squid_config_directory }}/{{ item }} 
+    owner={{ root_username }} 
+    group={{ root_username }} 
+    mode=0755 
+    state=directory
+    recurse=yes
+  with_items:
+    - backups
+    - groups
+    - sites
+  tags: squid
+
+
+- name: Squid | Configuration files
+  template: 
+    src=etc.squid.sites.{{ item }}.txt.j2
+    dest={{ squid_config_directory }}/sites/{{ item }}.txt
+  with_items: 
+    - allowed
+    - blocked
+    - excepted
+    - priority
+  notify: 
+    - restart squid
+  tags: squid
+
+
+- name: Squid | Configuration file, squid.conf
+  template: 
+    src=etc.squid.squid.conf.j2
+    dest={{ squid_config_directory }}/squid.conf
+  notify: 
+    - restart squid
+  tags: squid
+
+- name: Squid | Create/Update proxy-admin.php
+  template: 
+    src=etc.squid.proxy-admin.php.j2
+    dest={{ squid_config_directory }}/proxy-admin.php
+    owner={{ root_username }} 
+    group={{ root_username }} 
+    mode=0755 
+  notify: 
+    - restart squid
+  tags: squid

@@ -253,3 +253,13 @@ phpunit_version: '3.7.*'
 
 docker_executable: '/usr/bin/docker'
 
+
+
+
+########################
+#
+# Squid
+#
+# 
+
+squid_config_directory: '/etc/squid3'

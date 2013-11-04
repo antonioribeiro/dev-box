@@ -1,0 +1,186 @@
+### /etc/squid3/squid.conf Configuration File ####
+
+### squid Debian defaults
+http_port 3128
+hierarchy_stoplist cgi-bin ?
+coredump_dir /var/spool/squid3
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i \.(gif|png|jpg|jpeg|ico)$ 10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern -i \.(iso|avi|wav|mp3|mp4|mpeg|swf|flv|x-flv)$ 43200 90% 432000 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern -i \.(deb|rpm|exe|zip|tar|tgz|ram|rar|bin|ppt|doc|tiff)$ 10080 90% 43200 override-expire ignore-no-cache ignore-no-store ignore-private
+refresh_pattern -i \.index.(html|htm)$ 0 40% 10080
+refresh_pattern -i \.(html|htm|css|js)$ 1440 40% 40320
+refresh_pattern . 0 40% 40320
+
+log_mime_hdrs off
+
+dns_nameservers 10.17.90.14
+dns_nameservers 10.17.90.15
+
+append_domain .alerj.gov.br
+
+cache_mgr squid@alerj.gov.br
+cache_mem 512 MB
+cache_dir ufs /var/spool/squid3 8000 16 256
+cachemgr_passwd disable all
+
+maximum_object_size_in_memory 512 KB
+maximum_object_size 32000 KB
+
+# ### logging
+access_log /var/log/squid3/access.log squid
+
+#ufdbguard
+url_rewrite_program /usr/ufdbguard/bin/ufdbgclient -l /var/log/ufdbguard/
+#url_rewrite_program /etc/scripts/redirector.php -l /var/log/ufdbguard/
+url_rewrite_children 64
+
+### negotiate kerberos and ntlm authentication
+auth_param negotiate program /usr/local/bin/negotiate_wrapper -d --ntlm /usr/bin/ntlm_auth --diagnostics --helper-protocol=squid-2.5-ntlmssp --domain=ALERJ.GOV.BR --kerberos /usr/lib/squid3/squid_kerb_auth -d -s GSS_C_NO_NAME
+auth_param negotiate children 10
+auth_param negotiate keep_alive on
+
+### pure ntlm authentication
+auth_param ntlm program /usr/bin/ntlm_auth --diagnostics --helper-protocol=squid-2.5-ntlmssp --domain=ALERJ.GOV.BR
+auth_param ntlm children 10
+auth_param ntlm keep_alive off
+
+### provide basic authentication via ldap for clients not authenticated via kerberos/ntlm
+#### 3.1 ---> auth_param basic program /usr/lib/squid3/squid_ldap_auth -R -b "dc=alerj,dc=gov,dc=br" -D squid@alerj.gov.br -W /etc/squid3/ldappass.txt -f sAMAccountName=%s -h alv107.alerj.gov.br
+
+auth_param basic program /usr/lib/squid3/basic_ldap_auth -R -b "dc=alerj,dc=gov,dc=br" -D squid@alerj.gov.br -W /etc/squid3/ldappass.txt  -f sAMAccountName=%s alv107.alerj.gov.br
+auth_param basic children 10
+auth_param basic realm Internet Proxy
+auth_param basic credentialsttl 1 minute
+
+### ldap authorisation
+#external_acl_type memberof %LOGIN /usr/lib/squid3/squid_ldap_group -R -K -b "dc=alerj,dc=gov,dc=br" -D squid@alerj.gov.br -W /etc/squid3/ldappass.txt -f "(&(objectclass=person)(sAMAccountName=%v)(memberof=cn=%g,OU=ALERJ,DC=alerj,DC=gov,DC=br))" -h alv107.alerj.gov.br
+#external_acl_type memberof %LOGIN /usr/lib/squid3/squid_ldap_group -R -K -b "OU=SDGI,OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br" -D "CN=uteste,OU=SDGI,OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br" -w trocar -f "(&(objectclass=organizationalPerson)(objectclass=person)(memberof=cn=%g,OU=ALERJ,DC=alerj,DC=gov,DC=br))" -h alv107.alerj.gov.br
+#external_acl_type memberof %LOGIN /usr/lib/squid3/squid_ldap_group -d -R -b "OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br" -f  "(&(objectclass=organizationalPerson)(objectclass=person)(sAMAccountName=%v))" -D "squid@alerj.gov.br" -W /etc/squid3/ldappass.txt alv107.alerj.gov.br
+
+external_acl_type memberof %LOGIN /usr/lib/squid3/ext_ldap_group_acl -d -R -b "OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br" -f  "(&(objectclass=organizationalPerson)(objectclass=person)(distinguishedName="CN=%v,OU=%g,OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br"))" -D "squid@alerj.gov.br" -W /etc/squid3/ldappass.txt alv107.alerj.gov.br
+
+external_acl_type external_proxy_admin %LOGIN %URI %DATA /etc/squid3/proxy-admin.php
+
+acl world dst all
+
+acl localnet-alf src 10.17.0.0/16
+acl localnet-23j src 10.19.0.0/16
+
+acl local-servers dst 127.0.0.1 10.17.90.0/24 10.19.90.0/24 10.17.85.0/24 10.19.85.0/24
+
+no_cache deny local-servers
+
+maximum_object_size 144 MB
+
+##log_fqdn on --- 3.1
+
+visible_hostname alerj.gov.br
+
+uri_whitespace encode
+
+### acl for proxy auth and ldap authorizations
+acl auth proxy_auth REQUIRED
+#   aclname             acltype  typename activedirectorygroup
+acl BlockAccess external memberof "/etc/squid3/groups/BlockAccess.txt"
+acl FullAccess external memberof "/etc/squid3/groups/FullAccess.txt"
+#acl StandardAccess external memberof "/etc/squid3/groups/StandardAccess.txt"
+#acl ExceptionAccess external memberof "/etc/squid3/groups/ExceptionAccess.txt"
+#acl AnonymousAccess external memberof "/etc/squid3/groups/AnonymousAccess.txt"
+
+#proxy admin
+acl ProxyAdmin external external_proxy_admin
+
+#sites
+acl allowedsites dstdomain "/etc/squid3/sites/allowed.txt"
+acl blockedsites dstdomain "/etc/squid3/sites/blocked.txt"
+acl exceptedsites dstdomain "/etc/squid3/sites/excepted.txt"
+acl prioritysites dstdomain "/etc/squid3/sites/priority.txt"
+
+#Facebook
+acl BlockFacebook external memberof "/etc/squid3/groups/BlockFacebook.txt"
+acl AllowFacebook external memberof "/etc/squid3/groups/AllowFacebook.txt"
+acl facebook dstdomain "/etc/squid3/sites/Facebook.txt"
+
+#Youtube
+acl BlockYoutube external memberof "/etc/squid3/groups/BlockYoutube.txt"
+acl AllowYoutube external memberof "/etc/squid3/groups/AllowYoutube.txt"
+acl youtube dstdomain "/etc/squid3/sites/Youtube.txt"
+
+
+### squid defaults
+### 3.1 ---> acl manager proto cache_object
+### 3.1 ---> acl localhost src 127.0.0.1/32 ::1
+### acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80 # http
+acl Safe_ports port 21 # ftp
+acl Safe_ports port 443 # https
+acl Safe_ports port 70 # gopher
+acl Safe_ports port 210 # wais
+acl Safe_ports port 1025-65535 # unregistered ports
+acl Safe_ports port 280 # http-mgmt
+acl Safe_ports port 488 # gss-http
+acl Safe_ports port 591 # filemaker
+acl Safe_ports port 777 # multiling http
+acl CONNECT method CONNECT
+
+http_access allow manager localhost localnet-alf localnet-23j
+http_access deny manager
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localhost
+
+#enforce authentication
+http_access deny !auth
+
+#proxy admin
+http_access allow ProxyAdmin
+
+always_direct allow local-servers
+
+#never block those sites
+url_rewrite_access deny prioritysites
+
+#those groups have full access
+url_rewrite_access deny FullAccess
+
+## Check if user is allowed by proxy admin 
+url_rewrite_access deny ProxyAdmin
+
+# if not explicitly blocked, allow those sites
+url_rewrite_access deny facebook AllowFacebook
+url_rewrite_access deny youtube AllowYoutube
+
+#deny all access to these groups
+http_access deny BlockAccess
+
+# default is to allow everything
+http_access allow all
+
+
+debug_options 0,2 1,3 3,3 4,2 9,1 11,3 12,3 14,3 16,3 17,3 18,3 20,2 22,3 23,3 25,3 27,2 28,3 30,2 31,3 33,3 34,2 35,3 37,3 38,2 39,2 40,3 41,2 42,2 43,2 45,2 46,3 48,3 50,2 51,2 52,3 54,2 55,3 56,3 57,3 58,3 61,3 62,2 64,3 65,3 66,3 67,2 68,2 69,2 70,2 71,2 73,3 74,3 75,2 76,2 78,2 79,2 81,2 84,2 85,3 87,3 88,3 89,2 90,3 92,2 93,4
+debug_options 28,3 61,5
+
+deny_info http://proxy.alerj.gov.br/forbidden.php all
+deny_info 307:http://proxy.alerj.gov.br/forbidden.php all
+
+
+# additional port for transparent proxy
+http_port 3127 transparent
+
+# WCCP Router IP
+wccp2_router 10.200.1.9
+
+# forwarding 1=gre 2=l2
+wccp2_forwarding_method 1
+
+# GRE return method gre|l2
+wccp2_return_method gre
+
+# Assignment method hash|mask
+wccp2_assignment_method hash
+
+# standard web cache, no auth
+wccp2_service standard 0

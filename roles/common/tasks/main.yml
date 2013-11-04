@@ -5,6 +5,7 @@
   apt: pkg={{ item }} state=latest
   with_items:
      - alien
+     - acl
      - apt-file
      - atop
      - build-essential
