@@ -1,0 +1,87 @@
+#!/usr/bin/env php
+
+<?php
+
+$logFile = '/tmp/squid2.log';
+
+file_put_contents ( $logFile , "started\n- ", FILE_APPEND );
+
+if (! defined("STDIN")) {
+        define("STDIN", fopen("php://stdin", "r"));
+}
+
+while (!feof(STDIN)) {
+    $line = trim(fgets(STDIN));
+    $result = "ALLOW";
+
+    if (! empty($line))
+    {
+        $fields = explode(' ', $line);
+        $username = rawurldecode($fields[0]);
+        $url = cleanUrl(rawurldecode($fields[1]));
+
+        if ( ! empty($username) && ! empty($url))
+        {
+            $proxyAdmin = "http://10.17.12.250/proxyAdmin/check/$username/$url";
+            $result = getResult($proxyAdmin);
+        }
+    }
+
+    if ($result == 'ALLOW') 
+    {
+        $result = 'OK';
+    } 
+    else
+    if ($result == 'DENY') 
+    {
+        $result = 'ERR';
+    }
+    else
+    if ($result == 'UNDEFINED') 
+    {
+        $result = 'OK';
+    }
+
+    file_put_contents ( $logFile , "\n$username - $url - $result", FILE_APPEND );
+    fwrite(STDOUT, "$result\n");
+}
+
+function cleanURL($url)
+{
+
+    // in case scheme relative URI is passed, e.g., //www.google.com/
+    $url = trim($url, '/');
+
+    // If scheme not included, prepend it
+    if (!preg_match('#^http(s)?://#', $url)) {
+        $url = 'http://' . $url;
+    }
+
+    $urlParts = parse_url($url);
+
+    // remove www
+    $domain = preg_replace('/^www\./', '', $urlParts['host']);
+
+    return $domain;
+
+}
+
+function getResult($url)
+{
+    //  Initiate curl
+    $ch = curl_init();
+
+    // Disable SSL verification
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    // Will return the response, if false it print the response
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Set the url
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    // Execute
+    $result=curl_exec($ch);
+
+    return $result;
+}
