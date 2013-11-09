@@ -96,3 +96,7 @@ alias gdc='git diff --cached'
 alias gpom='git push origin master'
 alias gr='git remote'
 alias gs='git status'
+
+#phpunit
+
+alias t=phpunit
