@@ -65,6 +65,7 @@
      - php5-xdebug
      - php5-xmlrpc
      - php5-fpm
+     - php5-sqlite
      - php5-json
      - php5-readline
      - libmagickwand-dev
