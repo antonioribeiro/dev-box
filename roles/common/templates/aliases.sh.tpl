@@ -99,4 +99,4 @@ alias gs='git status'
 
 #phpunit
 
-alias t=phpunit
+alias t="clear; phpunit"
