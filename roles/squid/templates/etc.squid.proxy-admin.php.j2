@@ -13,18 +13,21 @@ if (! defined("STDIN")) {
 while (!feof(STDIN)) {
     $line = trim(fgets(STDIN));
     $result = "ALLOW";
+    $username = "";
+    $url = "";
 
     if (! empty($line))
     {
         $fields = explode(' ', $line);
         $username = rawurldecode($fields[0]);
         $url = cleanUrl(rawurldecode($fields[1]));
-
         if ( ! empty($username) && ! empty($url))
         {
             $proxyAdmin = "http://10.17.12.250/proxyAdmin/check/$username/$url";
             $result = getResult($proxyAdmin);
         }
+
+        exec("logger \"squid3 - ProxyAdmin - $username - $url - $result\"");
     }
 
     if ($result == 'ALLOW') 
@@ -42,7 +45,6 @@ while (!feof(STDIN)) {
         $result = 'OK';
     }
 
-    file_put_contents ( $logFile , "\n$username - $url - $result", FILE_APPEND );
     fwrite(STDOUT, "$result\n");
 }
 

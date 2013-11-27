@@ -61,7 +61,7 @@ auth_param basic credentialsttl 1 minute
 
 external_acl_type memberof %LOGIN /usr/lib/squid3/ext_ldap_group_acl -d -R -b "OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br" -f  "(&(objectclass=organizationalPerson)(objectclass=person)(distinguishedName="CN=%v,OU=%g,OU=Departamentos,OU=ALERJ,DC=alerj,DC=gov,DC=br"))" -D "squid@alerj.gov.br" -W /etc/squid3/ldappass.txt alv107.alerj.gov.br
 
-external_acl_type external_proxy_admin %LOGIN %URI %DATA /etc/squid3/proxy-admin.php
+external_acl_type external_proxy_admin ttl=10 negative_ttl=10 %LOGIN %URI %DATA /etc/squid3/proxy-admin.php
 
 acl world dst all
 

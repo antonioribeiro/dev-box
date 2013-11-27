@@ -97,6 +97,11 @@ alias gpom='git push origin master'
 alias gr='git remote'
 alias gs='git status'
 
-#phpunit
+# phpunit
 
 alias t="clear; phpunit"
+
+# restart service
+
+function restart() { sudo service "$@" restart ;}
+function reload() { sudo service "$@" reload ;}
