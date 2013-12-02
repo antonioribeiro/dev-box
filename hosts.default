@@ -205,3 +205,14 @@ devbox
 # devbox
 # 
 # 
+
+
+
+#########################
+#
+# BFGMiner
+#
+#
+# 
+# [bfgminer:children]
+# devbox

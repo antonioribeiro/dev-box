@@ -213,3 +213,12 @@
   handlers:
     - name: restart squid
       service: name=squid3 state=restarted
+
+########################################################################################
+
+- name: install bfgminer
+  hosts: bfgminer
+  sudo: yes
+
+  roles:
+    - bfgminer
