@@ -216,3 +216,14 @@ devbox
 # 
 # [bfgminer:children]
 # devbox
+
+
+
+#########################
+#
+# XHGui
+#
+#
+# 
+# [xhgui:children]
+# devbox

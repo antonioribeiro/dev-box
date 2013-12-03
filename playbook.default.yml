@@ -222,3 +222,12 @@
 
   roles:
     - bfgminer
+
+########################################################################################
+
+- name: install xhgui
+  hosts: xhgui
+  sudo: yes
+
+  roles:
+    - xhgui

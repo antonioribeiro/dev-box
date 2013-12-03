@@ -1,0 +1,33 @@
+---
+- name: XHGui | clone XHGui
+  git: repo=https://github.com/preinheimer/xhprof.git dest=/data/xhgui
+  tags: xhgui
+
+- name: XHGui | copy config.php
+  copy: src=xhgui/config.php dest=/data/xhgui/xhprof_lib/ mode=0644
+  tags: xhgui
+
+- name: XHGui | Create XHGUI Database
+  mysql_db: name=xhgui state=present collation=utf8_general_ci
+  tags: xhgui
+
+- name: XHGui | Create XHGUI DB User
+  mysql_user: name=xhgui password=xhgui priv=xhgui.*:ALL host=localhost state=present
+  tags: xhgui
+
+- name: XHGui | Provision XHGUI DB (copy dump file)
+  copy: src=mysql/details.sql dest=/tmp/development.sql
+  tags: xhgui
+
+- name: XHGui | Provision XHGUI DB (import dump file)
+  shell: cat /tmp/development.sql | mysql -u xhgui -pxhgui xhgui
+  tags: xhgui
+
+- name: XHGui | copy Apache vhost config
+  copy: src=apache2/vhosts/xhgui.conf dest=/etc/apache2/sites-available/xhgui.conf
+  tags: xhgui
+
+- name: XHGui | enable vhost
+  shell: a2ensite xhgui.conf
+  notify: restart apache
+  tags: xhgui
