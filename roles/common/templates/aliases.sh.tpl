@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export MY_EDITOR=joe
+export MY_EDITOR=vim
 export TERM=linux                 
 export HISTFILESIZE=50000         
 
@@ -226,4 +226,9 @@ alias cls='clear'
 alias dir='l'
 alias move='mv'
 alias locate='locate -i'
-alias ed='$MY_EDITOR'
+
+if [ "$EDITOR" == "" ]; then
+  alias ed='$MY_EDITOR'
+else
+  alias ed='$EDITOR'
+fi
