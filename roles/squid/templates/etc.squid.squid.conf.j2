@@ -126,6 +126,8 @@ acl Safe_ports port 591 # filemaker
 acl Safe_ports port 777 # multiling http
 acl CONNECT method CONNECT
 
+http_access deny to_ipv6 !all
+
 http_access allow manager localhost localnet-alf localnet-23j
 http_access deny manager
 http_access deny !Safe_ports
@@ -159,9 +161,10 @@ http_access deny BlockAccess
 # default is to allow everything
 http_access allow all
 
+debug_options ALL, 9
 
-debug_options 0,2 1,3 3,3 4,2 9,1 11,3 12,3 14,3 16,3 17,3 18,3 20,2 22,3 23,3 25,3 27,2 28,3 30,2 31,3 33,3 34,2 35,3 37,3 38,2 39,2 40,3 41,2 42,2 43,2 45,2 46,3 48,3 50,2 51,2 52,3 54,2 55,3 56,3 57,3 58,3 61,3 62,2 64,3 65,3 66,3 67,2 68,2 69,2 70,2 71,2 73,3 74,3 75,2 76,2 78,2 79,2 81,2 84,2 85,3 87,3 88,3 89,2 90,3 92,2 93,4
-debug_options 28,3 61,5
+#debug_options 0,2 1,3 3,3 4,2 9,1 11,3 12,3 14,3 16,3 17,3 18,3 20,2 22,3 23,3 25,3 27,2 28,3 30,2 31,3 33,3 34,2 35,3 37,3 38,2 39,2 40,3 41,2 42,2 43,2 45,2 46,3 48,3 50,2 51,2 52,3 54,2 55,3 56,3 57,3 58,3 61,3 62,2 64,3 65,3 66,3 67,2 68,2 69,2 70,2 71,2 73,3 74,3 75,2 76,2 78,2 79,2 81,2 84,2 85,3 87,3 88,3 89,2 90,3 92,2 93,4
+#debug_options 28,3 61,5
 
 deny_info http://proxy.alerj.gov.br/forbidden.php all
 deny_info 307:http://proxy.alerj.gov.br/forbidden.php all
@@ -174,10 +177,10 @@ http_port 3127 transparent
 wccp2_router 10.200.1.9
 
 # forwarding 1=gre 2=l2
-wccp2_forwarding_method 1
+wccp2_forwarding_method 2
 
 # GRE return method gre|l2
-wccp2_return_method gre
+wccp2_return_method l2
 
 # Assignment method hash|mask
 wccp2_assignment_method hash

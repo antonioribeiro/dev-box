@@ -9,7 +9,6 @@ server_hostname: '{{ ansible_hostname }}'
 
 root_username: 'root' # don't touch this, unless you really have a different name for it
 
-
 #######################
 #
 #  Workstation
@@ -45,6 +44,8 @@ postgresql_db_password: 'password'
 #
 
 php_version: '5.5'
+
+etc_path: '/etc' # general configuration folder
 
 scripts_path: '/etc/scripts' # general scripts folder
 

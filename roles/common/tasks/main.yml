@@ -77,6 +77,13 @@
     mode=755
   tags: common
 
+- name: create sysctl.conf file
+  template: 
+    src=sysctl.conf.j2 
+    dest=/etc/sysctl.conf
+    mode=755
+  tags: common
+
 - name: create administrator user
   user: 
     name={{ system_administrator_name }} 
