@@ -12,6 +12,29 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 
+# phpunit
+
+alias t="clear; phpunit"
+
+# git
+
+alias ga='git add'
+alias gaa='git add -A'
+alias gb='git branch'
+alias gc='git commit -m '
+alias gca='git commit -a'
+alias gcam='git commit -a -m'
+alias gce='git commit -e'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gpom='git push origin master'
+alias gr='git remote'
+alias gs='git status'
+
+# date and time
+
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T'
 alias nowtime=now
@@ -38,22 +61,21 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
-# distro specific  - Debian / Ubuntu and friends #
-# install with apt-get
+## Distro specific
+
+# Debian / Ubuntu
+
 alias apt-get="sudo apt-get"
 alias updatey="sudo apt-get --yes"
- 
 alias ag="sudo apt-get"
 alias agi="sudo apt-get install"
 alias agiy="sudo apt-get --yes install"
 alias agu="sudo apt-get update"
 alias acs="sudo apt-cache search"
-alias ags=acs                          ### little dirty search alias for apt-get
+alias ags=acs                          # sometimes apt-get search is just easier to remember :)
 alias acsh='sudo apt-cache show'
 alias afs='sudo apt-file show'
 alias afl='sudo apt-file list'
-
-# update on one command 
 alias upgrade='sudo apt-get update && sudo apt-get upgrade'
 
 # reboot / halt / poweroff
@@ -71,26 +93,6 @@ alias du='du -ch'
 
 # top is atop, just like vi is vim
 #alias top='atop'
-
-# git
-alias ga='git add'
-alias gaa='git add -A'
-alias gb='git branch'
-alias gc='git commit -m '
-alias gca='git commit -a'
-alias gcam='git commit -a -m'
-alias gce='git commit -e'
-alias gcm='git commit -m'
-alias gco='git checkout'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gpom='git push origin master'
-alias gr='git remote'
-alias gs='git status'
-
-# phpunit
-
-alias t="clear; phpunit"
 
 # restart service
 
