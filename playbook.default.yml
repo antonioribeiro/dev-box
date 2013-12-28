@@ -1,9 +1,5 @@
 ---
 
-#### Todo:
-# http://git-legit.org/
-#
-
 #### Running
 #
 #    ansible-playbook --inventory-file=/var/www/ansible-laravel/hosts /var/www/ansible-laravel/playbook.yml -K
