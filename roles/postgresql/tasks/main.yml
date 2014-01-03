@@ -37,12 +37,9 @@
     state=latest
   with_items:
      - postgresql-{{ postgresql_version }}
-     - postgresql-doc-{{ postgresql_version }}
      - postgresql-client-{{ postgresql_version }}
      - postgresql-{{ postgresql_version }}-pgmemcache
      - python-psycopg2
-     - postgresql-doc
-     - slony1-2-bin
      - php5-pgsql
      - libpq-dev
   tags: postgresql
