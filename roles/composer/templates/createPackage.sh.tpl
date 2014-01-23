@@ -1,5 +1,11 @@
 #!/bin/bash
 
+DEFAULT_VENDOR_NAME=pragmarx
+DEFAULT_SKELETON_NAME=skeleton
+DEFAULT_GITHUB_USER=antonioribeiro
+DEFAULT_SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
+DEFAULT_VCS_SERVICE=github.com
+
 function main() {
     clear
 
@@ -17,10 +23,15 @@ function createPackage()
 {
     git clone $SKELETON_REPOSITORY $DESTINATION_FOLDER
 
-    searchAndReplace $DESTINATION_FOLDER $SKELETON_NAME         $PACKAGE_NAME
-    searchAndReplace $DESTINATION_FOLDER $SKELETON_NAME_CAPITAL $PACKAGE_NAME_CAPITAL
-    searchAndReplace $DESTINATION_FOLDER $VENDOR_NAME           $SKELETON_VENDOR_NAME
-    searchAndReplace $DESTINATION_FOLDER $VENDOR_NAME_CAPITAL   $SKELETON_VENDOR_NAME_CAPITAL
+    searchAndReplace $DESTINATION_FOLDER $SKELETON_NAME                 $PACKAGE_NAME
+    searchAndReplace $DESTINATION_FOLDER $SKELETON_NAME_CAPITAL         $PACKAGE_NAME_CAPITAL
+    searchAndReplace $DESTINATION_FOLDER $SKELETON_VENDOR_NAME          $VENDOR_NAME           
+    searchAndReplace $DESTINATION_FOLDER $SKELETON_VENDOR_NAME_CAPITAL  $VENDOR_NAME_CAPITAL   
+
+    renameAll $DESTINATION_FOLDER $SKELETON_NAME                 $PACKAGE_NAME
+    renameAll $DESTINATION_FOLDER $SKELETON_NAME_CAPITAL         $PACKAGE_NAME_CAPITAL
+    renameAll $DESTINATION_FOLDER $SKELETON_VENDOR_NAME          $VENDOR_NAME           
+    renameAll $DESTINATION_FOLDER $SKELETON_VENDOR_NAME_CAPITAL  $VENDOR_NAME_CAPITAL   
 
     mv $DESTINATION_FOLDER/src/$SKELETON_NAME_CAPITAL.php $DESTINATION_FOLDER/src/$PACKAGE_NAME_CAPITAL.php
     rm -rf $DESTINATION_FOLDER/.git/
@@ -42,9 +53,9 @@ function createPackage()
 
 function askForData()
 {
-    export DESTINATION_FOLDER=/var/www/\<name\>
+    DESTINATION_FOLDER=/var/www/\<name\>
     inquireText "Package destination folder:" $DESTINATION_FOLDER
-    export DESTINATION_FOLDER=$answer
+    DESTINATION_FOLDER=$answer
 
     if [[ -d $DESTINATION_FOLDER ]]; then
         message
@@ -55,51 +66,98 @@ function askForData()
 
     message 
 
-    export VENDOR_NAME=pragmarx
+    VENDOR_NAME=`echo $DEFAULT_VENDOR_NAME | awk '{print tolower($0)}'`
     inquireText "Vendor name (lowercase):" $VENDOR_NAME
-    export VENDOR_NAME=$answer
+    VENDOR_NAME=$answer
 
-    export VENDOR_NAME_CAPITAL=${VENDOR_NAME^}
+    VENDOR_NAME_CAPITAL=${VENDOR_NAME^}
     inquireText "Vendor name (Capitalized):" $VENDOR_NAME_CAPITAL
-    export VENDOR_NAME_CAPITAL=$answer
+    VENDOR_NAME_CAPITAL=$answer
 
     message 
 
-    export PACKAGE_REPOSITORY=
-    inquireText "Your new package repository link (create a package first or leave it blank):" $PACKAGE_REPOSITORY
-    export PACKAGE_REPOSITORY=$answer
-
-    export PACKAGE_NAME=$(basename $DESTINATION_FOLDER)
+    PACKAGE_NAME=`echo $(basename $DESTINATION_FOLDER) | awk '{print tolower($0)}'`
     inquireText "Your new package name (lowercase):" $PACKAGE_NAME
-    export PACKAGE_NAME=$answer
+    PACKAGE_NAME=$answer
 
-    export PACKAGE_NAME_CAPITAL=${PACKAGE_NAME^}
+    PACKAGE_NAME_CAPITAL=${PACKAGE_NAME^}
     inquireText "Your new package name (Capitalized):" $PACKAGE_NAME_CAPITAL
-    export PACKAGE_NAME_CAPITAL=$answer
+    PACKAGE_NAME_CAPITAL=$answer
+
+    PACKAGE_REPOSITORY=https://$DEFAULT_VCS_SERVICE/$VENDOR_NAME/$PACKAGE_NAME.git
+    inquireText "Your new package repository link (create a package first or leave it blank):" $PACKAGE_REPOSITORY
+    PACKAGE_REPOSITORY=$answer
 
     message 
 
-    export SKELETON_VENDOR_NAME=$VENDOR_NAME
+    SKELETON_VENDOR_NAME=`echo $VENDOR_NAME | awk '{print tolower($0)}'`
     inquireText "Skeleton Vendor name (lowercase):" $SKELETON_VENDOR_NAME
-    export SKELETON_VENDOR_NAME=$answer
+    SKELETON_VENDOR_NAME=$answer
 
-    export SKELETON_VENDOR_NAME_CAPITAL=$VENDOR_NAME_CAPITAL
+    SKELETON_VENDOR_NAME_CAPITAL=${SKELETON_VENDOR_NAME^}
     inquireText "Skeleton Vendor name (Capitalized):" $SKELETON_VENDOR_NAME_CAPITAL
-    export SKELETON_VENDOR_NAME_CAPITAL=$answer
+    SKELETON_VENDOR_NAME_CAPITAL=$answer
 
     message 
 
-    export SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
+    SKELETON_NAME=`echo $(basename $DEFAULT_SKELETON_NAME) | awk '{print tolower($0)}'`
+    inquireText "Skeleton package name (lowercase):" $SKELETON_NAME
+    SKELETON_NAME=$answer
+
+    SKELETON_NAME_CAPITAL=${SKELETON_NAME^}
+    inquireText "Skeleton package name (Capitalized):" $SKELETON_NAME_CAPITAL
+    SKELETON_NAME_CAPITAL=$answer
+
+    if [[ "$DEFAULT_SKELETON_REPOSITORY" != "" ]]
+        SKELETON_REPOSITORY=$DEFAULT_SKELETON_REPOSITORY
+    else
+        SKELETON_REPOSITORY=https://$DEFAULT_VCS_SERVICE/$SKELETON_VENDOR_NAME/$SKELETON_NAME.git
+    fi
     inquireText "Skeleton repository link:" $SKELETON_REPOSITORY
-    export SKELETON_REPOSITORY=$answer
+    SKELETON_REPOSITORY=$answer
+}
 
-    export SKELETON_NAME=skeleton
-    inquireText "Skeleton name (lowercase):" $SKELETON_NAME
-    export SKELETON_NAME=$answer
+function renameAll()
+{
+    renameFiles $1 $2 $3
 
-    export SKELETON_NAME_CAPITAL=${SKELETON_NAME^}
-    inquireText "Skeleton name (Capitalized):" $SKELETON_NAME_CAPITAL
-    export SKELETON_NAME_CAPITAL=$answer
+    renameDirectories $1 $2 $3
+}
+
+function renameFiles()
+{
+    FOLDER=$1
+    OLD=$2
+    NEW=$3
+
+    find $FOLDER -type f -print0 | while IFS= read -r -d $'\0' file; do
+        dir=$(dirname $file)
+        filename=$(basename $file)
+        new=$dir/$(echo $filename | sed -e "s/$OLD/$NEW/g")
+
+        if [[ "$file" != "$new" ]]; then
+            if [ -f $file ]; then
+                mv $file $new
+            fi
+        fi
+    done    
+}
+
+function renameDirectories()
+{
+    FOLDER=$1
+    OLD=$2
+    NEW=$3
+
+    find $FOLDER -type d -print0 | while IFS= read -r -d $'\0' file; do
+        new=$(echo $file | sed -e "s/$OLD/$NEW/g")
+
+        if [[ "$file" != "$new" ]]; then
+            if [ -d $file ]; then
+                mv $file $new
+            fi
+        fi
+    done    
 }
 
 function inquireText()  {
@@ -121,7 +179,7 @@ function displayInstructions()
 {
     echo
     echo
-    echo "Now open one of your applications composer.json and add to it:"
+    echo "Now open one of your applications composer.json and add those items to their proper sections:"
     echo 
     echo "\"require\": {"
     echo "    \"$VENDOR_NAME/$PACKAGE_NAME\": \"dev-master\","
