@@ -208,7 +208,7 @@ function displayInstructions()
     echo 
     echo "If this is a Laravel project, don't forget to add a ServiceProvider in your app/config/app.php too, something like:"
     echo 
-    echo "    \'$VENDOR_NAME_CAPITAL\$PACKAGE_NAME_CAPITAL\Vendor\Laravel\ServiceProvider\'",
+    echo "    '$VENDOR_NAME_CAPITAL\\$PACKAGE_NAME_CAPITAL\\Vendor\\Laravel\\ServiceProvider'",
     echo 
     echo 
 }
