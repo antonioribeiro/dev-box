@@ -1,10 +1,14 @@
 #!/bin/bash
 
-DEFAULT_VENDOR_NAME=pragmarx
-DEFAULT_SKELETON_NAME=skeleton
-DEFAULT_GITHUB_USER=antonioribeiro
-DEFAULT_SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
+DEFAULT_VCS_USER=antonioribeiro
+
 DEFAULT_VCS_SERVICE=github.com
+
+DEFAULT_VENDOR_NAME=pragmarx
+
+DEFAULT_SKELETON_NAME=skeleton
+
+DEFAULT_SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
 
 function main() {
     clear
@@ -84,7 +88,12 @@ function askForData()
     inquireText "Your new package name (Capitalized):" $PACKAGE_NAME_CAPITAL
     PACKAGE_NAME_CAPITAL=$answer
 
-    PACKAGE_REPOSITORY=https://$DEFAULT_VCS_SERVICE/$VENDOR_NAME/$PACKAGE_NAME.git
+    if [[ "$DEFAULT_VCS_USER" != "" ]]; then
+        VCS_USER=$DEFAULT_VCS_USER
+    else
+        VCS_USER=$VENDOR_NAME
+    fi
+    PACKAGE_REPOSITORY=https://$DEFAULT_VCS_SERVICE/$VCS_USER/$PACKAGE_NAME.git
     inquireText "Your new package repository link (create a package first or leave it blank):" $PACKAGE_REPOSITORY
     PACKAGE_REPOSITORY=$answer
 
@@ -108,7 +117,7 @@ function askForData()
     inquireText "Skeleton package name (Capitalized):" $SKELETON_NAME_CAPITAL
     SKELETON_NAME_CAPITAL=$answer
 
-    if [[ "$DEFAULT_SKELETON_REPOSITORY" != "" ]]
+    if [[ "$DEFAULT_SKELETON_REPOSITORY" != "" ]]; then
         SKELETON_REPOSITORY=$DEFAULT_SKELETON_REPOSITORY
     else
         SKELETON_REPOSITORY=https://$DEFAULT_VCS_SERVICE/$SKELETON_VENDOR_NAME/$SKELETON_NAME.git
