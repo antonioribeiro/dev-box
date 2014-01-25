@@ -1,14 +1,12 @@
 #!/bin/bash
 
-DEFAULT_VCS_USER=antonioribeiro
-
-DEFAULT_VCS_SERVICE=github.com
-
-DEFAULT_VENDOR_NAME=pragmarx
-
-DEFAULT_SKELETON_NAME=skeleton
-
-DEFAULT_SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
+# Export those variables in your .bashrc to ease the deployment of new packages
+# 
+# export DEFAULT_VCS_USER=antonioribeiro
+# export DEFAULT_VCS_SERVICE=github.com
+# export DEFAULT_VENDOR_NAME=pragmarx
+# export DEFAULT_SKELETON_NAME=skeleton
+# export DEFAULT_SKELETON_REPOSITORY=https://github.com/antonioribeiro/skeleton.git
 
 function main() {
     clear
