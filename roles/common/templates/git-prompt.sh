@@ -41,3 +41,4 @@ export PS1="$PS1\[\$(git_color)\]"      # colors git status
 export PS1="$PS1\$(git_branch) "         # prints current branch
 export PS1="$PS1\[$YELLOW\]\$\[$RESET\] "  # '#' for root, else '$'
 export PS1="\n\\u@\h:\$PWD$PS1"
+
