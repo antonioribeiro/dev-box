@@ -229,3 +229,19 @@ if [ "$EDITOR" == "" ]; then
 else
   alias ed='$EDITOR'
 fi
+
+# Check PHP For Errors
+alias phpcheck='find ./ -name \*.php | xargs -n 1 php -l'
+
+#chmod train
+alias mx='sudo chmod a+x'
+alias 000='sudo chmod 000'
+alias 400='sudo chmod 400'
+alias 644='sudo chmod 644'
+alias 755='sudo chmod 755'
+
+#List only directories
+alias lsd='ls -l | grep "^d"'
+
+#Show all IPs
+alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
