@@ -42,7 +42,20 @@ function main() {
 	installAptPackages packages
 
 	message "Cloning antonioribeiro/ansible repository"
-	sudo git clone https://github.com/antonioribeiro/ansible.git $SCRIPT_PATH 2>&1 | tee -a $LOG_FILE &> /dev/null
+	sudo git clone ./roles/laravel/templates/laravel-nginx-location-block-conf.tpl
+./roles/laravel/templates/laravel-apache-virtualhost.conf.tpl
+./roles/laravel/templates/laravel-nginx-server-block-conf.tpl
+./roles/phpunit/templates/composer.json.tpl
+./roles/nginx/templates/etc-nginx-conf-expires.conf.tpl
+./roles/beanstalkd/templates/apache2-virtualhost.tpl
+./roles/beanstalkd/templates/config.php.tpl
+./roles/beanstalkd/templates/nginx-virtualhost.tpl
+./roles/supervisor/templates/laravel.conf.tpl
+./roles/postgresql/templates/phppgadmin.conf.tpl
+./roles/common/templates/aliases.sh.tpl
+./roles/phpmyadmin/templates/phpmyadmin-nginx-virtualhost.conf.tpl
+./roles/phpmyadmin/templates/phpmyadmin-apache2-virtualhost.conf.tpl
+https://github.com/antonioribeiro/dev-box.git $SCRIPT_PATH 2>&1 | tee -a $LOG_FILE &> /dev/null
 	sudo cp $SCRIPT_PATH/hosts.default $SCRIPT_PATH/hosts
 	sudo cp $SCRIPT_PATH/playbook.default.yml $SCRIPT_PATH/playbook.yml
 	sudo cp $SCRIPT_PATH/group_vars/default-all $SCRIPT_PATH/group_vars/all

@@ -1,4 +1,17 @@
-[Development Box](https://github.com/antonioribeiro/ansible)
+./roles/laravel/templates/laravel-nginx-location-block-conf.tpl
+./roles/laravel/templates/laravel-apache-virtualhost.conf.tpl
+./roles/laravel/templates/laravel-nginx-server-block-conf.tpl
+./roles/phpunit/templates/composer.json.tpl
+./roles/nginx/templates/etc-nginx-conf-expires.conf.tpl
+./roles/beanstalkd/templates/apache2-virtualhost.tpl
+./roles/beanstalkd/templates/config.php.tpl
+./roles/beanstalkd/templates/nginx-virtualhost.tpl
+./roles/supervisor/templates/laravel.conf.tpl
+./roles/postgresql/templates/phppgadmin.conf.tpl
+./roles/common/templates/aliases.sh.tpl
+./roles/phpmyadmin/templates/phpmyadmin-nginx-virtualhost.conf.tpl
+./roles/phpmyadmin/templates/phpmyadmin-apache2-virtualhost.conf.tpl
+[Development Box](https://github.com/antonioribeiro/dev-box)
 ============================================================
 
 
@@ -22,6 +35,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * Postgres + phpPgAdmin
 * MySQL + phpMyAdmin
 * [Beanstalkd](http://kr.github.io/beanstalkd/) + [Beanstalkd Console](https://github.com/ptrofimov/beanstalk_console)
+* [Supervisor](http://supervisord.org/) ** [docs]
 * [NodeJS](http://nodejs.org/)
 * [Grunt](http://gruntjs.com/)
 * [Fabric](http://fabfile.org/)
