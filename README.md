@@ -2,7 +2,7 @@
 ============================================================
 
 
-An [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Playbook to provision an Ubuntu  Development Box.
+An Ubuntu Development Box Provisioner in [Ansible](http://www.ansibleworks.com/docs/intro_installation.html).
 ----------------------------------------------------------------------------------
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
