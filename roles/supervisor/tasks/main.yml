@@ -1,0 +1,23 @@
+---
+
+##### Start
+
+- name: Supervisor | Install
+  apt: pkg={{ item }} state=latest
+  with_items:
+     - supervisor
+  tags: 
+    - supervisor
+
+
+- name: Supervisor | Create first server on config.php
+  template: 
+    src=laravel.conf
+    dest={{ etc_path }}/supervisor/conf.d/laravel.conf
+  tags: supervisor
+
+
+- name: Supervisor | Start
+  service: name=supervisor state=started
+  tags: supervisor
+

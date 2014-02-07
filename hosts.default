@@ -164,6 +164,17 @@ devbox
 
 #########################
 #
+# Supervisor
+#
+#
+
+[supervisor:children]
+devbox
+
+
+
+#########################
+#
 # Grunt
 #
 #
