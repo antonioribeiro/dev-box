@@ -38,5 +38,5 @@ supervisor> start laravel
 But if you run it now it should say
 
 ```
-already started
+laravel: ERROR (already started)
 ```
