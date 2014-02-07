@@ -12,7 +12,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 
 * PHP (5.5 or 5.4)
 * [Composer](http://getcomposer.org/)
-* [Laravel](http://laravel.com/) (available at http://<your-box>/laravel)
+* [Laravel](http://laravel.com/) (available at `http://<your-box>/laravel`)
 * [Artisan Anywhere](https://github.com/antonioribeiro/artisan-anywhere)
 * [PHPUnit](https://github.com/sebastianbergmann/phpunit)
 * [XDebug](http://xdebug.org/)
