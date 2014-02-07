@@ -62,6 +62,11 @@
   tags: beanstalkd
 
 
+- name: Beanstalkd | Set to start on boot
+  command: sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+  tags: beanstalkd
+
+
 - name: Beanstalkd | Set directory permissions
   file: 
     path={{ webserver_document_root }}/beanstalk_console/ 
