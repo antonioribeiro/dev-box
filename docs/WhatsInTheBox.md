@@ -84,6 +84,8 @@ Working on
 - NGINX
 - Apache 2
 
+### Supervisor 
+
 
 ### Linux
 
