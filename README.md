@@ -2,7 +2,7 @@
 ============================================================
 
 
-An [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Playbook to deploy an Ubuntu Based Development System.
+An [Ansible](http://www.ansibleworks.com/docs/intro_installation.html) Playbook to provision an Ubuntu  Development Box.
 ----------------------------------------------------------------------------------
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
