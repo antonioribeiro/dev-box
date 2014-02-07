@@ -22,7 +22,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * Postgres + phpPgAdmin
 * MySQL + phpMyAdmin
 * [Beanstalkd](http://kr.github.io/beanstalkd/) + [Beanstalkd Console](https://github.com/ptrofimov/beanstalk_console)
-* [Supervisor](http://supervisord.org/) ** [docs](/docs/apps/supervisor.md)
+* [Supervisor](http://supervisord.org/) ([supervisor docs](/docs/apps/supervisor.md))
 * [NodeJS](http://nodejs.org/)
 * [Grunt](http://gruntjs.com/)
 * [Fabric](http://fabfile.org/)
