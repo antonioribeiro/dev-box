@@ -1,4 +1,4 @@
-[Development Box](https://github.com/antonioribeiro/dev-box)
+[dev-box](https://github.com/antonioribeiro/dev-box)
 ============================================================
 
 
