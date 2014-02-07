@@ -51,6 +51,7 @@
     restart nginx
   when: 
     nginx.rc == 0 # exists
+  ignore_errors: True    
   tags: 
     - beanstalkd
 
