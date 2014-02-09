@@ -245,3 +245,12 @@ alias lsd='ls -l | grep "^d"'
 
 #Show all IPs
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
+
+#composer aliases
+alias cda="composer dump-autoload"
+alias cdo="composer dump-autoload --optimize"
+alias cu="composer update"
+alias cus="composer update --prefer-source"
+alias cud="composer update --prefer-dist"
+alias csu="sudo composer self-update"
+alias cr="composer require"
