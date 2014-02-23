@@ -65,6 +65,17 @@ devbox
 
 #########################
 #
+# PHPSpec
+#
+#
+
+[phpspec:children]
+devbox
+
+
+
+#########################
+#
 # Apache 2
 #
 #

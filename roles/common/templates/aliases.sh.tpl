@@ -12,7 +12,7 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 
-# phpunit
+# PHPUnit
 
 alias t="clear; phpunit"
 

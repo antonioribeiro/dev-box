@@ -1,0 +1,43 @@
+---
+
+- name: PHPSpec | Create directory
+  file: 
+    path={{ phpspec_directory }} 
+    state=directory 
+    owner={{ root_username }} 
+    group={{ root_username }} 
+    mode=0755
+  tags: phpspec
+
+- name: PHPSpec | Create composer.json file
+  template: 
+    src=composer.json.tpl 
+    dest={{ phpspec_directory }}/composer.json
+  tags: phpspec
+
+- name: PHPSpec | Running composer update to download sources
+  command: composer --working-dir={{ phpspec_directory }} update 
+  tags: phpspec
+
+- name: PHPSpec | Set executable bit
+  file: 
+    path={{ phpspec_directory }}/vendor/phpspec/phpspec/bin/phpspec
+    owner={{ root_username }} 
+    group={{ root_username }} 
+    mode=0755
+  tags: phpspec
+
+# somehow there is already a phpspec dir in /usr/bin, let's remove it
+
+- name: PHPSpec | Put executable in the environment path variable
+  shell: rm -rf {{ phpspec_executable }} 
+  tags: phpspec
+
+- name: PHPSpec | Put executable in the environment path variable
+  file: 
+    state=link 
+    src={{ phpspec_directory }}/vendor/phpspec/phpspec/bin/phpspec 
+    dest={{ phpspec_executable }} 
+    owner={{ root_username }} 
+    group={{ root_username }}
+  tags: phpspec
