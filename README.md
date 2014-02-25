@@ -16,6 +16,7 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * [Laravel](http://laravel.com/) (available at `http://<your-box>/laravel`)
 * [Artisan Anywhere](https://github.com/antonioribeiro/artisan-anywhere)
 * [PHPUnit](https://github.com/sebastianbergmann/phpunit)
+* [PhpSpec](https://github.com/phpspec/phpspec)
 * [XDebug](http://xdebug.org/)
 * [Memcached](http://memcached.org/)
 * [Redis](http://redis.io/) + [Redis Commander](https://github.com/nearinfinity/redis-commander)

@@ -253,6 +253,17 @@ Working on
 
 Installed from sources using Composer. It is installed as a standalone app and you can run it from anywhere.
 
+To update it you just have to 
+
+    sudo composer --working-dir=/usr/share/phpunit update
+
+### PhpSpec
+
+Installed from sources using Composer. It is installed as a standalone app and you can run it from anywhere.
+
+To update it you just have to 
+
+    sudo composer --working-dir=/usr/share/phpspec update
 
 ### PostgreSQL
 
