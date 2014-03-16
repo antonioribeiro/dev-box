@@ -45,7 +45,7 @@ git() {
         fi
     fi
 
-    command git $@
+    command git "$@"
 }
 
 # date and time
