@@ -34,6 +34,20 @@ alias gpom='git push origin master'
 alias gr='git remote'
 alias gs='git status'
 
+# git hard reset protection
+git() {
+    if [[ "$1" = "reset" ]] && [ "$2" = "--hard" ] && [ "$3" = "HEAD" ] ; then
+        echo "are you being a moron again? (yes/no)"
+        read i
+        if [ "$i" != "no" ]; then
+            echo "you're safe, reset not executed"
+            return 0
+        fi
+    fi
+
+    command git $@
+}
+
 # date and time
 
 alias path='echo -e ${PATH//:/\\n}'
