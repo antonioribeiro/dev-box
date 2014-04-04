@@ -1,0 +1,22 @@
+---
+
+- name: HHVM | Installing apt-key
+  apt_key: url=http://dl.hhvm.com/conf/hhvm.gpg.key state=present
+  tags: hhvm
+
+- name: HHVM | Installing apt package prerequisites
+  apt_repository: repo='deb http://dl.hhvm.com/ubuntu precise main' state=present
+  register: last_result
+  tags: hhvm
+
+- name: HHVM | Add PPA
+  apt_repository: 
+    repo=ppa:mapnik/boost
+    update_cache=yes
+  tags: hhvm
+
+- name: hhvm | Install
+  apt: 
+    pkg=hhvm 
+    state=latest
+  tags: hhvm
