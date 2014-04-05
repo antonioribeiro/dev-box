@@ -1,0 +1,13 @@
+---
+
+- name: zsh | Install
+  apt: 
+    pkg=zsh 
+    state=latest
+  tags: zsh
+
+- name: zsh | Installing git-core
+  apt: 
+    pkg=git-core
+    state=latest
+  tags: zsh

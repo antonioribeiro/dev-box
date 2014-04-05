@@ -53,6 +53,17 @@ devbox
 
 #########################
 #
+# ZSH
+#
+
+[zsh:children]
+#devbox
+server
+
+
+
+#########################
+#
 # Composer
 #
 #
