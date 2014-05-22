@@ -1,0 +1,51 @@
+---
+
+- name: Swap Memory | Create swap space
+  command:
+    dd if=/dev/zero of=/swapfile bs=1024 count=2048k
+  when: ansible_swaptotal_mb < 1
+  tags:
+    - swap
+
+- name: Swap Memory | Make swap
+  command:
+    mkswap /swapfile
+  when: ansible_swaptotal_mb < 1
+  tags:
+    - swap
+
+- name: Swap Memory | Add to fstab
+  action:
+    lineinfile dest=/etc/fstab regexp="swapfile" line="/swapfile none swap sw 0 0" state=present
+  tags:
+    - swap
+
+- name: Swap Memory | Turn swap on
+  command:
+    swapon -a
+  tags:
+    - swap
+
+- name: Swap Memory | Set swapiness
+  shell:
+    echo 10 | sudo tee /proc/sys/vm/swappiness
+  tags:
+    - swap
+
+- name: Swap Memory | Set swapiness
+  shell:
+    echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
+  tags:
+    - swap
+
+- name: Swap Memory | Set swapiness
+  shell:
+    sudo chown root:root /swapfile
+  tags:
+    - swap
+
+- name: Swap Memory | Set swapiness
+  shell:
+    sudo chmod 0600 /swapfile
+  tags:
+    - swap

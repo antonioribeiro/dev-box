@@ -263,3 +263,13 @@
 
   roles:
     - xhgui
+
+########################################################################################
+
+- name: create swap memory
+  hosts: swap
+  sudo: yes
+
+  roles:
+    - swap
+

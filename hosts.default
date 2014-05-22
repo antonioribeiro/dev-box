@@ -1,4 +1,4 @@
-########################################### 
+###########################################
 #
 # Hosts
 #   Set the ip address of your box(es), and username (and password) of a user with sudo righs on it
@@ -7,11 +7,11 @@
 [devbox]
 <IP-OR-HOSTNAME>
 
-#   
+#
 # Add as many servers as you need
-#   
+#
 # examples:
-#   
+#
 #  [server]
 #  10.0.0.1 ansible_ssh_port=22 ansible_ssh_user=me ansible-ssh-pass=mypass
 #
@@ -22,7 +22,7 @@
 
 
 
-########################################## 
+##########################################
 #
 # Groups
 #    - Add your host to the services you want to install on your box
@@ -207,6 +207,17 @@ devbox
 
 #########################
 #
+# Swap memory
+#
+#
+
+[swap:children]
+devbox
+
+
+
+#########################
+#
 # Grunt
 #
 #
@@ -243,11 +254,11 @@ devbox
 # Docker (disabled by default)
 #   This will only work on Ubuntu 12.04 or 13.04 based distros
 #
-# 
+#
 # [docker:children]
 # devbox
-# 
-# 
+#
+#
 
 
 
@@ -256,7 +267,7 @@ devbox
 # BFGMiner
 #
 #
-# 
+#
 # [bfgminer:children]
 # devbox
 
@@ -267,6 +278,6 @@ devbox
 # XHGui
 #
 #
-# 
+#
 # [xhgui:children]
 # devbox
