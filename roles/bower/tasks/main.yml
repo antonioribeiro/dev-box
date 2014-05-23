@@ -1,0 +1,7 @@
+---
+
+- name: Bower | Create bower space
+  command:
+    npm install bower 
+  tags:
+    - bower
