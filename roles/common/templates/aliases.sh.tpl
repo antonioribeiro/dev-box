@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export MY_EDITOR=vim
-export TERM=linux                 
-export HISTFILESIZE=50000         
+export TERM=linux
+export HISTFILESIZE=50000
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -31,8 +31,19 @@ alias gco='git checkout'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gpom='git push origin master'
+alias gpop='git push origin master:production'
 alias gr='git remote'
 alias gs='git status'
+# remove files that are not under version control
+alias gcf="git clean -f"
+# discard changes in the working directory
+alias gcod="git checkout -- ."
+# grab the latest upstream version
+alias gpum="git pull upstream master"
+# delete branch from github. follow with branch name
+alias gpod="git push origin --delete"
+# show git status without untracked files
+alias gsu="git status -uno"
 
 # git hard reset protection
 # git()
@@ -87,7 +98,7 @@ alias rm='rm -I --preserve-root'
 alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
- 
+
 # Parenting changing perms on / #
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
@@ -137,18 +148,18 @@ alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 #-------------------------------------------------------------
-# The 'ls' family (this assumes you use a recent GNU ls).
+# The 'sudo ls' family (this assumes you use a recent GNU ls).
 #-------------------------------------------------------------
 
-alias l='ls -laF --color=auto'
+alias l='sudo ls -laF --color=auto'
 
-# Add colors for filetype and  human-readable sizes by default on 'ls':
-alias ls='ls -h --color'
-alias lx='ls -lXB'         #  Sort by extension.
-alias lk='ls -lSr'         #  Sort by size, biggest last.
-alias lt='ls -ltr'         #  Sort by date, most recent last.
-alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-alias lu='ls -ltur'        #  Sort by/show access time,most recent last.
+# Add colors for filetype and  human-readable sizes by default on 'sudo ls':
+alias ls='sudo ls -h --color'
+alias lx='sudo ls -lXB'         #  Sort by extension.
+alias lk='sudo ls -lSr'         #  Sort by size, biggest last.
+alias lt='sudo ls -ltr'         #  Sort by date, most recent last.
+alias lc='sudo ls -ltcr'        #  Sort by/show change time,most recent last.
+alias lu='sudo ls -ltur'        #  Sort by/show access time,most recent last.
 
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
 alias ll="ls -lv --group-directories-first"
@@ -276,7 +287,7 @@ alias 644='sudo chmod 644'
 alias 755='sudo chmod 755'
 
 #List only directories
-alias lsd='ls -l | grep "^d"'
+alias lsd='sudo ls -l | grep "^d"'
 
 #Show all IPs
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
@@ -289,3 +300,15 @@ alias cus="composer update --prefer-source"
 alias cud="composer update --prefer-dist"
 alias csu="sudo composer self-update"
 alias cr="composer require"
+
+#laravel
+#alias artisan="php artisan" ### If you don't have artisan anywhere installed, uncomment this
+alias a="artisan"
+
+#way generator
+alias g:m="artisan generate:migration"
+alias g:mod="artisan generate:model"
+alias g:c="artisan generate:controller"
+alias g:v="artisan generate:view"
+alias g:s="artisan generate:seed"
+alias g:r="artisan generate:resource"
