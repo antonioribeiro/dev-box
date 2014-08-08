@@ -300,7 +300,7 @@ alias cus="composer update --prefer-source"
 alias cud="composer update --prefer-dist"
 alias csu="sudo composer self-update"
 alias cr="composer require"
-alias composer="hhvm composer"
+alias composer="hhvm {{ composer_executable }}"
 
 #laravel
 #alias artisan="php artisan" ### If you don't have artisan anywhere installed, uncomment this

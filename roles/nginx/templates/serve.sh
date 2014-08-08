@@ -47,5 +47,6 @@ block="server {
 
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+echo "127.0.0.1 $1" | tee -a /etc/hosts
 service nginx restart
 service php5-fpm restart

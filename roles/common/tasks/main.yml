@@ -1,7 +1,7 @@
 ---
 # sudo apt-get --yes install joe mc links alien apt-file zip vim rsync sudo rdate locate libterm-readkey-perl p7zip-full expect lynx less psmisc nmap lsof socat jfsutils
 
-- name: install common packages
+- name: Common | install common packages
   apt: pkg={{ item }} state=latest
   with_items:
      - alien
@@ -55,6 +55,7 @@
      - vim
      - zip
      - dos2unix
+     - libgnome-keyring-dev
 
   tags: common
 
@@ -63,7 +64,7 @@
   ignore_errors: true
   tags: common
 
-- name: create scripts directory.
+- name: Common | create scripts directory.
   file:
     state=directory
     path={{ scripts_path }}
@@ -71,21 +72,21 @@
     owner={{ root_username }}
   tags: common
 
-- name: create aliases file
+- name: Common | create aliases file
   template:
     src=aliases.sh.tpl
     dest={{ scripts_path }}/aliases.sh
     mode=755
   tags: common
 
-- name: create sysctl.conf file
+- name: Common | create sysctl.conf file
   template:
     src=sysctl.conf.j2
     dest=/etc/sysctl.conf
     mode=755
   tags: common
 
-- name: create administrator user
+- name: Common | create administrator user
   user:
     name={{ system_administrator_name }}
     comment={{ system_administrator_comment }}
@@ -95,3 +96,10 @@
     state=present
   when: system_administrator_name != ""
   tags: common
+
+- name: Common | compile gnome keyring
+  command: /usr/bin/make
+    chdir=/usr/share/doc/git/contrib/credential/gnome-keyring
+    creates=/usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring.o
+  tags: common
+

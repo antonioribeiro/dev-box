@@ -4,4 +4,4 @@
   command: "{{ composer_executable }} global require 'phpspec/phpspec={{phpspec_version}}'"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
-  tags: phpspec, testing, php
+  tags: phpspec

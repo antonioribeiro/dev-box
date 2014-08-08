@@ -4,4 +4,4 @@
   command: "{{ composer_executable }} global require 'phpunit/phpunit={{phpunit_version}}'"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
-  tags: phpunit, testing, php
+  tags: phpunit
