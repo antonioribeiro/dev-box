@@ -13,7 +13,7 @@
      - debconf-utils
      - dnsutils
      - expect
-     - g++ 
+     - g++
      - git
      - git-core
      - irssi
@@ -21,7 +21,7 @@
      - joe
      - less
      - libterm-readkey-perl
-     - libxml2-dev 
+     - libxml2-dev
      - libxslt1-dev
      - links
      - locate
@@ -51,9 +51,10 @@
      - telnet
      - tmux
      - tree
-     - unzip 
+     - unzip
      - vim
      - zip
+     - dos2unix
 
   tags: common
 
@@ -63,33 +64,33 @@
   tags: common
 
 - name: create scripts directory.
-  file: 
-    state=directory 
-    path={{ scripts_path }} 
-    group={{ root_username }} 
+  file:
+    state=directory
+    path={{ scripts_path }}
+    group={{ root_username }}
     owner={{ root_username }}
   tags: common
 
 - name: create aliases file
-  template: 
-    src=aliases.sh.tpl 
-    dest={{ scripts_path }}/aliases.sh 
+  template:
+    src=aliases.sh.tpl
+    dest={{ scripts_path }}/aliases.sh
     mode=755
   tags: common
 
 - name: create sysctl.conf file
-  template: 
-    src=sysctl.conf.j2 
+  template:
+    src=sysctl.conf.j2
     dest=/etc/sysctl.conf
     mode=755
   tags: common
 
 - name: create administrator user
-  user: 
-    name={{ system_administrator_name }} 
-    comment={{ system_administrator_comment }} 
-    uid={{ system_administrator_uid }} 
-    password=$system_administrator_password 
+  user:
+    name={{ system_administrator_name }}
+    comment={{ system_administrator_comment }}
+    uid={{ system_administrator_uid }}
+    password={{ system_administrator_password }}
     groups=adm,sudo
     state=present
   when: system_administrator_name != ""

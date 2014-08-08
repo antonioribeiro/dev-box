@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: François de Metz
+  description: Install and manage a btsync server.
+  company: Stormz
+  license: BSD
+  min_ansible_version: 1.2
+  categories:
+    - networking

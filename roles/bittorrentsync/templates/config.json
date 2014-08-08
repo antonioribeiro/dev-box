@@ -1,0 +1,25 @@
+{
+"device_name": "btsync_{{ btsync_user }}",
+"listening_port": 0,
+"storage_path": "/home/{{ btsync_user }}/.sync",
+"check_for_updates": true,
+"use_upnp": {% if btsync_upnp %}true{% else %}false{% endif %},
+"download_limit": 0,
+"upload_limit": 0,
+"shared_folders": [
+    {% if btsync_shared_folders is defined %}
+    {% for folder in btsync_shared_folders %}
+    {
+      "secret" : "{{ folder.key }}",
+      "dir" : "{{ folder.path }}",
+
+      "use_relay_server" : true,
+      "use_tracker" : true,
+      "use_dht" : false,
+      "search_lan" : true,
+      "use_sync_trash" : true
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+]
+}

@@ -1,0 +1,7 @@
+---
+
+- name: Codeception | Installing globally
+  command: "{{ composer_executable }} global require 'codeception/codeception={{codeception_version}}'"
+  environment:
+      COMPOSER_HOME: '{{ composer_home }}'
+  tags: codeception, testing, php

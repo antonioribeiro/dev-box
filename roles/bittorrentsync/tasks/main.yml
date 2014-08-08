@@ -1,0 +1,48 @@
+---
+- name: Bittorrent Sync | download
+  get_url: url="{{ btsync_url[ansible_architecture] }}"
+           dest=/tmp/btsync.tar.gz
+  register: download
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | extract
+  command: tar xvzf /tmp/btsync.tar.gz -C /tmp
+  when: download | changed
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | copy btsync to /usr/local/bin
+  command: cp /tmp/btsync /usr/local/bin/
+  notify: start btsync
+  when: download | changed
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | install service
+  template: src=btsync dest=/etc/init.d/btsync mode=755
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | activate service
+  service: name=btsync enabled=yes
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | create .sync directory
+  file: path=/home/{{ btsync_user }}/.sync owner={{ btsync_user }} group={{ btsync_user }} mode=0700 state=directory
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | copy config
+  template: src=config.json dest=/home/{{ btsync_user }}/.sync/ owner={{ btsync_user }} group={{ btsync_user }} mode=700
+  notify: restart btsync
+  tags:
+    - bittorrentsync
+
+- name: Bittorrent Sync | create folders
+  file: path={{ item.path }} recurse=yes state=directory owner={{ btsync_user }} group={{ btsync_user }} mode=700
+  with_items: btsync_shared_folders
+  when: btsync_shared_folders is defined
+  tags:
+    - bittorrentsync

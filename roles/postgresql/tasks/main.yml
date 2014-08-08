@@ -6,7 +6,7 @@
   shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
   register: nginx
   ignore_errors: true
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
@@ -15,7 +15,7 @@
   shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
   register: apache2
   ignore_errors: true
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
@@ -23,17 +23,17 @@
 ########## Start
 
 - name: PostgreSQL | Create user
-  user: 
-    name={{ postgresql_system_user }} 
-    comment="PosgreSQL user" 
-    password={{ postgresql_system_user_password_hashed }} 
+  user:
+    name={{ postgresql_system_user }}
+    comment="PosgreSQL user"
+    password={{ postgresql_system_user_password_hashed }}
     state=present
   tags: postgresql
 
 
-- name: PostgreSQL | Install packages 
-  apt: 
-    pkg={{ item }} 
+- name: PostgreSQL | Install packages
+  apt:
+    pkg={{ item }}
     state=latest
   with_items:
      - postgresql-{{ postgresql_version }}
@@ -48,73 +48,73 @@
 ### phpPgAdmin
 
 - name: PostgreSQL | phpPgAdmin | Install
-  apt: 
-    pkg={{ item }} 
+  apt:
+    pkg={{ item }}
     state=latest
   with_items:
      - phppgadmin
   register: phppgadmin
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Delete conf.d virtual host
-  file: 
+  file:
     path={{ apache_config_directory }}/conf.d/phppgadmin
     state=absent
-  when: 
+  when:
     apache2.rc == 0 # exists
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Configure virtual host
-  template: 
+  template:
     src=phppgadmin.conf.tpl
     dest={{ apache_config_directory }}/sites-available/phppgadmin.conf
-  when: 
+  when:
     apache2.rc == 0 # exists
-  notify: 
+  notify:
     - restart apache2
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Enable virtual host
-  command: 
+  command:
     a2ensite phppgadmin
-  when: 
+  when:
       apache2.rc == 0 # exists
-  notify: 
+  notify:
     - restart apache2
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Disable Extra Login Security
-  shell: 
+  shell:
     sed -i "s/\$conf\['extra_login_security'\] \= true\;/\$conf\['extra_login_security'\] \= false\;/g" /usr/share/phppgadmin/conf/config.inc.php
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Remove PHP end
-  shell: 
+  shell:
     sed -i "s/?>//g" /usr/share/phppgadmin/conf/config.inc.php
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
 
 - name: PostgreSQL | phpPgAdmin | Add error reporting directives
-  shell: 
+  shell:
     grep -q -e "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" /usr/share/phppgadmin/conf/config.inc.php || echo "error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);" >> /usr/share/phppgadmin/conf/config.inc.php
-  tags: 
+  tags:
     - postgresql
     - phppgadmin
 
@@ -125,17 +125,17 @@
 #   tags: postgresql
 
 - name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 1
-  lineinfile: 
+  lineinfile:
     dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
     regexp='^#?listen_addresses\s*='
     line="listen_addresses = '*'"
     state=present
-  notify: 
+  notify:
     - restart postgresql
   tags: postgresql
 
 - name: PostgreSQL | Ensure PostgreSQL is listening on all localhost - 2
-  lineinfile: 
+  lineinfile:
     dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
     regexp='host\s+all\s+all\s+127.0.0.1/32\s+md5'
     line='host all all  0.0.0.0/0 md5'
@@ -143,7 +143,7 @@
   notify: restart postgresql
   tags: postgresql
 
-### Add postgres to sudoers 
+### Add postgres to sudoers
 
 - name: Copy sudoers file for safety
   command: cp -f /etc/sudoers /etc/sudoers.tmp
@@ -154,10 +154,10 @@
   tags: postgresql
 
 - name: make sure we can sudo as admin group
-  lineinfile: 
-    dest=/etc/sudoers.tmp 
-    state=present 
-    regexp='^postgres' 
+  lineinfile:
+    dest=/etc/sudoers.tmp
+    state=present
+    regexp='^postgres'
     line='postgres ALL=(ALL) NOPASSWD:ALL'
   tags: postgresql
 
@@ -168,31 +168,31 @@
 ###
 
 - name: PostgreSQL | ensure database is created
-  postgresql_db:  
+  postgresql_db:
     login_user={{ postgresql_system_user }}
-    login_password={{ postgresql_system_user_password }} 
+    login_password={{ postgresql_system_user_password }}
     db={{ postgresql_db_name }}
   sudo_user: "{{ postgresql_system_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user has access to database
-  postgresql_user: 
+  postgresql_user:
     login_user={{ postgresql_system_user }}
-    login_password={{ postgresql_system_user_password }} 
-    db={{ postgresql_db_name }} 
-    user={{ postgresql_db_user }} 
-    password={{ postgresql_db_password }} 
+    login_password={{ postgresql_system_user_password }}
+    db={{ postgresql_db_name }}
+    user={{ postgresql_db_user }}
+    password={{ postgresql_db_password }}
     priv=ALL
   sudo_user: "{{ postgresql_system_user }}"
   sudo: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user does not have unnecessary privilege
-  postgresql_user: 
+  postgresql_user:
     login_user={{ postgresql_system_user }}
-    login_password={{ postgresql_system_user_password }} 
-    user={{ postgresql_db_user }} 
+    login_password={{ postgresql_system_user_password }}
+    user={{ postgresql_db_user }}
     password={{ postgresql_db_password }}
     role_attr_flags=NOSUPERUSER,NOCREATEDB
   sudo_user: "{{ postgresql_system_user }}"
@@ -212,23 +212,23 @@
 ### get sudoers to its original config
 
 - name: Create sudoers file backup
-  command: cp -f /etc/sudoers.bak /etc/sudoers 
+  command: cp -f /etc/sudoers.bak /etc/sudoers
   tags: postgresql
 
-### 
+###
 
 - name: PostgreSQL | Start database server and enable it at boot
-  service: 
+  service:
     name=postgresql
     enabled=yes
     state=started
   tags: postgresql
 
 - name: PostgreSQL | Restart Apache
-  service: 
-    name=apache2 
+  service:
+    name=apache2
     state=restarted
-  when: 
+  when:
     apache2.rc == 0 # exists
   tags: postgresql
 

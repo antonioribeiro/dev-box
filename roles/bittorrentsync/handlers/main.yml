@@ -1,0 +1,6 @@
+---
+- name: start btsync
+  service: name=btsync state=started
+
+- name: restart btsync
+  service: name=btsync state=restarted

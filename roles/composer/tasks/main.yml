@@ -4,12 +4,18 @@
   shell:
     cd {{ temporary_files_path }} && curl -sS https://getcomposer.org/installer | /usr/bin/php && /bin/mv -f /tmp/composer.phar {{ composer_executable }}
     creates={{ composer_executable }}
-  tags: composer
+  tags: composer, testing, php
 
 - name: Composer | Set permissions
-  file: 
-    path={{ composer_executable }} 
-    owner={{ root_username }} 
-    group={{ root_username }} 
+  file:
+    path={{ composer_executable }}
+    owner={{ root_username }}
+    group={{ root_username }}
     mode=0755
-  tags: composer
+  tags: composer, testing, php
+
+- name: Composer | Add Composer to PATH
+  template:
+    src=composer_path.sh
+    dest=/etc/profile.d/composer_path.sh
+  tags: composer, testing, php

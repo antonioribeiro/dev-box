@@ -92,7 +92,7 @@ alias fastping='ping -c 100 -s.2'
 alias ports='netstat -tulanp'
 
 # do not delete / or prompt if deleting more than 3 files at a time #
-alias rm='rm -I --preserve-root'
+alias rm='sudo rm -I --preserve-root'
 
 # confirmation #
 alias mv='mv -i'
@@ -162,14 +162,14 @@ alias lc='sudo ls -ltcr'        #  Sort by/show change time,most recent last.
 alias lu='sudo ls -ltur'        #  Sort by/show access time,most recent last.
 
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
-alias ll="ls -lv --group-directories-first"
-alias lm='ll |more'        #  Pipe through 'more'
-alias lr='ll -R'           #  Recursive ls.
-alias la='ll -A'           #  Show hidden files.
-alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
+alias ll="sudo ls -lv --group-directories-first"
+alias lm='sudo ll |more'        #  Pipe through 'more'
+alias lr='sudo ll -R'           #  Recursive ls.
+alias la='sudo ll -A'           #  Show hidden files.
+alias tree='sudo tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
 #-------------------------------------------------------------
-# Spelling typos - highly personnal and keyboard-dependent :-)
+# Spelling typos - highly personal and keyboard-dependent :-)
 #-------------------------------------------------------------
 
 alias xs='cd'
@@ -261,19 +261,19 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
 # MS-DOS aliases
 
-alias md='mkdir -p'
+alias md='sudo mkdir -p'
 alias copy='cp'
-alias rd='rmdir'
-alias del='rm'
+alias rd='sudo rmdir'
+alias del='sudo rm'
 alias cls='clear'
 alias dir='l'
-alias move='mv'
+alias move='sudo mv'
 alias locate='locate -i'
 
 if [ "$EDITOR" == "" ]; then
-  alias ed='$MY_EDITOR'
+  alias ed='sudo $MY_EDITOR'
 else
-  alias ed='$EDITOR'
+  alias ed='sudo $EDITOR'
 fi
 
 # Check PHP For Errors
@@ -300,6 +300,7 @@ alias cus="composer update --prefer-source"
 alias cud="composer update --prefer-dist"
 alias csu="sudo composer self-update"
 alias cr="composer require"
+alias composer="hhvm composer"
 
 #laravel
 #alias artisan="php artisan" ### If you don't have artisan anywhere installed, uncomment this
@@ -312,3 +313,23 @@ alias g:c="artisan generate:controller"
 alias g:v="artisan generate:view"
 alias g:s="artisan generate:seed"
 alias g:r="artisan generate:resource"
+
+#Codeception aliases
+alias t="codecept run"
+alias tf="t functional"
+alias ti="t integration"
+alias tg="codecept generate:cept "
+alias cc="codecept "
+alias wd="phantomjs --webdriver=4444"
+
+function serve() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /etc/scripts/serve.sh
+        sudo bash /etc/scripts/serve.sh "$1" "$2"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve domain path"
+    fi
+}

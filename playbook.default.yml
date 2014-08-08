@@ -73,6 +73,15 @@
 
 ########################################################################################
 
+- name: install codeception
+  hosts: codeception
+  sudo: yes
+
+  roles:
+    - codeception
+
+########################################################################################
+
 - name: install apache2
   hosts: apache2
   sudo: yes

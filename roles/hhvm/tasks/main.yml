@@ -5,18 +5,31 @@
   tags: hhvm
 
 - name: HHVM | Installing apt package prerequisites
-  apt_repository: repo='deb http://dl.hhvm.com/ubuntu precise main' state=present
+  apt_repository: repo='deb http://dl.hhvm.com/ubuntu {{ ansible_distribution_release }} main' state=present
   register: last_result
   tags: hhvm
 
-- name: HHVM | Add PPA
-  apt_repository: 
-    repo=ppa:mapnik/boost
-    update_cache=yes
-  tags: hhvm
-
 - name: hhvm | Install
-  apt: 
-    pkg=hhvm 
+  apt:
+    pkg=hhvm
     state=latest
   tags: hhvm
+
+# - name: hhvm | Install - If you are getting segfaults
+#   apt:
+#     pkg=hhvm-dbg
+#     state=latest
+#   tags: hhvm
+
+# - name: hhvm | Install - Living on the edge (rebuilt everyday, unstable)
+#   apt:
+#     pkg=hhvm-nightly
+#     state=latest
+#   tags: hhvm
+
+# - name: hhvm | Install - Segfaults in the nightly
+#   apt:
+#     pkg=hhvm-nightly-dbg
+#     state=latest
+#   tags: hhvm
+

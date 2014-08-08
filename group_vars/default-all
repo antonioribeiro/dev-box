@@ -31,7 +31,8 @@ mysql_root_password: 'PASSWORD'
 
 postgresql_system_user: 'postgres'
 postgresql_system_user_password: 'password'
-postgresql_system_user_password_hashed: '$1$2zB3D4a0$oNfxJGHSNRlOzZpj6Cs8W/' # created using python -c 'import crypt; print crypt.crypt("password", "$1$2zB3D4a0Z$")'
+postgresql_system_user_password_hashed: '$1$2zB3D4a0$oNfxJGHSNRlOzZpj6Cs8W/'
+# created using python -c 'import crypt; print crypt.crypt("password", "$1$2zB3D4a0Z$")'
 
 postgresql_db_user: '{{ user_with_sudo_power }}'
 postgresql_db_password: 'password'
@@ -61,15 +62,15 @@ reboot_command: '/sbin/reboot'
 #
 #  System Administrator - Ansible will create this user for you and give root (sudo) power to it
 #
-#     
+#
 
 system_administrator_name: '' # keep this blank to not create this user
 system_administrator_comment: '"Administrator Full Name"'
 system_administrator_uid: '9999'
 system_administrator_password: '$6$SALT$3MUMz4cNIRjQ/Knnc3gXjJLV1vdwFs2nLvh//nGtEh/.li04NodZJSfnc4jeCVHd7kKHGnq5MsenN.tO6Z.Cj/'
-# to generate a new one, replace with your data and run in the terminal: 
-#    python -c 'import crypt; print crypt.crypt("password", "$6$SALT$")'
 
+# to generate a new one, replace with your data and run in the terminal:
+#    python -c "from passlib.hash import sha512_crypt; print sha512_crypt.encrypt('yourpassword')"
 
 ########################
 #
@@ -85,7 +86,7 @@ webserver_document_root: '/var/www' # Document root: where are you storing your 
 
 ########################
 #
-# Laravel 
+# Laravel
 #
 #
 
@@ -127,7 +128,7 @@ php_fpm_config_directory: '{{ php_config_directory }}/fpm/'
 #
 # APC - apc.ini configuration
 #
-# 
+#
 
 apc_rfc1867: '1'
 apc_shm_size: '256M'
@@ -140,7 +141,7 @@ apc_num_files_hint: '0'
 #
 # MySQL - my.cnf configuration
 #
-# 
+#
 
 mysql_max_allowed_packet: '128M'
 mysql_character_set_server: 'utf8'
@@ -158,9 +159,9 @@ mysql_configuration_path: '/etc/mysql'
 #
 # PostgreSQL
 #
-# 
+#
 
-postgresql_version: '9.1'
+postgresql_version: '9.3'
 postgresql_db_name: 'phpboxdev'
 
 
@@ -169,7 +170,7 @@ postgresql_db_name: 'phpboxdev'
 #
 # Apache 2
 #
-# 
+#
 
 apache_server_admin: 'webmaster@example.com'
 apache_server_alias: '*.*.example.com'
@@ -197,7 +198,7 @@ nginx_logs_directory: '/var/log/nginx'
 #
 # Node JS
 #
-# 
+#
 
 node_version: 0.10.28 - http://nodejs.org/
 
@@ -207,7 +208,7 @@ node_version: 0.10.28 - http://nodejs.org/
 #
 # Grunt -- check for versions here: https://github.com/gruntjs/grunt/wiki
 #
-# 
+#
 
 grunt_version: 0.4.1
 
@@ -217,17 +218,18 @@ grunt_version: 0.4.1
 #
 # Composer
 #
-# 
+#
 
+composer_home: '/usr/local/share/composer'
 composer_executable: '/usr/local/bin/composer'
 
 
 
 ########################
 #
-# Beanstalkd 
+# Beanstalkd
 #
-# 
+#
 
 beanstalkd_server_hostname: '{{ ansible_hostname }}'
 beanstalkd_server_port: '11300'
@@ -238,7 +240,7 @@ beanstalkd_server_port: '11300'
 #
 # PHPUnit
 #
-# 
+#
 
 phpunit_directory: '/usr/share/phpunit'
 phpunit_executable: '/usr/local/bin/phpunit'
@@ -250,7 +252,7 @@ phpunit_version: '3.7.*'
 #
 # PHPSpec
 #
-# 
+#
 
 phpspec_directory: '/usr/share/phpspec'
 phpspec_executable: '/usr/local/bin/phpspec'
@@ -261,10 +263,9 @@ phpspec_version: '2.0.*@dev'
 #
 # Docker
 #
-# 
+#
 
 docker_executable: '/usr/local/bin/docker'
-
 
 
 
@@ -272,6 +273,36 @@ docker_executable: '/usr/local/bin/docker'
 #
 # Squid
 #
-# 
+#
 
 squid_config_directory: '/etc/squid3'
+
+
+
+########################
+#
+# phpunit
+#
+#
+
+phpunit_version: '4.0.*'
+
+
+
+########################
+#
+# phpspec
+#
+#
+
+phpspec_version: '2.0.*'
+
+
+
+########################
+#
+# Codeception
+#
+#
+
+codeception_version: '2.0.*'

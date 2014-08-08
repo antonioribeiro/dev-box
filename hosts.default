@@ -86,11 +86,22 @@ devbox
 
 #########################
 #
-# PHPSpec
+# phpspec
 #
 #
 
 [phpspec:children]
+devbox
+
+
+
+#########################
+#
+# Codeception
+#
+#
+
+[codeception:children]
 devbox
 
 

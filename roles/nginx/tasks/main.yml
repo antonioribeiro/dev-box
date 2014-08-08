@@ -21,69 +21,61 @@
 
 
 - name: Nginx | grab a better list of MIME types for it to use
-  get_url: 
+  get_url:
     url=https://raw.github.com/h5bp/server-configs-nginx/master/mime.types
     dest={{ nginx_config_directory }}/mime.types
   tags: nginx
 
 
 - name: Nginx | Create directories
-  file: 
-    path={{ nginx_config_directory }}/{{ item }} 
+  file:
+    path={{ nginx_config_directory }}/{{ item }}
     owner={{ root_username }}
     group={{ root_username }}
-    mode=0755 
+    mode=0755
     state=directory
   with_items:
     - locations-available
     - locations-enabled
-    - conf
   tags: nginx
 
+- name: Nginx | Create h5bp directories
+  file:
+    path={{ nginx_config_directory }}/h5bp/{{ item }} state=directory
+  with_items:
+    - directive-only
+    - location
+  tags: nginx
 
 - name: Nginx | grab h5bp security files
-  get_url: 
-    url=https://raw.github.com/h5bp/server-configs-nginx/master/conf/{{ item }}
-    dest={{ nginx_config_directory }}/conf/{{ item }}
+  get_url:
+    url=https://raw.githubusercontent.com/h5bp/server-configs-nginx/master/h5bp/{{ item }}
+    dest={{ nginx_config_directory }}/h5bp/{{ item }}
+    force=yes
   with_items:
-    - h5bp.conf
-    - x-ua-compatible.conf
-    - protect-system-files.conf
-    - cross-domain-fonts.conf
+    - basic.conf
+    - directive-only/cache-file-descriptors.conf
+    - directive-only/cross-domain-insecure.conf
+    - directive-only/no-transform.conf
+    - directive-only/spdy.conf
+    - directive-only/ssl-stapling.conf
+    - directive-only/ssl.conf
+    - directive-only/x-ua-compatible.conf
+    - location/cache-busting.conf
+    - location/cross-domain-fonts.conf
+    - location/expires.conf
+    - location/protect-system-files.conf
   tags: nginx
 
-
-- name: Nginx | writing conf/expires.conf
-  template: 
-    src=etc-nginx-conf-expires.conf.tpl 
-    dest={{ nginx_config_directory }}/conf/expires.conf
-  notify:
-    - restart nginx
+- name: Nginx | Create Serve Script
+  template:
+    src=serve.sh
+    dest={{ scripts_path }}/serve.sh
   tags: nginx
 
+- name: Nginx | Fix static.log location
+  replace:
+    dest={{ nginx_config_directory }}/h5bp/location/expires.conf
+    regexp='logs/static.log;' replace='/var/log/nginx/static.log;'
+  tags: nginx
 
-- name: Nginx | Configure main server block
-  template: 
-    src=ip-based-server.conf.j2
-    dest={{ nginx_config_directory }}/sites-available/ip-based-server
-    owner={{ root_username }} 
-    group={{ root_username }}     
-    mode=0644 
-  notify: 
-    restart nginx
-  tags: 
-    - nginx
-    
-
-- name: Nginx | Enable main server block
-  file: 
-    state=link 
-    src={{ nginx_config_directory }}/sites-available/ip-based-server
-    dest={{ nginx_config_directory }}/sites-enabled/ip-based-server
-    owner={{ root_username }} 
-    group={{ root_username }}
-  notify: 
-    restart nginx
-  tags: 
-    - nginx
-    
