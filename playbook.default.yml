@@ -291,3 +291,21 @@
   roles:
     - bower
 
+########################################################################################
+
+- name: install phantomjs
+  hosts: phantomjs
+  sudo: yes
+
+  roles:
+    - phantomjs
+
+########################################################################################
+
+- name: install bittorrentsync
+  hosts: bittorrentsync
+  sudo: yes
+
+  roles:
+    - bittorrentsync
+

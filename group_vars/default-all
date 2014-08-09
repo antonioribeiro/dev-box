@@ -306,3 +306,13 @@ phpspec_version: '2.0.*'
 #
 
 codeception_version: '2.0.*'
+
+
+
+########################
+#
+# PhantomJS
+#
+#
+
+phantomjs_file_name: ''

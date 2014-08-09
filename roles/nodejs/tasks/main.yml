@@ -1,15 +1,8 @@
-##
-# node.js installation (latest stable instead of Ubuntu's out-of-date one)
-#
+---
 
 - name: Node.js | Check and install NodeJS
   nodejs:
     version=${node_version}
-  tags: nodejs
-
-- name: Node.js | Install PhantomJS
-  apt:
-    pkg=phantomjs state=latest
   tags: nodejs
 
 # - name: Node.js | Installing package prerequisites for node.js
