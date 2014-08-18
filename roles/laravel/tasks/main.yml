@@ -19,21 +19,27 @@
 
 ########## Start
 
-- name: Laravel | Laravel installer PHAR archive
-  get_url:
-    url=http://laravel.com/laravel.phar
-    dest={{ laravel_craft_executable }}
-    force=yes
-    mode=755
+- name: Laravel | Installing globally
+  command: "{{ composer_executable }} global require 'laravel/installer={{laravel_installer_version}}'"
+  environment:
+      COMPOSER_HOME: '{{ composer_home }}'
+  tags: laravel
+
+
+- name: Laravel | Craft site
+  shell: laravel new laravel
+    chdir={{ webserver_document_root }}
+    creates={{ webserver_document_root }}/{{ laravel_site_folder_name }}
   tags:
     - laravel
 
-- name: Laravel | Craft site
-  shell: laravel new laravelNEWSITE
-    chdir={{ webserver_document_root }}
-    creates={{ webserver_document_root }}/laravelNEWSITE
-  tags:
-    - laravel
+
+- name: Laravel | Artisan Anywhere
+  get_url:
+    url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh
+    dest={{ laravel_artisan_executable }}
+    mode=0775
+  tags: laravel
 
 # - name: Laravel | Create directory
 #   file:
@@ -72,10 +78,6 @@
 #     recurse=yes
 #   tags: laravel
 
-# - name: Laravel | Download mod-pagespeed
-#   get_url: url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh dest={{ laravel_artisan_executable }}
-#   tags: laravel
-
 # - name: Laravel | Download and install Artisan Anywhere
 #   file:
 #     path={{ laravel_artisan_executable }}
@@ -110,7 +112,7 @@
 # ####### NGINX configuration
 
 - name: Laravel | Create NGINX site
-  command: bash /etc/scripts/serve.sh laravel.dev /var/www/laravelNEWSITE/public
+  command: bash {{ scripts_path }}/serve.sh {{ laravel_site_host_name }} {{ webserver_document_root }}/{{ laravel_site_folder_name }}/public
   when: nginx.rc == 0 # exists
   tags:
     - laravel

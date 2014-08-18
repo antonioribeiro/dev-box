@@ -1,0 +1,6 @@
+---
+- name: selenium_started
+  service: name=selenium_{{selenium_sel_role}} state=started enabled=yes
+
+- name: selenium_reload
+  service: name=selenium_{{selenium_sel_role}} state=reloaded

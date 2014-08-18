@@ -18,4 +18,5 @@
   template:
     src=composer_path.sh
     dest=/etc/profile.d/composer_path.sh
+    mode=0755
   tags: composer

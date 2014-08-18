@@ -1,20 +1,41 @@
 ---
 
+- name: PhantomJS | create home directory
+  file:
+    state=directory
+    path={{ phantomjs_directory }}
+    group={{ root_username }}
+    owner={{ root_username }}
+  tags: phantomjs
+
 - name: PhantomJS | download phantomjs
   get_url:
-    url=https://bitbucket.org/ariya/phantomjs/downloads/{{ phantomjs_file_name }}.tar.bz2
-    dest=/var/tmp/{{ phantomjs_file_name }}.tar.bz2
+    url=https://bitbucket.org/ariya/phantomjs/downloads/{{item}}.tar.bz2
+    dest={{ phantomjs_directory }}/{{item}}.tar.bz2
+  with_items:
+    - '{{ phantomjs_file_name }}'
+    - '{{ phantomjs_file_name }}-symbols'
   tags: phantomjs
 
 - name: PhantomJS | untar phantomjs
   shell:
-    chdir=/var/tmp tar xjf {{ phantomjs_file_name }}.tar.bz2
+    chdir={{ phantomjs_directory }} tar xjf {{item}}.tar.bz2
     creates={{ phantomjs_executable }}
+  with_items:
+    - '{{ phantomjs_file_name }}'
+    - '{{ phantomjs_file_name }}-symbols'
   tags: phantomjs
 
 - name: PhantomJS | symlink the phantomjs executable
   file:
     dest={{ phantomjs_executable }}
-    src=/var/tmp/{{ phantomjs_file_name }}/bin/phantomjs
+    src={{ phantomjs_directory }}/{{ phantomjs_file_name }}/bin/phantomjs
+    state=link
+  tags: phantomjs
+
+- name: PhantomJS | symlink the minidump_stackwalk executable
+  file:
+    dest={{ minidump_stackwalk_executable }}
+    src={{ phantomjs_directory }}/{{ phantomjs_file_name }}-symbols/minidump_stackwalk
     state=link
   tags: phantomjs

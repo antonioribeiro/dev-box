@@ -1,0 +1,14 @@
+---
+
+- name: Gulp | Installs grunt-cli globally using npm
+  command: sudo npm install gulp -g
+  tags: gulp
+
+# Grunt itself is installed for each project, developer should run himself:
+
+# npm install grunt
+
+# - name: Grunt | Installs grunt globally using npm
+#   command: npm install grunt@$grunt_version -g
+#   tags: grunt
+

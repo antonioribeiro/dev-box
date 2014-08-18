@@ -103,3 +103,9 @@
     creates=/usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring.o
   tags: common
 
+- name: Common | Add scripts to PATH
+  template:
+    src=scripts_path.sh
+    dest=/etc/profile.d/scripts_path.sh
+    mode=0775
+  tags: common

@@ -309,3 +309,29 @@
   roles:
     - bittorrentsync
 
+########################################################################################
+
+- name: install gulp
+  hosts: gulp
+  sudo: yes
+
+  roles:
+    - gulp
+
+########################################################################################
+
+- name: install java
+  hosts: java
+  sudo: yes
+
+  roles:
+    - java
+
+########################################################################################
+
+- name: install selenium
+  hosts: selenium
+  sudo: yes
+
+  roles:
+    - selenium

@@ -90,13 +90,22 @@ webserver_document_root: '/var/www' # Document root: where are you storing your 
 #
 #
 
+laravel_installer_version: ~1.1
+
 laravel_document_root: '{{ webserver_document_root }}/laravel' # Where your Laravel site files should be stored?
 
 laravel_site_base_url: '/laravel' # Site base URL - http://localhost/ == '/'
 
-laravel_artisan_executable: '/usr/local/bin/artisan'
+laravel_artisan_executable: '{{ scripts_path }}/artisan'
 
 laravel_craft_executable: '/usr/local/bin/laravel'
+
+### First Laravel site
+# Creates http://laravel.dev at /var/www/laravel
+
+laravel_site_folder_name: laravel
+
+laravel_site_host_name: laravel.dev
 
 ########################
 #
@@ -315,4 +324,31 @@ codeception_version: '2.0.*'
 #
 #
 
-phantomjs_file_name: ''
+phantomjs_directory: '/usr/share/phantomjs'
+phantomjs_executable: '/usr/local/bin/phantomjs'
+phantomjs_version: '1.9.7'
+phantomjs_file_name: 'phantomjs-{{ phantomjs_version }}-linux-x86_64'
+
+minidump_stackwalk_executable: '/usr/local/bin/minidump_stackwalk'
+
+########################
+#
+# Selenium
+#
+#
+
+selenium_server_version: 2.42
+selenium_server_patch: 2
+selenium_server_full_version: "{{selenium_server_version}}.{{selenium_server_patch}}"
+
+selenium_download_url: "http://selenium-release.storage.googleapis.com/{{selenium_server_version}}/{{selenium_jar_file}}"
+
+selenium_jar_file: "selenium-server-standalone-{{selenium_server_full_version}}.jar"
+
+selenium_sel_role: standalone
+selenium_destination_path: "/usr/local/lib/selenium"
+
+selenium_hub: ''
+selenium_java_opts: ''
+selenium_extra_args: ''
+selenium_port: ''

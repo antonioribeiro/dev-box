@@ -1,39 +1,52 @@
 [dev-box](https://github.com/antonioribeiro/dev-box)
 ============================================================
 
-
 An Ubuntu Development Box Provisioner in [Ansible](http://www.ansibleworks.com/docs/intro_installation.html).
 ----------------------------------------------------------------------------------
 
 This system is currently PHP and **Laravel** focused, but it can easily be extended.
 
-
 ### What's In The Box?
 
-* NGINX (default) or Apache 2
-* PHP (5.5 or 5.4)
+* [NGINX](http://nginx.org/) (default)
+* [Apache 2](http://httpd.apache.org/)
+* [PHP](http://php.net/) (5.4, 5.5 or 5.6)
+* [HHVM](http://hhvm.com/) & Hack
 * [Composer](http://getcomposer.org/)
-* [Laravel](http://laravel.com/) (available at `http://<your-box>/laravel`)
+* [Laravel](http://laravel.com/) (Installer & 1st site available at `http://laravel.dev`)
 * [Artisan Anywhere](https://github.com/antonioribeiro/artisan-anywhere)
 * [PHPUnit](https://github.com/sebastianbergmann/phpunit)
 * [PhpSpec](https://github.com/phpspec/phpspec)
+* [Codeception](https://github.com/codeception/codeception)
+* [Selenium + Firefox](https://code.google.com/p/selenium/)
+* [PhantomJS](http://phantomjs.org/)
 * [XDebug](http://xdebug.org/)
 * [Memcached](http://memcached.org/)
 * [Redis](http://redis.io/) + [Redis Commander](https://github.com/nearinfinity/redis-commander)
-* Postgres + phpPgAdmin
-* MySQL + phpMyAdmin
+* [PostgreSQL](http://www.postgresql.org/)
+* [phpPgAdmin](http://phppgadmin.sourceforge.net/doku.php)
+* [MySQL](http://www.mysql.com/)
+* [phpMyAdmin](http://www.phpmyadmin.net/)
 * [Beanstalkd](http://kr.github.io/beanstalkd/) + [Beanstalkd Console](https://github.com/ptrofimov/beanstalk_console)
 * [Supervisor](http://supervisord.org/) ([supervisor docs](/docs/apps/supervisor.md))
 * [NodeJS](http://nodejs.org/)
+* [gulp.js](http://gulpjs.com/)
+* [Bower](http://bower.io/)
 * [Grunt](http://gruntjs.com/)
 * [Fabric](http://fabfile.org/)
 * [Docker](http://www.docker.io/) (optional)
+* [Bittorrent Sync](http://www.bittorrent.com/sync/)
+* [Oracle Java](https://www.oracle.com/java/)
+* [Webmin](http://www.webmin.com/)
+* [ZSH](http://www.zsh.org/)
+
 * [A nice list of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
+* [Linux Swap Memory](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04)
 
 ### Requirements
 
-* Ubuntu (tested on 12.04, 13.04 and 13.10)
-* Ansible 1.3+
+* Ubuntu (tested on 14.04)
+* Ansible 1.7+
 
 
 ### Installing

@@ -1,0 +1,22 @@
+---
+
+- name: Java | Add PPA
+  apt_repository:
+    repo=ppa:webupd8team/java
+    update_cache=yes
+  tags: java
+
+- name: Java | set licence selected
+  shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+  tags: java
+
+- name: Java | set licence seen
+  shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo /usr/bin/debconf-set-selections
+  tags: java
+
+- name: Install packages
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+  tags: java

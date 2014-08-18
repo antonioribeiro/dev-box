@@ -1,0 +1,44 @@
+---
+- name: Selenium | Create directory
+  file:
+    path={{ selenium_destination_path }}
+    state=directory
+    recurse=yes
+    group={{ root_username }}
+    owner={{ root_username }}
+  tags: selenium
+
+- name: Selenium | Download
+  connection: local
+  sudo: False
+  get_url: url={{selenium_download_url}}  dest=/tmp/{{selenium_jar_file}} force=no
+  tags: selenium
+
+- name: Selenium | Copy selenium into place
+  copy: src=/tmp/{{selenium_jar_file}}  dest={{selenium_destination_path}}/{{selenium_jar_file}} owner=root group=root mode=644
+  tags: selenium
+
+- name: Selenium | Install Config
+  template: src=defaults.j2 dest=/etc/default/selenium_{{selenium_sel_role}} owner=root group=root mode=644
+  notify: selenium_reload
+  tags: selenium
+
+# - name: Selenium | Install init script
+#   template: src=init.j2 dest=/etc/init.d/selenium_{{selenium_sel_role}} owner=root group=root mode=755
+#   #notify: selenium_started
+#   tags: selenium
+
+- name: Selenium | Install starter script
+  template:
+    src=selenium.j2
+    dest={{ scripts_path }}/selenium
+    owner=root group=root mode=755
+  tags: selenium
+
+- name: Selenium | Install browser
+  apt: name={{item}}
+  when: selenium_sel_role != 'hub'
+  with_items:
+    - xvfb
+    - firefox
+  tags: selenium

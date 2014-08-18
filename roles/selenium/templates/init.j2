@@ -1,0 +1,151 @@
+#!/bin/sh
+#
+# /etc/init.d/selenium_{{selenium_sel_role}} -- startup script for selenium test server
+#
+### BEGIN INIT INFO
+# Provides:          selenium_{{selenium_sel_role}}
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Should-Start:      $named
+# Should-Stop:       $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Selenium {{selenium_sel_role}}.
+# Description:       Start the Selenium {{selenium_sel_role}} server.
+### END INIT INFO
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+NAME=selenium_{{selenium_sel_role}}
+DESC="Selenium test server {{selenium_sel_role}}"
+DEFAULT="/etc/default/${NAME}"
+SE_PID="/var/run/${NAME}.pid"
+JVM_TMP="/var/tmp/${NAME}_app"
+
+if [ `id -u` -ne 0 ]; then
+# no user change?
+    echo "You need root privileges to run this script"
+    exit 1
+fi
+
+# Make sure it is started with system locale
+if [ -r /etc/default/locale ]; then
+    . /etc/default/locale
+    export LANG
+fi
+
+. /lib/lsb/init-functions
+
+if [ -r /etc/default/rcS ]; then
+    . /etc/default/rcS
+fi
+
+# overwrite settings with default file
+if [ -f "${DEFAULT}" ]; then
+    . "${DEFAULT}"
+fi
+
+# overridable defaults
+SE_USER=${SE_USER:-"nobody"}
+SE_GROUP=${SE_GROUP:-"nogroup"}
+JAR_ARGS=${JAR_ARGS:-""}
+JAVA_OPTS=${JAVA_OPTS:-""}
+
+
+SYSTEM_JAVA=$(/usr/sbin/update-alternatives --query java|grep Value|cut -f 2 -d":")
+if [ -z "$JAVA_HOME" -a ! -z "${SYSTEM_JAVA}" ]; then
+    JAVA_HOME=$(dirname "${SYSTEM_JAVA}")
+    JAVA_HOME=${JAVA_HOME%/bin}
+fi
+export JAVA_HOME JAVA_TMP JAVA_OPTS
+
+case $1 in
+start)
+    $0 status
+    if [ $? -eq 0 ]; then
+        log_daemon_msg "No need to start another!"
+        exit 0
+    fi
+
+    log_daemon_msg "Starting $DESC" "$NAME"
+
+    # Some validation
+    if [ -z "$JAVA_HOME" ]; then
+        log_failure_msg "no JAVA found - please set JAVA_HOME"
+        exit 1
+    fi
+    umask 022
+    # Clean JVM_TMP directory
+    if [ -d "$JVM_TMP" ]; then
+        rm -rf "${JVM_TMP}" || {
+            log_failure_msg "could not clean JVM temporary directory"
+            exit 1
+        }
+    fi
+    install -o ${SE_USER} -g ${SE_GROUP} -d ${JVM_TMP}
+
+    if [ ! -z "${ROLE}" ]; then
+        JAR_ARGS="-role ${ROLE}"
+    fi
+    if [ ! -z "${HUB}" ]; then
+        JAR_ARGS="${JAR_ARGS} -hub ${HUB}"
+    fi
+
+    if [ ! -z "${PORT}" ]; then
+        JAR_ARGS="${JAR_ARGS} -port ${PORT}"
+    fi
+
+    start-stop-daemon   --start \
+                        --background \
+                        --pidfile "${SE_PID}" \
+                        --make-pidfile \
+                        --user "${SE_USER}" \
+                        --group "${SE_GROUP}" \
+                        --exec ${JAVA_HOME}/bin/java -- ${JAVA_OPTS} -jar {{selenium_destination_path}}/{{selenium_jar_file}} ${JAR_ARGS} ${EXTRA_ARGS}  2>&1 \
+        | logger -t "${NAME}"
+;;
+stop)
+    log_daemon_msg "Stopping ${DESC}" "${NAME}"
+    $0 status
+    if [ $? -eq 0 ]; then
+        start-stop-daemon   --stop \
+                            --pidfile "${SE_PID}" \
+                            --retry=TERM/30/KILL/5
+        rc=$?
+        if [ $? -eq 0 ]; then
+            if [ -f "${SE_PID}" ]; then
+                rm "${SE_PID}"
+            fi
+            log_daemon_msg "${NAME} stopped"
+        fi
+        return ${rc}
+    fi
+;;
+status)
+   start-stop-daemon --status --pidfile "${SE_PID}" --name ${NAME}
+   rc=$?
+   case $rc in
+      0) msg="$NAME is running with pid: $( cat ${SE_PID})." ;;
+      1) msg="$NAME is not running but pid file exists." ;;
+      3) msg="$NAME is not running.";;
+      4) msg="Unable to determine status of ${NAME}";;
+   esac
+   log_daemon_msg $msg
+   return $rc
+;;
+version)
+    echo "${NAME} {{selenium_server_version}}"
+;;
+restart)
+    $0 stop || true
+    $0 start
+;;
+force-reload|reload)
+   #TODO: actually test selenium reopens files
+   start-stop-daemon --stop SIGUSR1 --pidfile "${SE_PID}"
+;;
+*)
+    log_success_msg "Usage: $0 {start|stop|force-reload|restart|status|version}"
+    exit 1
+;;
+esac
+exit 0

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+export DISPLAY=:99
+
+echo --- Killing all processes
+
+sudo killall -9 -q Xvfb
+sudo killall -9 -q firefox
+sudo killall -9 -q java
+
+echo --- Running Xvfb
+Xvfb :99 -ac & > /dev/null 2>&1
+sleep 2
+
+echo --- Running Firefox
+firefox &
+sleep 2
+
+echo --- Running Selenium
+java -jar {{ selenium_destination_path }}/{{ selenium_jar_file }} &

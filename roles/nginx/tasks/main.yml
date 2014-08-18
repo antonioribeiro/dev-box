@@ -71,6 +71,7 @@
   template:
     src=serve.sh
     dest={{ scripts_path }}/serve.sh
+    mode=0775
   tags: nginx
 
 - name: Nginx | Fix static.log location
