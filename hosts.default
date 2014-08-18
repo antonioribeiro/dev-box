@@ -276,17 +276,6 @@ devbox
 
 #########################
 #
-# BFGMiner
-#
-#
-#
-# [bfgminer:children]
-# devbox
-
-
-
-#########################
-#
 # XHGui
 #
 #
