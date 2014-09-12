@@ -96,7 +96,7 @@ laravel_document_root: '{{ webserver_document_root }}/laravel' # Where your Lara
 
 laravel_site_base_url: '/laravel' # Site base URL - http://localhost/ == '/'
 
-laravel_artisan_executable: '{{ scripts_path }}/artisan'
+laravel_artisan_executable: '/usr/local/bin/artisan'
 
 laravel_craft_executable: '/usr/local/bin/laravel'
 
