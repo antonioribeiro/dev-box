@@ -20,7 +20,7 @@
 ########## Start
 
 - name: Laravel | Installing globally
-  command: "{{ composer_executable }} global require 'laravel/installer={{laravel_installer_version}}'"
+  command: "{{ composer_executable }} global require 'laravel/installer={{laravel_installer_version}}' creates=/usr/local/share/composer/vendor/bin/laravel"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
   tags: laravel

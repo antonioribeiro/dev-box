@@ -1,7 +1,9 @@
 ---
 
 - name: PHPUnit | Installing globally
-  command: "{{ composer_executable }} global require 'phpunit/phpunit={{phpunit_version}}'"
+  command:
+    "{{ composer_executable }} global require 'phpunit/phpunit={{phpunit_version}}' creates=/usr/local/share/composer/vendor/bin/phpunit"
+
   environment:
-      COMPOSER_HOME: '{{ composer_home }}'
+    COMPOSER_HOME: '{{ composer_home }}'
   tags: phpunit

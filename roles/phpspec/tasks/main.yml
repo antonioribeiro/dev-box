@@ -1,7 +1,7 @@
 ---
 
 - name: PHPSpec | Installing globally
-  command: "{{ composer_executable }} global require 'phpspec/phpspec={{phpspec_version}}'"
+  command: "{{ composer_executable }} global require 'phpspec/phpspec={{phpspec_version}}' creates=/usr/local/share/composer/vendor/bin/phpspec"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
   tags: phpspec

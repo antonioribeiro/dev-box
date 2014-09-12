@@ -3,5 +3,6 @@
 - name: Bower | Install
   command:
     npm install -g bower
+    creates=/usr/local/bin/bower
   tags:
     - bower
