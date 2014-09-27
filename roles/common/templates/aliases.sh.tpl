@@ -34,6 +34,9 @@ alias gpom='git push origin master'
 alias gpop='git push origin master:production'
 alias gr='git remote'
 alias gs='git status'
+alias gss='gstatus'
+alias gsr='gstatus'
+
 # remove files that are not under version control
 alias gcf="git clean -f"
 # discard changes in the working directory

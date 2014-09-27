@@ -80,6 +80,13 @@
     mode=755
   tags: common
 
+- name: Common | create gitstatus file
+  template:
+    src=gstatus
+    dest={{ scripts_path }}/gstatus
+    mode=755
+  tags: common
+
 - name: Common | create sysctl.conf file
   template:
     src=sysctl.conf.j2
