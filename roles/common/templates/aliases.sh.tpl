@@ -349,3 +349,5 @@ function git-branch-prompt {
 function currpreviousdir {
    dirname `pwd -P`
 }
+
+alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/*"
