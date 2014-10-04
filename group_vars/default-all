@@ -338,7 +338,7 @@ minidump_stackwalk_executable: '/usr/local/bin/minidump_stackwalk'
 #
 
 selenium_server_version: 2.43
-selenium_server_patch: 0
+selenium_server_patch: 1
 selenium_server_full_version: "{{selenium_server_version}}.{{selenium_server_patch}}"
 
 selenium_download_url: "http://selenium-release.storage.googleapis.com/{{selenium_server_version}}/{{selenium_jar_file}}"
