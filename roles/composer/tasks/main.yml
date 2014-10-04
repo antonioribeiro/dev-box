@@ -20,3 +20,10 @@
     dest=/etc/profile.d/composer_path.sh
     mode=0755
   tags: composer
+
+- name: Common | global update script
+  template:
+    src=composerGlobalUpdate.sh
+    dest=/etc/cron.daily/composerGlobalUpdate
+    mode=755
+  tags: composer
