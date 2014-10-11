@@ -142,7 +142,49 @@ alias du='du -ch'
 
 # restart service
 
-function restart() { sudo service "$@" restart ;}
+function restart()
+{
+    webguys='web|php5|nginx|apache2';
+
+    if echo "$webguys" | egrep -q "$@"; then
+        restartService nginx
+
+        restartService apache2
+
+        restartService php5-fpm php-fpm
+
+        return 0
+    fi
+
+    sudo service "$@" restart ;
+}
+
+function restartService() {
+    if [ "$2" == "" ]; then
+        service=$1
+    else
+        service=$2
+    fi
+
+    serviceIsLoaded $service
+
+    if [ $? == 0 ];  then
+        sudo service $1 restart
+    fi
+}
+
+function serviceIsLoaded() {
+    SERVICE=$1;
+
+    if ps ax | grep -v grep | grep $SERVICE > /dev/null
+    then
+        # service is running
+        return 0
+    else
+        return 1
+    fi
+}
+
 function reload() { sudo service "$@" reload ;}
 
 # Pretty-print of some PATH variables:
