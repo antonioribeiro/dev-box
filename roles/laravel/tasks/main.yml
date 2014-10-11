@@ -19,8 +19,15 @@
 
 ########## Start
 
-- name: Laravel | Installing globally
+- name: Laravel | Installing Laravel globally
   command: "{{ composer_executable }} global require 'laravel/installer={{laravel_installer_version}}' creates=/usr/local/share/composer/vendor/bin/laravel"
+  environment:
+      COMPOSER_HOME: '{{ composer_home }}'
+  tags: laravel
+
+
+- name: Laravel | Installing Laravel Liferaft globally
+  command: "{{ composer_executable }} global require 'laravel/liferaft={{laravel_liferaft_version}}' creates=/usr/local/share/composer/vendor/bin/liferaft"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
   tags: laravel
@@ -40,6 +47,7 @@
     dest={{ laravel_artisan_executable }}
     mode=0775
   tags: laravel
+
 
 # - name: Laravel | Create directory
 #   file:

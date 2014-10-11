@@ -1,8 +1,10 @@
 #!/bin/bash
 
-export MY_EDITOR=vim
+export MY_EDITOR={{ default_editor }}
+export EDITOR={{ default_editor }}
 export TERM=linux
 export HISTFILESIZE=50000
+export COMPOSER_HOME={{ composer_home }}
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -362,6 +364,8 @@ alias g:r="artisan generate:resource"
 #Codeception aliases
 alias t="codecept run"
 alias tf="t functional"
+alias tfs="tf --steps"
+alias tff="tfs"
 alias ti="t integration"
 alias tg="codecept generate:cept "
 alias cc="codecept "
@@ -392,4 +396,4 @@ function currpreviousdir {
    dirname `pwd -P`
 }
 
-alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/*"
+alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* storage/laravel.log"

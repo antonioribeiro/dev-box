@@ -11,6 +11,13 @@ root_username: 'root' # don't touch this, unless you really have a different nam
 
 #######################
 #
+#  Default Editor
+#
+
+default_editor: vim
+
+#######################
+#
 #  Workstation
 #
 
@@ -91,6 +98,8 @@ webserver_document_root: '/var/www' # Document root: where are you storing your 
 #
 
 laravel_installer_version: ~1.1
+
+laravel_liferaft_version: ~1.0
 
 laravel_document_root: '{{ webserver_document_root }}/laravel' # Where your Laravel site files should be stored?
 
