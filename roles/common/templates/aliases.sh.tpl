@@ -1,10 +1,21 @@
 #!/bin/bash
 
+############################################################
+####
+####  Exports
+####
+
 export MY_EDITOR={{ default_editor }}
 export EDITOR={{ default_editor }}
 export TERM=linux
 export HISTFILESIZE=50000
 export COMPOSER_HOME={{ composer_home }}
+
+
+############################################################
+####
+####  Change Directory
+####
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -14,11 +25,19 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 
-# PHPUnit
+
+############################################################
+####
+####  PHPUnit
+####
 
 alias t="clear; phpunit"
 
-# git
+
+############################################################
+####
+####  Git
+####
 
 alias ga='git add'
 alias gaa='git add -A'
@@ -41,12 +60,16 @@ alias gsr='gstatus'
 
 # remove files that are not under version control
 alias gcf="git clean -f"
+
 # discard changes in the working directory
 alias gcod="git checkout -- ."
+
 # grab the latest upstream version
 alias gpum="git pull upstream master"
+
 # delete branch from github. follow with branch name
 alias gpod="git push origin --delete"
+
 # show git status without untracked files
 alias gsu="git status -uno"
 
@@ -84,17 +107,52 @@ alias gsu="git status -uno"
 #     eval $command
 # }
 
-# date and time
+
+############################################################
+####
+####  Git Prompt
+####
+
+function git-branch-name {
+  git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
+}
+
+function git-branch-prompt {
+  local branch=`git-branch-name`
+  if [ $branch ]; then printf " [%s]" $branch; fi
+}
+
+function currpreviousdir {
+   dirname `pwd -P`
+}
+
+
+############################################################
+####
+####  Date and Time
+####
 
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 
+
+############################################################
+####
+####  Ping and Ports
+####
+
 # Do not wait interval 1 second, go fast #
 alias fastping='ping -c 100 -s.2'
 
 alias ports='netstat -tulanp'
+
+
+############################################################
+####
+####  Filesystem Commands Protection
+####
 
 # do not delete / or prompt if deleting more than 3 files at a time #
 alias rm='sudo rm -I --preserve-root'
@@ -109,9 +167,11 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
-## Distro specific
 
-# Debian / Ubuntu
+############################################################
+####
+####  Apt (Debian / Ubuntu)
+####
 
 alias apt-get="sudo apt-get"
 alias updatey="sudo apt-get --yes"
@@ -126,23 +186,52 @@ alias afs='sudo apt-file show'
 alias afl='sudo apt-file list'
 alias upgrade='sudo apt-get update && sudo apt-get upgrade'
 
+############################################################
+####
+####  Reboot / Shutdown
+####
+
 # reboot / halt / poweroff
 alias reboot='sudo /sbin/reboot'
 alias poweroff='sudo /sbin/poweroff'
 alias halt='sudo /sbin/halt'
 alias shutdown='sudo /sbin/shutdown'
 
+
+############################################################
+####
+####  Wget Protection
+####
+
 ## this one saved by butt so many times ##
 alias wget='wget -c'
+
+
+############################################################
+####
+####  Pretty disk free and usage
+####
 
 ## set some other defaults ##
 alias df='df -H'
 alias du='du -ch'
 
+
+############################################################
+####
+####  Top
+####
+
 # top is atop, just like vi is vim
 #alias top='atop'
 
 # restart service
+
+
+############################################################
+####
+####  Restart / Stop / Reload Services
+####
 
 function restart()
 {
@@ -189,14 +278,22 @@ function serviceIsLoaded() {
 
 function reload() { sudo service "$@" reload ;}
 
+
+############################################################
+####
+####  Print Path
+####
+
 # Pretty-print of some PATH variables:
 
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
-#-------------------------------------------------------------
-# The 'sudo ls' family (this assumes you use a recent GNU ls).
-#-------------------------------------------------------------
+
+############################################################
+####
+####  ls - The 'sudo ls' family (this assumes you use a recent GNU ls).
+####
 
 alias l='sudo ls -laF --color=auto'
 
@@ -215,9 +312,14 @@ alias lr='sudo ll -R'           #  Recursive ls.
 alias la='sudo ll -A'           #  Show hidden files.
 alias tree='sudo tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
-#-------------------------------------------------------------
-# Spelling typos - highly personal and keyboard-dependent :-)
-#-------------------------------------------------------------
+#List only directories
+alias lsd='sudo ls -l | grep "^d"'
+
+
+############################################################
+####
+####  Spelling typos - highly personal and keyboard-dependent :-)
+####
 
 alias xs='cd'
 alias vf='cd'
@@ -225,9 +327,11 @@ alias moer='more'
 alias moew='more'
 alias kk='ll'
 
-#-------------------------------------------------------------
-# File & strings related functions:
-#-------------------------------------------------------------
+
+############################################################
+####
+####  File & strings related functions:
+####
 
 # Find a file with a pattern in name:
 function ff() { find . -type f -iname '*'"$*"'*' -ls ; }
@@ -306,7 +410,11 @@ function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 # Make your directories and files access rights sane.
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
-# MS-DOS aliases
+
+############################################################
+####
+####  MS-DOS aliases
+####
 
 alias md='sudo mkdir -p'
 alias copy='cp'
@@ -323,8 +431,20 @@ else
   alias ed='sudo $EDITOR'
 fi
 
+
+############################################################
+####
+####  PHP check
+####
+
 # Check PHP For Errors
 alias phpcheck='find ./ -name \*.php | xargs -n 1 php -l'
+
+
+############################################################
+####
+####  chmod
+####
 
 #chmod train
 alias mx='sudo chmod a+x'
@@ -333,13 +453,20 @@ alias 400='sudo chmod 400'
 alias 644='sudo chmod 644'
 alias 755='sudo chmod 755'
 
-#List only directories
-alias lsd='sudo ls -l | grep "^d"'
 
-#Show all IPs
+############################################################
+####
+####  Show all IPs in the current box
+####
+
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 
-#composer aliases
+
+############################################################
+####
+####  Composer
+####
+
 alias cda="composer dump-autoload"
 alias cdo="composer dump-autoload --optimize"
 alias cu="composer update"
@@ -349,27 +476,32 @@ alias csu="sudo composer self-update"
 alias cr="composer require"
 alias composer="hhvm {{ composer_executable }}"
 
-#laravel
-#alias artisan="php artisan" ### If you don't have artisan anywhere installed, uncomment this
+
+############################################################
+####
+####  Laravel
+####
+
+# Tail log file and Nginx log
+alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* storage/laravel.log"
+
+## alias artisan="php artisan" ##### If you don't have artisan anywhere installed, uncomment this
 alias a="artisan"
 
-#way generator
-alias g:m="artisan generate:migration"
-alias g:mod="artisan generate:model"
-alias g:c="artisan generate:controller"
-alias g:v="artisan generate:view"
-alias g:s="artisan generate:seed"
-alias g:r="artisan generate:resource"
+function routes()
+{
+    if [ $# -eq 0 ]; then
+        php artisan route:list
+    else
+        php artisan route:list | grep ${1}
+    fi
+}
 
-#Codeception aliases
-alias t="codecept run"
-alias tf="t functional"
-alias tfs="tf --steps"
-alias tff="tfs"
-alias ti="t integration"
-alias tg="codecept generate:cept "
-alias cc="codecept "
-alias wd="phantomjs --webdriver=4444"
+
+############################################################
+####
+####  NGINX - From Laravel Forge
+####
 
 function serve() {
     if [[ "$1" && "$2" ]]
@@ -383,17 +515,32 @@ function serve() {
     fi
 }
 
-function git-branch-name {
-  git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
-}
 
-function git-branch-prompt {
-  local branch=`git-branch-name`
-  if [ $branch ]; then printf " [%s]" $branch; fi
-}
+############################################################
+####
+####  Way Laravel4-Generators
+####
 
-function currpreviousdir {
-   dirname `pwd -P`
-}
+alias g:m="artisan generate:migration"
+alias g:mod="artisan generate:model"
+alias g:c="artisan generate:controller"
+alias g:v="artisan generate:view"
+alias g:s="artisan generate:seed"
+alias g:r="artisan generate:resource"
 
-alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* storage/laravel.log"
+
+############################################################
+####
+####  Codeception
+####
+
+alias tc="codecept run"
+alias tf="tc functional"
+alias tfs="tf --steps"
+alias tff="tfs"
+alias ti="t integration"
+alias tg="codecept generate:cept "
+alias cc="codecept "
+alias wd="phantomjs --webdriver=4444"
+
+

@@ -32,6 +32,13 @@
       COMPOSER_HOME: '{{ composer_home }}'
   tags: laravel
 
+- name: Laravel | Make Laravel Liferaft executable
+  get_url:
+    url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh
+    dest={{ laravel_artisan_executable }}
+    mode=0775
+  tags: laravel
+
 
 - name: Laravel | Craft site
   shell: laravel new laravel
@@ -76,16 +83,6 @@
 #   when: composerinstall|skipped
 #   tags: laravel
 
-# - name: Laravel | Set directory permissions
-#   file:
-#     path={{ laravel_document_root }}/app/storage
-#     owner={{ root_username }}
-#     group={{ webserver_username }}
-#     mode=0777
-#     state=directory
-#     recurse=yes
-#   tags: laravel
-
 # - name: Laravel | Download and install Artisan Anywhere
 #   file:
 #     path={{ laravel_artisan_executable }}
@@ -125,3 +122,24 @@
   tags:
     - laravel
 
+- name: Laravel | Set directory permissions
+  file:
+    path=/usr/local/share/composer/
+    owner={{ user_with_sudo_power }}
+    group={{ root_username }}
+    mode=0775
+    state=directory
+    recurse=yes
+  tags: laravel
+
+- name: Laravel | Set file permissions
+  file:
+    path=/usr/local/share/composer/vendor/bin/{{ item }}
+    owner={{ user_with_sudo_power }}
+    group={{ root_username }}
+    mode=0775
+    state=file
+  with_items:
+    - ../laravel/installer/laravel
+    - ../laravel/liferaft/liferaft
+  tags: laravel
