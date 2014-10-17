@@ -534,11 +534,18 @@ alias g:r="artisan generate:resource"
 ####  Codeception
 ####
 
-alias tc="codecept run"
-alias tf="tc functional"
-alias tfs="tf --steps"
-alias tff="tfs"
-alias ti="t integration"
-alias tg="codecept generate:cept "
-alias cc="codecept "
-alias wd="phantomjs --webdriver=4444"
+alias cc="codecept"
+alias cg="cc generate:cept"
+
+alias cc="cc run"
+
+alias cf="cc functional"
+alias cfs="cf --steps"
+alias cff="cfs"
+
+alias ci="cc integration"
+alias cis="ci --steps"
+alias cii="cis"
+
+alias pj="phantomjs --webdriver=4444"
+alias se="selenium"
