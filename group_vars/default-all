@@ -218,7 +218,7 @@ nginx_logs_directory: '/var/log/nginx'
 #
 #
 
-node_version: 0.10.28 - http://nodejs.org/
+node_version: 0.10.32 - http://nodejs.org/
 
 
 

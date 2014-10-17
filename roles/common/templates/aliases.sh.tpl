@@ -542,5 +542,3 @@ alias ti="t integration"
 alias tg="codecept generate:cept "
 alias cc="codecept "
 alias wd="phantomjs --webdriver=4444"
-
-

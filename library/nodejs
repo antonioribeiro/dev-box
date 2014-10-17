@@ -27,7 +27,7 @@ fi
 
 if [ "$NODEJS_VERSION" == "" ]; then
     # this is the latest stable version
-    NODEJS_VERSION=0.10.18
+    NODEJS_VERSION=0.10.32
 fi
 
 #check if the version to be installed is the version already installed
