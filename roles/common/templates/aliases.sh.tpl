@@ -58,6 +58,23 @@ alias gs='git status'
 alias gss='gstatus'
 alias gsr='gstatus'
 
+function gaacpm() {
+    echo "-------------------------------------------------------"
+    echo ":::::: Git add -A"
+    git add -A
+    echo
+
+    echo "-------------------------------------------------------"
+    echo ":::::: Git commit -m $@"
+    git commit -m '$@'
+    echo
+
+    echo "-------------------------------------------------------"
+    echo ":::::: Git push origin master"
+    git push origin master
+    echo
+}
+
 # remove files that are not under version control
 alias gcf="git clean -f"
 
