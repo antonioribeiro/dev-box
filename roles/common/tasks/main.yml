@@ -57,6 +57,7 @@
      - dos2unix
      - libgnome-keyring-dev
      - smartmontools
+     - sqlite3
 
   tags: common
 

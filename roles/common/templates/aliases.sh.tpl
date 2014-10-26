@@ -500,7 +500,7 @@ alias composer="hhvm {{ composer_executable }}"
 ####
 
 # Tail log file and Nginx log
-alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* storage/laravel.log"
+alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* app/storage/logs/* storage/laravel.log"
 
 ## alias artisan="php artisan" ##### If you don't have artisan anywhere installed, uncomment this
 alias a="artisan"
