@@ -326,3 +326,13 @@
 
   roles:
     - selenium
+
+########################################################################################
+
+- name: install phpcodesniffer
+  hosts: phpcodesniffer
+  sudo: yes
+
+  roles:
+    - phpcodesniffer
+

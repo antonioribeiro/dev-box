@@ -1,0 +1,8 @@
+---
+########## Start
+
+- name: PHP_CodeSniffer | Installing globally
+  command: "{{ composer_executable }} global require 'squizlabs/php_codesniffer' creates=/usr/local/share/composer/vendor/bin/phpcs"
+  environment:
+      COMPOSER_HOME: '{{ composer_home }}'
+  tags: phpcodesniffer

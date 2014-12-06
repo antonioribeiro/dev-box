@@ -499,11 +499,21 @@ alias composer="hhvm {{ composer_executable }}"
 ####  Laravel
 ####
 
-# Tail log file and Nginx log
-alias tl="sudo rm /var/log/nginx/*1; sudo rm /var/log/nginx/*gz; clear; tail -f /var/log/nginx/* storage/logs/* app/storage/logs/* storage/laravel.log"
+# Tail Laravel and Webserver (NGINX & Apache 2) log files
+# Compatible with Laravel 4 & 5
+#
+alias tl="ls -d /var/log/nginx/* /var/log/apache2/* storage/logs/* app/storage/logs/* storage/laravel.log | grep -v 'gz$' | grep -v '1$' | xargs tail -f"
 
-## alias artisan="php artisan" ##### If you don't have artisan anywhere installed, uncomment this
+##### If you don't have artisan anywhere installed, uncomment the next line
+#alias artisan="php artisan"
+
 alias a="artisan"
+alias am="artisan migrate"
+alias amr="artisan migrate:rollback"
+alias ads="artisan db:seed"
+
+# Artisan Migrate Deep
+alias amd="artisan migrate:rollback; artisan migrate; artisan db:seed"
 
 function routes()
 {
@@ -551,10 +561,14 @@ alias g:r="artisan generate:resource"
 ####  Codeception
 ####
 
-alias cc="codecept"
-alias cg="cc generate:cept"
+###### alias codecept="codecept" ##### you may have to set this alias depending on your box
+###### running codecept as a non executable script:
+######   alias codecept="sh vendor/bin/codecept"
+######   also: edit vendor/bin/codecept and add php in front of "$BIN_TARGET" "$@"
 
-alias cc="cc run"
+alias cg="codecept generate:cept"
+
+alias cc="codecept run"
 
 alias cf="cc functional"
 alias cfs="cf --steps"
@@ -566,3 +580,11 @@ alias cii="cis"
 
 alias pj="phantomjs --webdriver=4444"
 alias se="selenium"
+
+############################################################
+####
+####  System
+####
+
+alias temp="sensors"
+alias ulimit='ulimit -S'
