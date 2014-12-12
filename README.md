@@ -4,7 +4,9 @@
 An Ubuntu Development Box Provisioner in [Ansible](http://www.ansibleworks.com/docs/intro_installation.html).
 ----------------------------------------------------------------------------------
 
-This system is currently PHP and **Laravel** focused, but it can easily be extended.
+This set Ansible of roles are made to install a complete development Linux box with services and tools focused on [PHP](http://php.net/) and [Composer Packages](https://getcomposer.org/), but it can easily be extended.
+
+Every single role is optional, you can select what you need to install, per box, in your hosts file.
 
 ### What's In The Box?
 
@@ -34,11 +36,15 @@ This system is currently PHP and **Laravel** focused, but it can easily be exten
 * [Bower](http://bower.io/)
 * [Grunt](http://gruntjs.com/)
 * [Fabric](http://fabfile.org/)
-* [Docker](http://www.docker.io/) (optional)
+* [Docker](http://www.docker.io/)
+* [xhgui](https://github.com/perftools/xhgui)
 * [Bittorrent Sync](http://www.bittorrent.com/sync/)
 * [Oracle Java](https://www.oracle.com/java/)
 * [Webmin](http://www.webmin.com/)
+* [Squid Cache](http://www.squid-cache.org/)
 * [ZSH](http://www.zsh.org/)
+* [PHP-CS-FIxer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+* [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 
 * [A nice list of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
 * [Linux Swap Memory](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04)
