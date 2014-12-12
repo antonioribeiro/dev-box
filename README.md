@@ -44,7 +44,7 @@ Every single role is optional, you can select what you need to install, per box,
 * [Webmin](http://www.webmin.com/)
 * [Squid Cache](http://www.squid-cache.org/)
 * [ZSH](http://www.zsh.org/)
-* [PHP-CS-FIxer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+* [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
 * [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 * [A huge set of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
 * [Linux Swap Memory](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04)
