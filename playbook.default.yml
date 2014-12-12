@@ -336,3 +336,12 @@
   roles:
     - phpcodesniffer
 
+########################################################################################
+
+- name: install phpcsfixer
+  hosts: phpcsfixer
+  sudo: yes
+
+  roles:
+    - phpcsfixer
+

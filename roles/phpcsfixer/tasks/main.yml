@@ -1,0 +1,8 @@
+---
+########## Start
+
+- name: PHP-CS-Fixer | Installing globally
+  command: "{{ composer_executable }} global require 'fabpot/php-cs-fixer' creates=/usr/local/share/composer/vendor/bin/php-cs-fixer"
+  environment:
+      COMPOSER_HOME: '{{ composer_home }}'
+  tags: phpcsfixer

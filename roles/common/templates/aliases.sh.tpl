@@ -566,6 +566,8 @@ alias g:r="artisan generate:resource"
 ######   alias codecept="sh vendor/bin/codecept"
 ######   also: edit vendor/bin/codecept and add php in front of "$BIN_TARGET" "$@"
 
+alias codecept="sh vendor/bin/codecept"
+
 alias cg="codecept generate:cept"
 
 alias cc="codecept run"
@@ -588,3 +590,4 @@ alias se="selenium"
 
 alias temp="sensors"
 alias ulimit='ulimit -S'
+alias less='less -r'

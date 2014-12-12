@@ -328,3 +328,27 @@ server
 server
 
 
+
+#########################
+#
+# PHP_CodeSniffer
+#
+#
+
+[phpcodesniffer:children]
+devbox
+
+
+
+
+#########################
+#
+# PHP-CS-Fixer
+#
+#
+
+[phpcsfixer:children]
+devbox
+
+
+
