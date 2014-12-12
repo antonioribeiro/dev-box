@@ -11,6 +11,7 @@ Every single role is optional, you can select what you need to install, per box,
 ### What's In The Box?
 
 * [NGINX](http://nginx.org/) (default)
+* [NGINX Server Configs](https://github.com/h5bp/server-configs-nginx)
 * [Apache 2](http://httpd.apache.org/)
 * [PHP](http://php.net/) (5.4, 5.5 or 5.6)
 * [HHVM](http://hhvm.com/) & Hack
@@ -45,8 +46,7 @@ Every single role is optional, you can select what you need to install, per box,
 * [ZSH](http://www.zsh.org/)
 * [PHP-CS-FIxer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
 * [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-
-* [A nice list of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
+* [A huge set of aliases](https://github.com/antonioribeiro/dev-box/blob/master/roles/common/templates/aliases.sh.tpl)
 * [Linux Swap Memory](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-12-04)
 
 ### Requirements
