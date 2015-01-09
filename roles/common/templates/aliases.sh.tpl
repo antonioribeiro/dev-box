@@ -502,7 +502,7 @@ alias composer="hhvm {{ composer_executable }}"
 # Tail Laravel and Webserver (NGINX & Apache 2) log files
 # Compatible with Laravel 4 & 5
 #
-alias tl="ls -d /var/log/nginx/* /var/log/apache2/* storage/logs/* app/storage/logs/* storage/laravel.log | grep -v 'gz$' | grep -v '1$' | xargs tail -f"
+alias tl="/bin/ls -d /var/log/nginx/* /var/log/apache2/* storage/logs/* app/storage/logs/* storage/laravel.log | grep -v 'gz$' | grep -v '1$' | xargs tail -f"
 
 ##### If you don't have artisan anywhere installed, uncomment the next line
 #alias artisan="php artisan"
