@@ -57,6 +57,7 @@ alias gr='git remote'
 alias gs='git status'
 alias gss='gstatus'
 alias gsr='gstatus'
+alias gitpl='git log --all --decorate --oneline --graph'
 
 function gaacpm() {
     echo "-------------------------------------------------------"
