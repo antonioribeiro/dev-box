@@ -40,6 +40,7 @@ alias t="clear; phpunit"
 ####
 
 alias ga='git add'
+alias gf='git fetch --all'
 alias gaa='git add -A'
 alias gaac="git add -A; git commit -m "
 alias gb='git branch'
