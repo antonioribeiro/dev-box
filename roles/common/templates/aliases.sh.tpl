@@ -40,26 +40,44 @@ alias t="clear; phpunit"
 ####
 
 alias ga='git add'
-alias gf='git fetch --all'
 alias gaa='git add -A'
 alias gaac="git add -A; git commit -m "
 alias gb='git branch'
 alias gc='git commit -m '
 alias gca='git commit -a'
 alias gcam='git commit -a -m'
-alias gce='git commit -e'
+alias gce='git config --global -e'
 alias gcm='git commit -m'
 alias gco='git checkout'
+alias gcob='git checkout -b '
+alias gcp='git cherry-pick'
 alias gd='git diff'
 alias gdc='git diff --cached'
+alias gf='git fetch --all'
+alias gl='git log'
+alias gll='git log --all --decorate --oneline --graph'
 alias gpom='git push origin master'
 alias gpop='git push origin master:production'
 alias gr='git remote'
+alias gra='git remote add'
+alias grr='git remote rename'
 alias gs='git status'
-alias gss='gstatus'
 alias gsr='gstatus'
-alias gitpl='git log --all --decorate --oneline --graph'
-alias gl='git log'
+alias gss='gstatus'
+alias gt='git tag'
+alias gdisc='git clean -df; git checkout -- .'
+alias gcl='git clone'
+alias clone='gcl'
+alias gup='git pull --rebase --prune; git submodule update --init --recursive'
+alias gundo='reset HEAD~1 --mixed'
+alias gamend='git commit -a --amend'
+alias gwipe="git add -A ; git commit -qm 'WIPE SAVEPOINT' ; git reset HEAD~1 --hard"
+
+function gsq(){
+  git reset --soft HEAD~$1 && \
+  git commit --edit -m \
+  "$(git log --format=%B --reverse HEAD..HEAD@{1})"
+}
 
 function gaacpm() {
     echo "-------------------------------------------------------"
