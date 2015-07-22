@@ -72,6 +72,11 @@ alias gup='git pull --rebase --prune; git submodule update --init --recursive'
 alias gundo='reset HEAD~1 --mixed'
 alias gamend='git commit -a --amend'
 alias gwipe="git add -A ; git commit -qm 'WIPE SAVEPOINT' ; git reset HEAD~1 --hard"
+function grename()
+{
+  git remote rename origin upstream
+  git remote add origin $1
+}
 
 function gsq(){
   git reset --soft HEAD~$1 && \
