@@ -179,7 +179,7 @@ mysql_configuration_path: '/etc/mysql'
 #
 #
 
-postgresql_version: '9.3'
+postgresql_version: '9.4'
 postgresql_db_name: 'phpboxdev'
 
 
