@@ -1,5 +1,12 @@
 ---
 
+- name: Nginx | Install stable Nginx PPA
+  apt_repository:
+    repo=ppa:nginx/stable
+    update_cache=yes
+  tags: nginx
+
+
 - name: Nginx | install
   apt: name=nginx
   tags: nginx
@@ -74,9 +81,22 @@
     mode=0775
   tags: nginx
 
+- name: Nginx | Create Catch All
+  template:
+    src=catch-all.j2
+    dest={{ nginx_config_directory }}/sites-available/catch-all
+    mode=0775
+  tags: nginx
+
+- name: Nginx | Create Symlink to Catch All
+  file:
+    src={{ nginx_config_directory }}/sites-available/catch-all
+    dest={{ nginx_config_directory }}/sites-enabled/catch-all
+    state=link
+  tags: nginx
+
 - name: Nginx | Fix static.log location
   replace:
     dest={{ nginx_config_directory }}/h5bp/location/expires.conf
     regexp='logs/static.log;' replace='/var/log/nginx/static.log;'
   tags: nginx
-
