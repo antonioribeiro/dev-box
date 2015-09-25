@@ -58,7 +58,14 @@
      - libgnome-keyring-dev
      - smartmontools
      - sqlite3
-
+     - curl
+     - fail2ban
+     - gcc
+     - libmcrypt4
+     - libpcre3-dev
+     - ufw
+     - unattended-upgrades
+     - whois
   tags: common
 
 - name: install rar
@@ -118,3 +125,4 @@
     dest=/etc/profile.d/scripts_path.sh
     mode=0775
   tags: common
+
