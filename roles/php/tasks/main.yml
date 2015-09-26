@@ -75,10 +75,11 @@
      - php5-readline
      - libmagickwand-dev
      - php-gettext
-#    - php5-apcu
-#    - php5-json
+     - php5-mysqlnd
+     - php5-gd
+     - php5-gmp
+     - php5-imap
   tags: php
-
 
 - name: PHP | Install XDebug
   command: pecl install xdebug

@@ -1,17 +1,32 @@
+# Install Node.js using packages crafted by NodeSource
 ---
 
-- name: Node.js | Check and install NodeJS
-  nodejs:
-    version=${node_version}
+- name: Node.js | Ensure the system can use the HTTPS transport for APT
+  stat: path=/usr/lib/apt/methods/https
+  register: apt_https_transport
   tags: nodejs
 
-- name: Node.js | Installing package prerequisites for node.js
-  apt_repository: repo='ppa:chris-lea/node.js'
+- name: Node.js | Install HTTPS transport for APT
+  apt: pkg=apt-transport-https state=installed
+  when: not apt_https_transport.stat.exists
   tags: nodejs
-  register: last_result
 
-- name: Node.js | Install nodejs and npm
-  apt: pkg=nodejs state=installed
+- name: Node.js | Installing apt-key
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
   tags: nodejs
-  with_items:
-    - nodejs
+
+- name: Node.js | Import the NodeSource GPG key into apt
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+  tags: nodejs
+
+- name: Node.js | Add NodeSource deb repository
+  apt_repository: repo='deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main' state=present
+  tags: nodejs
+
+- name: Node.js | Add NodeSource deb-src repository
+  apt_repository: repo='deb-src https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main' state=present
+  tags: nodejs
+
+- name: Node.js | Install Node.js
+  apt: pkg=nodejs state=installed update_cache=yes
+  tags: nodejs

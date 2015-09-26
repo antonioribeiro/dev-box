@@ -66,6 +66,7 @@
      - ufw
      - unattended-upgrades
      - whois
+     - apt-show-versions
   tags: common
 
 - name: install rar

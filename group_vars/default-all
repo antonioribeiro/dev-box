@@ -212,15 +212,6 @@ nginx_config_directory: '/etc/nginx'
 nginx_logs_directory: '/var/log/nginx'
 
 
-########################
-#
-# Node JS
-#
-#
-
-node_version: 0.10.32 - http://nodejs.org/
-
-
 
 ########################
 #
