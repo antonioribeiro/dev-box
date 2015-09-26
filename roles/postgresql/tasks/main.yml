@@ -31,6 +31,16 @@
   tags: postgresql
 
 
+- name: PostgreSQL | Installing apt-key
+  apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+  tags: postgresql
+
+
+- name: PostgreSQL | Installing apt package source
+  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main" state=present
+  tags: postgresql
+
+
 - name: PostgreSQL | Install packages
   apt:
     pkg={{ item }}
@@ -38,7 +48,6 @@
   with_items:
      - postgresql-{{ postgresql_version }}
      - postgresql-client-{{ postgresql_version }}
-     - postgresql-{{ postgresql_version }}-pgmemcache
      - python-psycopg2
      - php5-pgsql
      - libpq-dev
