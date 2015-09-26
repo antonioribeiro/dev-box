@@ -5,9 +5,9 @@
 #  Hostname and root
 #
 
-server_hostname: '{{ ansible_hostname }}'
+server_hostname: "{{ ansible_hostname }}"
 
-root_username: 'root' # don't touch this, unless you really have a different name for it
+root_username: "root" # don"t touch this, unless you really have a different name for it
 
 #######################
 #
@@ -21,7 +21,7 @@ default_editor: vim
 #  Workstation
 #
 
-workstation_ip_address: 'YOUR-WORKSTATION-IP-ADDRESS' # some rights will be given just for this IP address
+workstation_ip_address: "YOUR-WORKSTATION-IP-ADDRESS" # some rights will be given just for this IP address
 
 
 
@@ -31,18 +31,18 @@ workstation_ip_address: 'YOUR-WORKSTATION-IP-ADDRESS' # some rights will be give
 #
 #
 
-user_with_sudo_power: 'YOUR-BOX-MAIN-USERNAME'
+user_with_sudo_power: "YOUR-BOX-MAIN-USERNAME"
 
-mysql_root_username: $root_username
-mysql_root_password: 'PASSWORD'
+mysql_root_username: "{{ root_username }}"
+mysql_root_password: "PASSWORD"
 
-postgresql_system_user: 'postgres'
-postgresql_system_user_password: 'password'
-postgresql_system_user_password_hashed: '$1$2zB3D4a0$oNfxJGHSNRlOzZpj6Cs8W/'
-# created using python -c 'import crypt; print crypt.crypt("password", "$1$2zB3D4a0Z$")'
+postgresql_system_user: "postgres"
+postgresql_system_user_password: "password"
+postgresql_system_user_password_hashed: "$1$2zB3D4a0$oNfxJGHSNRlOzZpj6Cs8W/"
+# created using python -c "import crypt; print crypt.crypt('password', '$1$2zB3D4a0Z$')"
 
-postgresql_db_user: '{{ user_with_sudo_power }}'
-postgresql_db_password: 'password'
+postgresql_db_user: "{{ user_with_sudo_power }}"
+postgresql_db_password: "password"
 
 
 
@@ -51,17 +51,17 @@ postgresql_db_password: 'password'
 #  System properties
 #
 
-php_version: '5.5'
+php_version: "5.5"
 
-etc_path: '/etc' # general configuration folder
+etc_path: "/etc" # general configuration folder
 
-scripts_path: '/etc/scripts' # general scripts folder
+scripts_path: "/etc/scripts" # general scripts folder
 
-temporary_files_path: '/tmp'
+temporary_files_path: "/tmp"
 
-upstart_path: '/etc/init'
+upstart_path: "/etc/init"
 
-reboot_command: '/sbin/reboot'
+reboot_command: "/sbin/reboot"
 
 
 
@@ -71,13 +71,13 @@ reboot_command: '/sbin/reboot'
 #
 #
 
-system_administrator_name: '' # keep this blank to not create this user
-system_administrator_comment: '"Administrator Full Name"'
-system_administrator_uid: '9999'
-system_administrator_password: '$6$SALT$3MUMz4cNIRjQ/Knnc3gXjJLV1vdwFs2nLvh//nGtEh/.li04NodZJSfnc4jeCVHd7kKHGnq5MsenN.tO6Z.Cj/'
+system_administrator_name: "" # keep this blank to not create this user
+system_administrator_comment: ***-Administrator Full Name-***
+system_administrator_uid: "9999"
+system_administrator_password: "$6$SALT$3MUMz4cNIRjQ/Knnc3gXjJLV1vdwFs2nLvh//nGtEh/.li04NodZJSfnc4jeCVHd7kKHGnq5MsenN.tO6Z.Cj/"
 
 # to generate a new one, replace with your data and run in the terminal:
-#    python -c "from passlib.hash import sha512_crypt; print sha512_crypt.encrypt('yourpassword')"
+#    python -c "from passlib.hash import sha512_crypt; print sha512_crypt.encrypt("yourpassword")"
 
 ########################
 #
@@ -85,9 +85,9 @@ system_administrator_password: '$6$SALT$3MUMz4cNIRjQ/Knnc3gXjJLV1vdwFs2nLvh//nGt
 #
 #
 
-webserver_username: 'www-data' # Webserver user
+webserver_username: "www-data" # Webserver user
 
-webserver_document_root: '/var/www' # Document root: where are you storing your pages?
+webserver_document_root: "/var/www" # Document root: where are you storing your pages?
 
 
 
@@ -101,13 +101,13 @@ laravel_installer_version: ~1.1
 
 laravel_liferaft_version: ~1.0
 
-laravel_document_root: '{{ webserver_document_root }}/laravel' # Where your Laravel site files should be stored?
+laravel_document_root: "{{ webserver_document_root }}/laravel" # Where your Laravel site files should be stored?
 
-laravel_site_base_url: '/laravel' # Site base URL - http://localhost/ == '/'
+laravel_site_base_url: "/laravel" # Site base URL - http://localhost/ == "/"
 
-laravel_artisan_executable: '/usr/local/bin/artisan'
+laravel_artisan_executable: "/usr/local/bin/artisan"
 
-laravel_craft_executable: '/usr/local/bin/laravel'
+laravel_craft_executable: "/usr/local/bin/laravel"
 
 ### First Laravel site
 # Creates http://laravel.dev at /var/www/laravel
@@ -122,13 +122,13 @@ laravel_site_host_name: laravel.dev
 #
 #
 
-php_max_execution_time: '90'
-php_display_errors: 'On'
-php_display_startup_errors: 'On'
-php_html_errors: 'On'
-php_post_max_size: '32M'
-php_upload_max_filesize: '32M'
-php_date_timezone: 'America/Sao_Paulo'
+php_max_execution_time: "90"
+php_display_errors: "On"
+php_display_startup_errors: "On"
+php_html_errors: "On"
+php_post_max_size: "32M"
+php_upload_max_filesize: "32M"
+php_date_timezone: "America/Sao_Paulo"
 
 
 
@@ -138,7 +138,7 @@ php_date_timezone: 'America/Sao_Paulo'
 #
 #
 
-php_fpm_config_directory: '{{ php_config_directory }}/fpm/'
+php_fpm_config_directory: "{{ php_config_directory }}/fpm/"
 
 
 
@@ -148,10 +148,10 @@ php_fpm_config_directory: '{{ php_config_directory }}/fpm/'
 #
 #
 
-apc_rfc1867: '1'
-apc_shm_size: '256M'
-apc_shm_segments: '1'
-apc_num_files_hint: '0'
+apc_rfc1867: "1"
+apc_shm_size: "256M"
+apc_shm_segments: "1"
+apc_num_files_hint: "0"
 
 
 
@@ -161,15 +161,15 @@ apc_num_files_hint: '0'
 #
 #
 
-mysql_max_allowed_packet: '128M'
-mysql_character_set_server: 'utf8'
-mysql_collation_server: 'utf8_general_ci'
-innodb_file_per_table: 'innodb_file_per_table'
+mysql_max_allowed_packet: "128M"
+mysql_character_set_server: "utf8"
+mysql_collation_server: "utf8_general_ci"
+innodb_file_per_table: "innodb_file_per_table"
 
-mysql_secondary_user: '' # keep it blank to not create a secondary user
-mysql_secondary_password: 'PASSWORD'
-mysql_phpmyadmin_password: 'PASSWORD'
-mysql_configuration_path: '/etc/mysql'
+mysql_secondary_user: "" # keep it blank to not create a secondary user
+mysql_secondary_password: "PASSWORD"
+mysql_phpmyadmin_password: "PASSWORD"
+mysql_configuration_path: "/etc/mysql"
 
 
 
@@ -179,8 +179,8 @@ mysql_configuration_path: '/etc/mysql'
 #
 #
 
-postgresql_version: '9.4'
-postgresql_db_name: 'phpboxdev'
+postgresql_version: "9.4"
+postgresql_db_name: "phpboxdev"
 
 
 
@@ -190,9 +190,9 @@ postgresql_db_name: 'phpboxdev'
 #
 #
 
-apache_server_admin: 'webmaster@example.com'
-apache_server_alias: '*.*.example.com'
-apache_config_directory: '/etc/apache2'
+apache_server_admin: "webmaster@example.com"
+apache_server_alias: "*.*.example.com"
+apache_config_directory: "/etc/apache2"
 
 
 
@@ -203,13 +203,13 @@ apache_config_directory: '/etc/apache2'
 #
 
 nginx_delete_default_vhost: false
-nginx_user: '{{ webserver_username }}'
-nginx_worker_processes: '{{ ansible_processor_count }}'
-nginx_pid: '/var/run/nginx.pid'
-nginx_worker_connections: '8000'
-nginx_worker_rlimit_nofile: '10000'
-nginx_config_directory: '/etc/nginx'
-nginx_logs_directory: '/var/log/nginx'
+nginx_user: "{{ webserver_username }}"
+nginx_worker_processes: "{{ ansible_processor_count }}"
+nginx_pid: "/var/run/nginx.pid"
+nginx_worker_connections: "8000"
+nginx_worker_rlimit_nofile: "10000"
+nginx_config_directory: "/etc/nginx"
+nginx_logs_directory: "/var/log/nginx"
 
 
 
@@ -229,8 +229,8 @@ grunt_version: 0.4.1
 #
 #
 
-composer_home: '/usr/local/share/composer'
-composer_executable: '/usr/local/bin/composer'
+composer_home: "/usr/local/share/composer"
+composer_executable: "/usr/local/bin/composer"
 
 
 
@@ -240,8 +240,8 @@ composer_executable: '/usr/local/bin/composer'
 #
 #
 
-beanstalkd_server_hostname: '{{ ansible_hostname }}'
-beanstalkd_server_port: '11300'
+beanstalkd_server_hostname: "{{ ansible_hostname }}"
+beanstalkd_server_port: "11300"
 
 
 
@@ -251,9 +251,9 @@ beanstalkd_server_port: '11300'
 #
 #
 
-phpunit_directory: '/usr/share/phpunit'
-phpunit_executable: '/usr/local/bin/phpunit'
-phpunit_version: '3.7.*'
+phpunit_directory: "/usr/share/phpunit"
+phpunit_executable: "/usr/local/bin/phpunit"
+phpunit_version: "3.7.*"
 
 
 
@@ -263,9 +263,9 @@ phpunit_version: '3.7.*'
 #
 #
 
-phpspec_directory: '/usr/share/phpspec'
-phpspec_executable: '/usr/local/bin/phpspec'
-phpspec_version: '2.0.*@dev'
+phpspec_directory: "/usr/share/phpspec"
+phpspec_executable: "/usr/local/bin/phpspec"
+phpspec_version: "2.0.*@dev"
 
 
 ########################
@@ -274,7 +274,7 @@ phpspec_version: '2.0.*@dev'
 #
 #
 
-docker_executable: '/usr/local/bin/docker'
+docker_executable: "/usr/local/bin/docker"
 
 
 
@@ -284,7 +284,7 @@ docker_executable: '/usr/local/bin/docker'
 #
 #
 
-squid_config_directory: '/etc/squid3'
+squid_config_directory: "/etc/squid3"
 
 
 
@@ -294,7 +294,7 @@ squid_config_directory: '/etc/squid3'
 #
 #
 
-phpunit_version: '4.0.*'
+phpunit_version: "4.0.*"
 
 
 
@@ -304,7 +304,7 @@ phpunit_version: '4.0.*'
 #
 #
 
-phpspec_version: '2.0.*'
+phpspec_version: "2.0.*"
 
 
 
@@ -314,7 +314,7 @@ phpspec_version: '2.0.*'
 #
 #
 
-codeception_version: '2.0.*'
+codeception_version: "2.0.*"
 
 
 
@@ -324,12 +324,12 @@ codeception_version: '2.0.*'
 #
 #
 
-phantomjs_directory: '/usr/share/phantomjs'
-phantomjs_executable: '/usr/local/bin/phantomjs'
-phantomjs_version: '1.9.7'
-phantomjs_file_name: 'phantomjs-{{ phantomjs_version }}-linux-x86_64'
+phantomjs_directory: "/usr/share/phantomjs"
+phantomjs_executable: "/usr/local/bin/phantomjs"
+phantomjs_version: "1.9.7"
+phantomjs_file_name: "phantomjs-{{ phantomjs_version }}-linux-x86_64"
 
-minidump_stackwalk_executable: '/usr/local/bin/minidump_stackwalk'
+minidump_stackwalk_executable: "/usr/local/bin/minidump_stackwalk"
 
 ########################
 #
@@ -348,7 +348,7 @@ selenium_jar_file: "selenium-server-standalone-{{selenium_server_full_version}}.
 selenium_sel_role: standalone
 selenium_destination_path: "/usr/local/lib/selenium"
 
-selenium_hub: ''
-selenium_java_opts: ''
-selenium_extra_args: ''
-selenium_port: ''
+selenium_hub: ""
+selenium_java_opts: ""
+selenium_extra_args: ""
+selenium_port: ""

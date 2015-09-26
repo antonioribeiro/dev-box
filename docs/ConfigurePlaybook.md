@@ -55,7 +55,7 @@ It contains your personal info (usernames and passwords) for each software you w
 ```
 user_with_sudo_power: 'YOUR-BOX-MAIN-USERNAME'
 
-mysql_root_username: $root_username
+mysql_root_username: {{ root_username }}
 mysql_root_password: 'PASSWORD'
 ```
 

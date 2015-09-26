@@ -67,6 +67,7 @@
      - unattended-upgrades
      - whois
      - apt-show-versions
+     - httpie
   tags: common
 
 - name: install rar

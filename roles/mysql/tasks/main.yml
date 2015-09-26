@@ -2,26 +2,26 @@
 # purging mysql:
 #   sudo apt-get --yes --purge remove mysql-server mysql-common mysql-client
 #
-# installing 
+# installing
 #   sudo apt-get --yes install mysql-server mysql-common mysql-client
-# 
+#
 #  create database base;
 #  GRANT ALL PRIVILEGES ON base.* TO 'root'@'localhost' WITH GRANT OPTION;
 #
 #
 
 - name: MySQL | Set debconf vars
-  raw: sudo echo $item | sudo /usr/bin/debconf-set-selections
+  raw: sudo echo {{ item }} | sudo /usr/bin/debconf-set-selections
   with_items:
-    - mysql-server mysql-server/root_password password $mysql_root_password  
-    - mysql-server mysql-server/root_password_again password $mysql_root_password
-    - mysql-server mysql-server/root_password seen $mysql_root_password  
-    - mysql-server mysql-server/root_password_again seen $mysql_root_password
+    - mysql-server mysql-server/root_password password {{ mysql_root_password }}
+    - mysql-server mysql-server/root_password_again password {{ mysql_root_password }}
+    - mysql-server mysql-server/root_password seen {{ mysql_root_password }}
+    - mysql-server mysql-server/root_password_again seen {{ mysql_root_password }}
   tags: mysql
 
 - name: MySQL | Install server and components
-  apt: 
-    pkg=$item 
+  apt:
+    pkg={{ item }}
     state=installed
   with_items:
     - mysql-server
@@ -37,19 +37,19 @@
 ################# Set root password on .my.cnf and all hosts
 
 - name: MySQL | Config for easy access as root user
-  template: 
-    src=root-my-cnf.j2 
+  template:
+    src=root-my-cnf.j2
     dest="/{{ root_username }}/.my.cnf"
   tags: mysql
 
 - name: MySQL | Update mysql root password for all root accounts
-  mysql_user: 
+  mysql_user:
     name={{ mysql_root_username }}
-    host=$item 
+    host={{ item }}
     password={{ mysql_root_password }}
-    state=present 
+    state=present
   with_items:
-    - $ansible_hostname
+    - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1
     - localhost
@@ -58,21 +58,21 @@
 ################# Aloow remote connection from your workstation
 
 - name: MySQL | Grant root remote access via your workstation
-  shell: 
+  shell:
     echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'{{ workstation_ip_address }}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u {{ mysql_root_username }} -p{{ mysql_root_password }}
-  tags: mysql 
+  tags: mysql
 
 ################# Create secondary user
 
 - name: MySQL | Create a secondary user for mysql
-  mysql_user: 
-    name=$mysql_secondary_user 
-    host=$item 
-    password=$mysql_secondary_password 
-    priv=laravel.*:ALL 
+  mysql_user:
+    name={{ mysql_secondary_user }}
+    host={{ item }}
+    password={{ mysql_secondary_password }}
+    priv=laravel.*:ALL
     state=present
   with_items:
-    - $ansible_hostname
+    - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1
     - localhost
@@ -82,36 +82,36 @@
 ################# Secure MySQL
 
 - name: MySQL | Configuration file, my.cnf
-  template: 
-    src=etc-mysql-my-cnf.j2 
+  template:
+    src=etc-mysql-my-cnf.j2
     dest="{{ mysql_configuration_path }}/my.cnf"
-    owner={{ root_username }} 
+    owner={{ root_username }}
     mode=0600
   notify:
     - restart mysql
   tags: mysql
 
 - name: MySQL | Config for easy access as root user
-  template: 
-    src=root-my-cnf.j2 
+  template:
+    src=root-my-cnf.j2
     dest="/{{ root_username }}/.my.cnf"
   tags: mysql
 
-- name: MySQL | Delete anonymous MySQL server user for $server_hostname
-  mysql_user: 
-    user="" 
-    host="$server_hostname" 
+- name: MySQL | Delete anonymous MySQL server user for {{ server_hostname }}
+  mysql_user:
+    user=""
+    host="{{ server_hostname }}"
     state=absent
   tags: mysql
 
 - name: MySQL | Delete anonymous MySQL server user for localhost
-  mysql_user: 
-    user="" 
+  mysql_user:
+    user=""
     state=absent
   tags: mysql
 
 - name: MySQL | Remove the MySQL test database
-  mysql_db: 
-    db=test 
+  mysql_db:
+    db=test
     state=absent
   tags: mysql
