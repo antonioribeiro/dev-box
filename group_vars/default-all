@@ -51,7 +51,7 @@ postgresql_db_password: "password"
 #  System properties
 #
 
-php_version: "5.5"
+php_version: "5.6"
 
 etc_path: "/etc" # general configuration folder
 
@@ -97,9 +97,9 @@ webserver_document_root: "/var/www" # Document root: where are you storing your 
 #
 #
 
-laravel_installer_version: ~1.1
+laravel_installer_version: "*"
 
-laravel_liferaft_version: ~1.0
+laravel_liferaft_version: "*"
 
 laravel_document_root: "{{ webserver_document_root }}/laravel" # Where your Laravel site files should be stored?
 
@@ -219,7 +219,7 @@ nginx_logs_directory: "/var/log/nginx"
 #
 #
 
-grunt_version: 0.4.1
+grunt_version: "0.4.1"
 
 
 
@@ -253,7 +253,7 @@ beanstalkd_server_port: "11300"
 
 phpunit_directory: "/usr/share/phpunit"
 phpunit_executable: "/usr/local/bin/phpunit"
-phpunit_version: "3.7.*"
+phpunit_version: "*"
 
 
 
@@ -265,7 +265,7 @@ phpunit_version: "3.7.*"
 
 phpspec_directory: "/usr/share/phpspec"
 phpspec_executable: "/usr/local/bin/phpspec"
-phpspec_version: "2.0.*@dev"
+phpspec_version: "*"
 
 
 ########################
@@ -285,26 +285,6 @@ docker_executable: "/usr/local/bin/docker"
 #
 
 squid_config_directory: "/etc/squid3"
-
-
-
-########################
-#
-# phpunit
-#
-#
-
-phpunit_version: "4.0.*"
-
-
-
-########################
-#
-# phpspec
-#
-#
-
-phpspec_version: "2.0.*"
 
 
 
@@ -337,7 +317,7 @@ minidump_stackwalk_executable: "/usr/local/bin/minidump_stackwalk"
 #
 #
 
-selenium_server_version: 2.43
+selenium_server_version: 2.47.1
 selenium_server_patch: 1
 selenium_server_full_version: "{{selenium_server_version}}.{{selenium_server_patch}}"
 

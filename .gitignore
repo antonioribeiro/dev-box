@@ -3,3 +3,5 @@ settings.yml
 hosts
 playbook.yml
 group_vars/all
+ansibleremote_ssh_key
+ansibleremote_ssh_key.pub

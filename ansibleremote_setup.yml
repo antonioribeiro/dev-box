@@ -1,0 +1,31 @@
+---
+- hosts: ubuntudevbox
+  user: root
+  vars:
+    createuser: 'ansibleremote'
+  vars_prompt:
+    - name: "createpassword"
+      prompt: "Could you please give ANSIBLEREMOTE user a password?"
+  tasks:
+  - name: Setup | create user
+    command: useradd -m {{ createuser }} creates=/home/{{ createuser }}
+    sudo: true
+
+  - name: Setup | set user password
+    shell: usermod -p $(echo '{{ createpassword }}' | openssl passwd -1 -stdin) {{ createuser }}
+    sudo: true
+
+  - name: Setup | authorized key upload
+    authorized_key: user={{ createuser }}
+      key="{{ lookup('file', 'id_rsa.pub') }}"
+      path='/home/{{ createuser }}/.ssh/authorized_keys'
+      manage_dir=no
+    sudo: true
+
+  - name: Sudoers | update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+    sudo: true
