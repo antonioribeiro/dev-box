@@ -1,26 +1,37 @@
 ---
 - hosts: ubuntudevbox
+
   user: root
+
   vars:
     createuser: 'ansibleremote'
+
   vars_prompt:
     - name: "createpassword"
       prompt: "Could you please give ANSIBLEREMOTE user a password?"
+
   tasks:
-  - name: Setup | create user
+  - name: Install SSH | Check if ssh keys are present
+    local_action: stat path=ansibleremote_ssh_key.pub
+    register: ansibleremote_ssh_key_file
+
+  - name: Install SSH | create user
     command: useradd -m {{ createuser }} creates=/home/{{ createuser }}
     sudo: true
+    when: ansibleremote_ssh_key_file.stat.exists == True
 
-  - name: Setup | set user password
+  - name: Install SSH | set user password
     shell: usermod -p $(echo '{{ createpassword }}' | openssl passwd -1 -stdin) {{ createuser }}
     sudo: true
+    when: ansibleremote_ssh_key_file.stat.exists == True
 
-  - name: Setup | authorized key upload
+  - name: Install SSH | authorized key upload
     authorized_key: user={{ createuser }}
       key="{{ lookup('file', 'id_rsa.pub') }}"
       path='/home/{{ createuser }}/.ssh/authorized_keys'
       manage_dir=no
     sudo: true
+    when: ansibleremote_ssh_key_file.stat.exists == True
 
   - name: Sudoers | update sudoers file and validate
     lineinfile: "dest=/etc/sudoers
@@ -29,3 +40,8 @@
       regexp='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
       state=present"
     sudo: true
+    when: ansibleremote_ssh_key_file.stat.exists == True
+
+  - debug:
+      msg="ERROR SSH KEY FILE DOES NOT NOT EXISTS!"
+    when: ansibleremote_ssh_key_file.stat.exists == False
