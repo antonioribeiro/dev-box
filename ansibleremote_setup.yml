@@ -9,6 +9,7 @@
   vars_prompt:
     - name: "createpassword"
       prompt: "Could you please give ANSIBLEREMOTE user a password?"
+      confirm: yes
 
   tasks:
   - name: Install SSH | Check if ssh keys are present
