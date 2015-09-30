@@ -1,0 +1,370 @@
+---
+
+#### Running
+#
+#    ansible-playbook --inventory-file=/var/www/ansible-laravel/hosts /var/www/ansible-laravel/playbook.yml -K
+
+#### Todo
+# http://git-legit.org/
+#
+
+########################################################################################
+
+- name: apply common configuration to all nodes
+  hosts: all
+  sudo: yes
+
+  roles:
+    - common
+
+########################################################################################
+
+- name: install apache2
+  hosts: apache2
+  sudo: yes
+
+  roles:
+    - apache2
+
+
+########################################################################################
+
+- name: install beanstalkd
+  hosts: beanstalkd
+  sudo: yes
+
+  roles:
+    - beanstalkd
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+########################################################################################
+
+- name: install bittorrentsync
+  hosts: bittorrentsync
+  sudo: yes
+
+  roles:
+    - bittorrentsync
+
+
+########################################################################################
+
+- name: install bower
+  hosts: bower
+  sudo: yes
+
+  roles:
+    - bower
+
+
+########################################################################################
+
+- name: install codeception
+  hosts: codeception
+  sudo: yes
+
+  roles:
+    - codeception
+
+########################################################################################
+
+- name: install composer
+  hosts: composer
+  sudo: yes
+
+  roles:
+    - composer
+
+########################################################################################
+
+- name: install csstools
+  hosts: csstools
+  sudo: yes
+
+  roles:
+    - csstools
+
+########################################################################################
+
+- name: install docker
+  hosts: docker
+  sudo: yes
+
+  roles:
+    - docker
+
+########################################################################################
+
+- name: install grunt
+  hosts: grunt
+  sudo: yes
+
+  roles:
+    - grunt
+
+########################################################################################
+
+- name: install gulp
+  hosts: gulp
+  sudo: yes
+
+  roles:
+    - gulp
+
+########################################################################################
+
+- name: install hhvm
+  hosts: hhvm
+  sudo: yes
+
+  roles:
+    - hhvm
+
+########################################################################################
+
+- name: install java
+  hosts: java
+  sudo: yes
+
+  roles:
+    - java
+
+########################################################################################
+
+- name: install laravel
+  hosts: laravel
+  sudo: yes
+
+  roles:
+    - laravel
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+
+########################################################################################
+
+- name: install memcached
+  hosts: memcached
+  sudo: yes
+
+  roles:
+    - memcached
+
+########################################################################################
+
+- name: install mysql
+  hosts: mysql
+  sudo: yes
+
+  roles:
+    - mysql
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+    - name: restart mysql
+      service: name=mysql state=restarted
+
+
+########################################################################################
+
+- name: install nginx
+  hosts: nginx
+  sudo: yes
+
+  roles:
+    - nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+########################################################################################
+
+- name: install node.js
+  hosts: nodejs
+  sudo: yes
+
+  roles:
+    - nodejs
+
+########################################################################################
+
+- name: install phantomjs
+  hosts: phantomjs
+  sudo: yes
+
+  roles:
+    - phantomjs
+
+########################################################################################
+
+- name: install php
+  hosts: php
+  sudo: yes
+
+  roles:
+    - php
+
+  handlers:
+    - name: restart php
+      service: name=php5-fpm state=restarted
+
+########################################################################################
+
+- name: install phpcodesniffer
+  hosts: phpcodesniffer
+  sudo: yes
+
+  roles:
+    - phpcodesniffer
+
+########################################################################################
+
+- name: install phpmyadmin
+  hosts: phpmyadmin
+  sudo: yes
+
+  roles:
+    - phpmyadmin
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+########################################################################################
+
+- name: install phpcsfixer
+  hosts: phpcsfixer
+  sudo: yes
+
+  roles:
+    - phpcsfixer
+
+########################################################################################
+
+- name: install phpspec
+  hosts: phpspec
+  sudo: yes
+
+  roles:
+    - phpspec
+
+########################################################################################
+
+- name: install phpunit
+  hosts: phpunit
+  sudo: yes
+
+  roles:
+    - phpunit
+
+########################################################################################
+
+- name: install postgresql
+  hosts: postgresql
+  sudo: yes
+
+  roles:
+    - postgresql
+
+  handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+########################################################################################
+
+- name: install python-fabric
+  hosts: python-fabric
+  sudo: yes
+
+  roles:
+    - python-fabric
+
+########################################################################################
+
+- name: install redis
+  hosts: redis
+  sudo: yes
+
+  roles:
+    - redis
+
+########################################################################################
+
+- name: install selenium
+  hosts: selenium
+  sudo: yes
+
+  roles:
+    - selenium
+
+########################################################################################
+
+- name: install squid
+  hosts: squid
+  sudo: yes
+
+  roles:
+    - squid
+
+########################################################################################
+
+- name: install supervisor
+  hosts: supervisor
+  sudo: yes
+
+  roles:
+    - supervisor
+
+########################################################################################
+
+- name: create swap memory
+  hosts: swap
+  sudo: yes
+
+  roles:
+    - swap
+
+########################################################################################
+
+- name: install webmin
+  hosts: webmin
+  sudo: yes
+
+  roles:
+    - webmin
+
+########################################################################################
+
+- name: install xhgui
+  hosts: xhgui
+  sudo: yes
+
+  roles:
+    - xhgui
+
+########################################################################################
+
+- name: install zsh
+  hosts: zsh
+  sudo: yes
+
+  roles:
+    - zsh
+
+
