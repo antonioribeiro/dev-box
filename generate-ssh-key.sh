@@ -1,0 +1,1 @@
+ssh-keygen -t rsa -b 4096 -f ansibleremote_ssh_key -N ''
