@@ -3,7 +3,7 @@
 #
 - name: CSS Tools | Install rubygems package
   apt:
-    pkg=rubygems
+    pkg=rubygems-integration
     state=installed
   tags: csstools
 

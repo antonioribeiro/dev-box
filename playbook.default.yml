@@ -345,3 +345,12 @@
   roles:
     - phpcsfixer
 
+########################################################################################
+
+- name: install csstools
+  hosts: csstools
+  sudo: yes
+
+  roles:
+    - csstools
+

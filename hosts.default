@@ -32,165 +32,12 @@
 
 #########################
 #
-# PHP 5.4, 5.5 (default) or 5.6
-#
-#  Configure php version in group_vars/all file, variable:  php_version: '5.5'
-
-[php:children]
-devbox
-
-
-
-#########################
-#
-# HHVM
-#
-
-[hhvm:children]
-devbox
-
-
-
-#########################
-#
-# ZSH
-#
-
-[zsh:children]
-#devbox
-server
-
-
-
-#########################
-#
-# Composer
-#
-#
-
-[composer:children]
-devbox
-
-
-
-#########################
-#
-# PHPUnit
-#
-#
-
-[phpunit:children]
-devbox
-
-
-
-#########################
-#
-# phpspec
-#
-#
-
-[phpspec:children]
-devbox
-
-
-
-#########################
-#
-# Codeception
-#
-#
-
-[codeception:children]
-devbox
-
-
-
-#########################
-#
 # Apache 2
 #
 #
 
 [apache2:children]
-#### devbox #### default is nginx!
-
-
-
-#########################
-#
-# Nginx
-#
-#
-
-[nginx:children]
-devbox
-
-
-
-#########################
-#
-# Memcached
-#
-#
-
-[memcached:children]
-devbox
-
-
-
-#########################
-#
-# Redis
-#
-#
-
-[redis:children]
-devbox
-
-
-
-#########################
-#
-# NodeJS
-#
-#
-
-[nodejs:children]
-devbox
-
-
-
-#########################
-#
-# MySQL
-#
-#
-
-[mysql:children]
-devbox
-
-
-
-#########################
-#
-# phpMyAdmin
-#
-#
-
-[phpmyadmin:children]
-devbox
-
-
-
-#########################
-#
-# PostgreSQL
-#
-#
-
-[postgresql:children]
-devbox
+#devbox
 
 
 
@@ -201,63 +48,61 @@ devbox
 #
 
 [beanstalkd:children]
-devbox
+#devbox
+
+
+#########################
+#
+# Bittorrent Sync
+#
+#
+
+[bittorrentsync:children]
+#devbox
 
 
 
 #########################
 #
-# Supervisor
+# Bower
 #
 #
 
-[supervisor:children]
-devbox
+[bower:children]
+#devbox
 
 
 
 #########################
 #
-# Swap memory
-#  It checks if you have swap memory on your box
-#  and creates it if you don't
+# Codeception
+#
 #
 
-[swap:children]
-devbox
+[codeception:children]
+#devbox
 
 
 
 #########################
 #
-# Grunt
+# Composer
 #
 #
 
-[grunt:children]
-devbox
+[composer:children]
+#devbox
 
 
 
 #########################
 #
-# Python Fabric
+# CSS Tools
 #
 #
 
-[python-fabric:children]
-devbox
-
-
-
-#########################
-#
-# Laravel
-#
-#
-
-[laravel:children]
-devbox
+[csstools:children]
+#devbox
 
 
 
@@ -268,31 +113,19 @@ devbox
 #
 #
 # [docker:children]
-# devbox
-#
-#
+#devbox
 
-
-
-#########################
-#
-# XHGui
-#
-#
-#
-# [xhgui:children]
-# devbox
 
 
 
 #########################
 #
-# PhantomJS
+# Grunt
 #
 #
 
-[phantomjs:children]
-devbox
+[grunt:children]
+#devbox
 
 
 
@@ -303,7 +136,17 @@ devbox
 #
 
 [gulp:children]
-server
+#devbox
+
+
+
+#########################
+#
+# HHVM
+#
+
+[hhvm:children]
+#devbox
 
 
 
@@ -314,18 +157,83 @@ server
 #
 
 [java:children]
-server
+#devbox
 
 
 
 #########################
 #
-# Selenium + Firefox
+# Laravel
 #
 #
 
-[selenium:children]
-server
+[laravel:children]
+#devbox
+
+
+#########################
+#
+# Memcached
+#
+#
+
+[memcached:children]
+#devbox
+
+
+
+#########################
+#
+# MySQL
+#
+#
+
+[mysql:children]
+#devbox
+
+
+
+#########################
+#
+# Nginx
+#
+#
+
+[nginx:children]
+#devbox
+
+
+
+#########################
+#
+# NodeJS
+#
+#
+
+[nodejs:children]
+#devbox
+
+
+
+#########################
+#
+# PhantomJS
+#
+#
+
+[phantomjs:children]
+#devbox
+
+
+
+#########################
+#
+# PHP 5.4 or 5.5
+#
+#  Configure php version in group_vars/all file, variable:  php_version: '5.5'
+
+[php:children]
+#devbox
 
 
 
@@ -336,8 +244,18 @@ server
 #
 
 [phpcodesniffer:children]
-devbox
+#devbox
 
+
+
+#########################
+#
+# phpMyAdmin
+#
+#
+
+[phpmyadmin:children]
+#devbox
 
 
 
@@ -348,7 +266,138 @@ devbox
 #
 
 [phpcsfixer:children]
-devbox
+#devbox
+
+
+
+#########################
+#
+# PHPSpec
+#
+#
+
+[phpspec:children]
+#devbox
+
+
+
+
+#########################
+#
+# PHPUnit
+#
+#
+
+[phpunit:children]
+#devbox
+
+
+
+#########################
+#
+# PostgreSQL
+#
+#
+
+[postgresql:children]
+#devbox
+
+
+
+#########################
+#
+# Python Fabric
+#
+#
+
+[python-fabric:children]
+#devbox
+
+
+
+#########################
+#
+# Redis
+#
+#
+
+[redis:children]
+#devbox
+
+
+
+#########################
+#
+# Selenium + Firefox
+#
+#
+
+[selenium:children]
+#devbox
+
+
+
+#########################
+#
+# Squid
+#
+#
+
+[squid:children]
+#devbox
+
+
+
+#########################
+#
+# Supervisor
+#
+#
+
+[supervisor:children]
+#devbox
+
+
+#########################
+#
+# Swap memory
+#
+#
+
+[swap:children]
+#devbox
+
+
+
+#########################
+#
+# Webmin
+#
+#
+
+[webmin:children]
+#devbox
+
+
+
+#########################
+#
+# XHGui
+#
+#
+#
+# [xhgui:children]
+#devbox
+
+
+
+#########################
+#
+# ZSH
+#
+
+[zsh:children]
+#devbox
 
 
 
