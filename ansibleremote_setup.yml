@@ -1,5 +1,5 @@
 ---
-- hosts: ubuntudevbox
+- hosts: setupsshbox
 
   user: root
 
@@ -26,9 +26,13 @@
     sudo: true
     when: ansibleremote_ssh_key_file.stat.exists == True
 
+  - name: Install SSH | Creates .ssh directory
+    file: path='/home/{{ createuser }}/.ssh/' state=directory owner='{{ createuser }}' group='{{ createuser }}'
+    sudo: true
+
   - name: Install SSH | authorized key upload
     authorized_key: user={{ createuser }}
-      key="{{ lookup('file', 'id_rsa.pub') }}"
+      key="{{ lookup('file', 'ansibleremote_ssh_key.pub') }}"
       path='/home/{{ createuser }}/.ssh/authorized_keys'
       manage_dir=no
     sudo: true
