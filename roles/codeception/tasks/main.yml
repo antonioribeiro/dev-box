@@ -4,5 +4,4 @@
   command: "{{ composer_executable }} global require 'codeception/codeception={{codeception_version}}' creates=/usr/local/share/composer/vendor/bin/codecept"
   environment:
       COMPOSER_HOME: '{{ composer_home }}'
-
   tags: codeception

@@ -21,9 +21,16 @@
     mode=0755
   tags: composer
 
-- name: Common | global update script
+- name: Common | add global update script to cron daily
   template:
     src=composerGlobalUpdate.sh
     dest=/etc/cron.daily/composerGlobalUpdate
+    mode=755
+  tags: composer
+
+- name: Common | add self update script to cron daily
+  template:
+    src=composerSelfUpdate.sh
+    dest=/etc/cron.daily/composerSelfUpdate
     mode=755
   tags: composer

@@ -1,0 +1,5 @@
+---
+
+- name: CofeeScript | Installs globally using npm
+  command: sudo npm install coffee -g
+  tags: coffee

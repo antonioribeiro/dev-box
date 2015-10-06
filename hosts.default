@@ -86,6 +86,17 @@
 
 #########################
 #
+# CoffeeScript
+#
+#
+
+[coffee:children]
+#devbox
+
+
+
+#########################
+#
 # Composer
 #
 #
