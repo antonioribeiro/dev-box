@@ -13,13 +13,25 @@
 # examples:
 #
 #  [server]
-#  10.0.0.1 ansible_ssh_port=22 ansible_ssh_user=me ansible-ssh-pass=mypass
+#  10.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ansibleremote ansible_ssh_private_key_file=/tmp/ansibleremote_ssh_key
 #
 #  [laravel]
 #  localhost ansible_ssh_port=22 ansible_ssh_user=me ansible-ssh-pass=mypass
 #
 #
 
+##########################################
+#
+#  Generate a ssh key
+#
+#
+# 	ssh-keygen -t rsa -b 4096
+# Name it
+# 	ansibleremote_ssh_key
+# If you are using a Windows FS, copy SSH key to a Linux FS
+#    cp ansibleremote_ssh_key /tmp/ansibleremote_ssh_key
+# And chomd it
+#    chmod 600 /tmp/ansibleremote_ssh_key
 
 
 ##########################################
