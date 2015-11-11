@@ -26,11 +26,11 @@
   tags: laravel
 
 
-- name: Laravel | Installing Laravel Liferaft globally
-  command: "{{ composer_executable }} global require 'laravel/liferaft={{laravel_liferaft_version}}' creates=/usr/local/share/composer/vendor/bin/liferaft"
-  environment:
-      COMPOSER_HOME: '{{ composer_home }}'
-  tags: laravel
+#- name: Laravel | Installing Laravel Liferaft globally
+#  command: "{{ composer_executable }} global require 'laravel/liferaft={{laravel_liferaft_version}}' creates=/usr/local/share/composer/vendor/bin/liferaft"
+#  environment:
+#      COMPOSER_HOME: '{{ composer_home }}'
+#  tags: laravel
 
 - name: Laravel | Make Laravel Liferaft executable
   get_url:
