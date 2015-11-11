@@ -32,16 +32,16 @@
 #      COMPOSER_HOME: '{{ composer_home }}'
 #  tags: laravel
 
-- name: Laravel | Make Laravel Liferaft executable
-  get_url:
-    url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh
-    dest={{ laravel_artisan_executable }}
-    mode=0775
-  tags: laravel
+#- name: Laravel | Make Laravel Liferaft executable
+#  get_url:
+#    url=https://raw.github.com/antonioribeiro/artisan-anywhere/master/artisan.sh
+#    dest={{ laravel_artisan_executable }}
+#    mode=0775
+#  tags: laravel
 
 
 - name: Laravel | Craft site
-  shell: laravel new laravel
+  shell: /usr/local/share/composer/vendor/bin/laravel new laravel
     chdir={{ webserver_document_root }}
     creates={{ webserver_document_root }}/{{ laravel_site_folder_name }}
   tags:
