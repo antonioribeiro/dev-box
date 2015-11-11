@@ -1,6 +1,6 @@
 ---
 
-- name: Gulp | Installs grunt-cli globally using npm
+- name: Gulp | Installs gulp globally using npm
   command: sudo npm install gulp -g
   tags: gulp
 
