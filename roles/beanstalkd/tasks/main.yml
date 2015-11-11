@@ -9,7 +9,7 @@
   shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
   register: nginx
   ignore_errors: true
-  tags: 
+  tags:
     - beanstalkd
 
 
@@ -17,7 +17,7 @@
   shell: apt-cache policy apache2 | grep Installed | grep -v "(none)"
   register: apache2
   ignore_errors: true
-  tags: 
+  tags:
     - beanstalkd
 
 
@@ -27,38 +27,39 @@
   apt: pkg={{ item }} state=latest
   with_items:
      - beanstalkd
-  tags: 
+  tags:
     - beanstalkd
 
 
 - name: Beanstalkd | Install Console
-  git: 
-    repo=https://github.com/ptrofimov/beanstalk_console.git 
+  git:
+    repo=https://github.com/ptrofimov/beanstalk_console.git
     dest={{ webserver_document_root }}/beanstalk_console
-  notify: 
+    force=yes
+  notify:
     restart nginx
   tags: beanstalkd
 
 
 - name: Beanstalkd | Configure Nginx virtualhost - enable site
-  file: 
-    state=link 
+  file:
+    state=link
     src={{ webserver_document_root }}/beanstalk_console/public
     dest={{ webserver_document_root }}/beanstalk_console/beanstalk
-    owner={{ root_username }} 
+    owner={{ root_username }}
     group={{ root_username }}
-  notify: 
+  notify:
     restart nginx
-  when: 
+  when:
     nginx.rc == 0 # exists
-  ignore_errors: True    
-  tags: 
+  ignore_errors: True
+  tags:
     - beanstalkd
 
 
 - name: Beanstalkd | Create first server on config.php
-  template: 
-    src=config.php.tpl 
+  template:
+    src=config.php.tpl
     dest={{ webserver_document_root }}/beanstalk_console/config.php
   tags: beanstalkd
 
@@ -69,12 +70,12 @@
 
 
 - name: Beanstalkd | Set directory permissions
-  file: 
-    path={{ webserver_document_root }}/beanstalk_console/ 
-    owner={{ root_username }} 
-    group={{ root_username }} 
-    mode=0755 
-    state=directory 
+  file:
+    path={{ webserver_document_root }}/beanstalk_console/
+    owner={{ root_username }}
+    group={{ root_username }}
+    mode=0755
+    state=directory
     recurse=yes
   tags: beanstalkd
 
@@ -82,20 +83,20 @@
 #### Apache 2
 
 - name: Beanstalkd | Configure Apache virtualhost
-  template: 
-    src=apache2-virtualhost.tpl 
+  template:
+    src=apache2-virtualhost.tpl
     dest={{ apache_config_directory }}/sites-available/beanstalkd-console.conf
-    owner={{ root_username }} 
-    group={{ root_username }}     
-    mode=0644 
+    owner={{ root_username }}
+    group={{ root_username }}
+    mode=0644
   notify: restart apache2
-  when: 
+  when:
     apache2.rc == 0 # exists
   tags: beanstalkd
 
 - name: Beanstalkd | Enable beanstalkd-console site
   command: a2ensite beanstalkd-console
-  when: 
+  when:
     apache2.rc == 0 # exists
   tags: beanstalkd
 
@@ -103,30 +104,30 @@
 #### Nginx
 
 - name: Beanstalkd | Configure Nginx virtualhost
-  template: 
-    src=nginx-virtualhost.tpl 
+  template:
+    src=nginx-virtualhost.tpl
     dest={{ nginx_config_directory }}/locations-available/beanstalkd-console.conf
-    owner={{ root_username }} 
-    group={{ root_username }}     
-    mode=0644 
-  notify: 
+    owner={{ root_username }}
+    group={{ root_username }}
+    mode=0644
+  notify:
     restart nginx
-  when: 
+  when:
     nginx.rc == 0 # exists
-  tags: 
+  tags:
     - beanstalkd
 
 - name: Beanstalkd | Configure Nginx virtualhost - enable site
-  file: 
-    state=link 
+  file:
+    state=link
     src={{ nginx_config_directory }}/locations-available/beanstalkd-console.conf
     dest={{ nginx_config_directory }}/locations-enabled/beanstalkd-console.conf
-    owner={{ root_username }} 
+    owner={{ root_username }}
     group={{ root_username }}
-  notify: 
+  notify:
     restart nginx
-  when: 
+  when:
     nginx.rc == 0 # exists
-  tags: 
+  tags:
     - beanstalkd
-    
+
