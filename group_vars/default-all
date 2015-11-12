@@ -122,6 +122,7 @@ laravel_site_host_name: laravel.dev
 #
 #
 
+php_config_directory: "/etc/php5"
 php_max_execution_time: "90"
 php_display_errors: "On"
 php_display_startup_errors: "On"
