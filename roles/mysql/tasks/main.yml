@@ -44,9 +44,9 @@
 
 - name: MySQL | Update mysql root password for all root accounts
   mysql_user:
-    name={{ mysql_root_username }}
+    login_user={{ mysql_root_username }}
     host={{ item }}
-    password={{ mysql_root_password }}
+    login_password={{ mysql_root_password }}
     state=present
   with_items:
     - "{{ ansible_hostname }}"
