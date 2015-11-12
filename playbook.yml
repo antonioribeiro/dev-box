@@ -295,6 +295,12 @@
     - name: restart postgresql
       service: name=postgresql state=restarted
 
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
 ########################################################################################
 
 - name: install python-fabric
