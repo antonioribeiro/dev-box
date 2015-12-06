@@ -20,8 +20,8 @@
 
 - name: Selenium | Install Config
   template: src=defaults.j2 dest=/etc/default/selenium_{{selenium_sel_role}} owner=root group=root mode=644
-  notify: selenium_reload
   tags: selenium
+  #notify: selenium_reload
 
 #- name: Selenium | Install init script
 #  template: src=init.j2 dest=/etc/init.d/selenium_{{selenium_sel_role}} owner=root group=root mode=755

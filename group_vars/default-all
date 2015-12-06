@@ -318,18 +318,19 @@ minidump_stackwalk_executable: "/usr/local/bin/minidump_stackwalk"
 #
 #
 
-selenium_server_version: 2.47.1
-selenium_server_patch: 1
-selenium_server_full_version: "{{selenium_server_version}}.{{selenium_server_patch}}"
+selenium_server_major: 2
+selenium_server_minor: 48
+selenium_server_patch: 2
+selenium_server_version: "{{selenium_server_major}}.{{selenium_server_minor}}.{{selenium_server_patch}}"
 
-selenium_download_url: "http://selenium-release.storage.googleapis.com/{{selenium_server_version}}/{{selenium_jar_file}}"
+selenium_jar_file: "selenium-server-standalone-{{selenium_server_version}}.jar"
 
-selenium_jar_file: "selenium-server-standalone-{{selenium_server_full_version}}.jar"
+selenium_download_url: "http://selenium-release.storage.googleapis.com/{{selenium_server_major}}.{{selenium_server_minor}}/{{selenium_jar_file}}"
 
 selenium_sel_role: standalone
 selenium_destination_path: "/usr/local/lib/selenium"
 
-selenium_hub: ""
-selenium_java_opts: ""
-selenium_extra_args: ""
-selenium_port: ""
+selenium_hub: ''
+selenium_java_opts: ''
+selenium_extra_args: ''
+selenium_port: ''
