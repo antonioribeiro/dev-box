@@ -51,7 +51,7 @@ postgresql_db_password: "password"
 #  System properties
 #
 
-php_version: "5.6"
+php_version: "7"
 
 etc_path: "/etc" # general configuration folder
 

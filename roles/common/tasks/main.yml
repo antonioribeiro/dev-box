@@ -68,6 +68,7 @@
      - whois
      - apt-show-versions
      - httpie
+     - apache2-utils
   tags: common
 
 - name: install rar
