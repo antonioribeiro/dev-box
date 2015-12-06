@@ -9,7 +9,6 @@
   tags:
     - php
 
-
 - name: Detector | Check if nginx is installed
   shell: apt-cache policy nginx | grep Installed | grep -v "(none)"
   register: nginx
@@ -17,12 +16,29 @@
   tags:
     - php
 
+########## Set variables
+
+- name: PHP | Set PHP 7 variables
+  set_fact:
+    php_config_directory: "/etc/php/7.0"
+  when:
+    php_version == "7.0"
+  tags: php
+
+- name: PHP | Set PHP 5 variables
+  set_fact:
+    php_config_directory: "/etc/php5"
+  when:
+    (php_version == "5.4") or
+    (php_version == "5.5") or
+    (php_version == "5.6")
+  tags: php
 
 ########## Start
 
 - name: PHP | Add Ondrej's PPA for PHP 7
   apt_repository:
-    repo=ppa:ondrej/php
+    repo=ppa:ondrej/php-7.0
     update_cache=yes
   when:
     php_version == "7.0"
@@ -64,20 +80,17 @@
   with_items:
      - php{{ php_packages_version }}
      - php{{ php_packages_version }}-cli
-     - php-apc
-     - php-pear
-     - php-xml-parser
+     - php{{ php_packages_version }}-dev
      - php{{ php_packages_version }}-cgi
      - php{{ php_packages_version }}-common
-     - php{{ php_packages_version }}-curl
-     - php{{ php_packages_version }}-dev
-     - php{{ php_packages_version }}-ldap
-     - php{{ php_packages_version }}-pgsql
      - php{{ php_packages_version }}-fpm
-     - libmagickwand-dev
-     - php-gettext
-     - php{{ php_packages_version }}-gd
-     - php{{ php_packages_version }}-imap
+     - php{{ php_packages_version }}-ldap
+     - php-sqlite3
+     - php-gd
+     - php-pgsql
+     - php-curl
+     - php-imap
+     - php-mysql
   tags: php
 
 - name: PHP | Install 5.x related packages
@@ -91,10 +104,14 @@
     - php5-memcached
     - php5-xdebug
     - php5-xmlrpc
-    - php5-sqlite
     - php5-readline
     - php5-mysqlnd
     - php5-gmp
+    - php-xml-parser
+    - libmagickwand-dev
+    - php-gettext
+    - php-pear
+    - php-apc
   tags: php
   when:
     (php_version == "5.4") or
@@ -105,6 +122,10 @@
   command: pecl install xdebug
            creates=/usr/share/php/.registry/.channel.pecl.php.net/xdebug.reg
   tags: php
+  when:
+    (php_version == "5.4") or
+    (php_version == "5.5") or
+    (php_version == "5.6")
 
 
 - name: PHP | Install APC
@@ -112,12 +133,20 @@
            creates=/usr/share/php/.registry/.channel.pecl.php.net/apc.reg
   when: php_version == "5.4"
   tags: php
+  when:
+    (php_version == "5.4") or
+    (php_version == "5.5") or
+    (php_version == "5.6")
 
 
 - name: PHP | Install Imagick
   command: pecl install imagick
            creates=/usr/share/php/.registry/.channel.pecl.php.net/imagick.reg
   tags: php
+  when:
+    (php_version == "5.4") or
+    (php_version == "5.5") or
+    (php_version == "5.6")
 
 
 - name: PHP | Browsecap download
@@ -134,6 +163,7 @@
     - '{{ php_config_directory }}/cli/php.ini'
     - '{{ php_config_directory }}/fpm/php.ini'
   tags: php
+
 
 ####### Configure modules
 
@@ -173,6 +203,7 @@
   with_items:
     - '{{ php_config_directory }}/cgi/php.ini'
     - '{{ php_config_directory }}/cli/php.ini'
+    - '{{ php_config_directory }}/fpm/php.ini'
   tags: php
 
 
