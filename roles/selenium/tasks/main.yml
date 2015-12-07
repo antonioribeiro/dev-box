@@ -35,10 +35,10 @@
 #    owner=root group=root mode=755
 #  tags: selenium
 
-#- name: Selenium | Install browser
-#  apt: name={{item}}
-#  when: selenium_sel_role != 'hub'
-#  with_items:
-#    - xvfb
-#    - firefox
-#  tags: selenium
+- name: Selenium | Install browser
+  apt: name={{item}}
+  when: selenium_sel_role != 'hub'
+  with_items:
+    - xvfb
+    - firefox
+  tags: selenium
