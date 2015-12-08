@@ -27,13 +27,13 @@
 #  template: src=init.j2 dest=/etc/init.d/selenium_{{selenium_sel_role}} owner=root group=root mode=755
 #  notify: selenium_started
 #  tags: selenium
-#
-#- name: Selenium | Install starter script
-#  template:
-#    src=selenium.j2
-#    dest={{ scripts_path }}/selenium
-#    owner=root group=root mode=755
-#  tags: selenium
+
+- name: Selenium | Install starter script
+  template:
+    src=selenium.j2
+    dest={{ scripts_path }}/selenium
+    owner=root group=root mode=755
+  tags: selenium
 
 - name: Selenium | Install browser
   apt: name={{item}}
