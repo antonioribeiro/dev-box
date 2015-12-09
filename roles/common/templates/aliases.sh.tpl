@@ -608,7 +608,9 @@ alias ci="cc integration"
 alias cis="ci --steps"
 alias cii="cis"
 
+alias phantomjs="phantomjs --webdriver=4444"
 alias pj="phantomjs --webdriver=4444"
+alias selenium="/etc/scripts/selenium"
 alias se="selenium"
 
 ############################################################
