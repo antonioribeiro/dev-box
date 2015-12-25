@@ -621,3 +621,5 @@ alias se="selenium"
 alias temp="sensors"
 alias ulimit='ulimit -S'
 alias less='less -r'
+alias fuck='sudo $(history -p \!\!)'
+
