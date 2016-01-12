@@ -21,8 +21,8 @@
 
 - name: New Relic | Configure key
   lineinfile: dest=/etc/newrelic/nrsysmond.cfg
-    regexp=^license_key=
-    line=license_key={{ new_relic_key }}
+    regexp='^license_key='
+    line='license_key={{ new_relic_key }}'
   tags: newrelic
 
 - name: New Relic | Configure hostname
