@@ -1,0 +1,21 @@
+---
+
+- name: New Relic | Installing apt-key
+  apt_key:
+    url=https://download.newrelic.com/548C16BF.gpg
+    state=present
+  tags: newrelic
+
+- name: New Relic | Add repository
+  apt_repository:
+    repo='deb http://apt.newrelic.com/debian/ newrelic non-free'
+    state=present
+    update_cache=yes
+  tags: newrelic
+
+- name: New Relic | Install
+  apt:
+    name=newrelic-sysmond
+    state=installed
+  tags: newrelic
+
