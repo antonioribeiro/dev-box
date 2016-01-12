@@ -341,4 +341,9 @@ selenium_port: ''
 # New Relic
 #
 #
+
 new_relic_key: ""
+new_relic_hostname: ""
+
+
+
