@@ -19,15 +19,20 @@
     state=installed
   tags: newrelic
 
-- name: Add New Relic Config
-  template:
-    src: nrsysmond.cfg.j2
-    dest: /etc/newrelic/nrsysmond.cfg
-    owner: newrelic
-    group: newrelic
+- name: New Relic | Configure key
+  lineinfile: dest=/etc/newrelic/nrsysmond.cfg
+    regexp=^license_key=
+    line=license_key={{ new_relic_key }}
   tags: newrelic
 
-- name: Restart New Relic
+- name: New Relic | Configure hostname
+  lineinfile: dest=/etc/newrelic/nrsysmond.cfg
+    regexp='^hostname='
+    insertafter='^#hostname='
+    line='hostname={{ new_relic_hostname | default(ansible_hostname, True) }}'
+  tags: newrelic
+
+- name: New Relic | Restart New Relic
   service:
     name: newrelic-sysmond
     state: restarted
