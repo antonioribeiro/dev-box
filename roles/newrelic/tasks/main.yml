@@ -19,3 +19,17 @@
     state=installed
   tags: newrelic
 
+- name: Add New Relic Config
+  template:
+    src: nrsysmond.cfg.j2
+    dest: /etc/newrelic/nrsysmond.cfg
+    owner: newrelic
+    group: newrelic
+  tags: newrelic
+
+- name: Restart New Relic
+  service:
+    name: newrelic-sysmond
+    state: restarted
+  tags: newrelic
+

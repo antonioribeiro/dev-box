@@ -334,3 +334,11 @@ selenium_hub: ''
 selenium_java_opts: ''
 selenium_extra_args: ''
 selenium_port: ''
+
+
+########################
+#
+# New Relic
+#
+#
+new_relic_key: ""
