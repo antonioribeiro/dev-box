@@ -1,7 +1,7 @@
 ---
 
-- name: memcached | Install
-  apt: 
-    pkg=memcached 
+- name: ufw | Install
+  apt:
+    pkg=ufw
     state=latest
-  tags: memcached
+  tags: ufw
