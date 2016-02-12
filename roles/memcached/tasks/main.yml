@@ -5,3 +5,15 @@
     pkg=ufw
     state=latest
   tags: ufw
+
+- name: ufw | Enable
+  ufw: state=enabled policy=deny
+
+- name: ufw | Allow SSH
+  ufw: rule=allow port=22
+
+- name: ufw | Allow HTTP
+  ufw: rule=allow port=80
+
+- name: ufw | Allow HTTPS
+  ufw: rule=allow port=443
