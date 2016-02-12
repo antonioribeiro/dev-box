@@ -8,12 +8,16 @@
 
 - name: ufw | Enable
   ufw: state=enabled policy=deny
+  tags: ufw
 
 - name: ufw | Allow SSH
   ufw: rule=allow port=22
+  tags: ufw
 
 - name: ufw | Allow HTTP
   ufw: rule=allow port=80
+  tags: ufw
 
 - name: ufw | Allow HTTPS
   ufw: rule=allow port=443
+  tags: ufw
