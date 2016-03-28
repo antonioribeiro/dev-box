@@ -91,6 +91,13 @@
     mode=755
   tags: common
 
+- name: Common | create check certificate script
+  template:
+    src=checkCertificate.sh.tpl
+    dest={{ scripts_path }}/checkCertificate.sh
+    mode=755
+  tags: common
+
 - name: Common | create gitstatus file
   template:
     src=gstatus
