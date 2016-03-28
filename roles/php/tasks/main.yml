@@ -85,12 +85,16 @@
      - php{{ php_packages_version }}-common
      - php{{ php_packages_version }}-fpm
      - php{{ php_packages_version }}-ldap
+     - php{{ php_packages_version }}-dev
+     - php{{ php_packages_version }}-intl
+     - php{{ php_packages_version }}-xsl
      - php-sqlite3
      - php-gd
      - php-pgsql
      - php-curl
      - php-imap
      - php-mysql
+     - libicu-dev
   tags: php
 
 - name: PHP | Install 5.x related packages
