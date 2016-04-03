@@ -1,0 +1,12 @@
+---
+
+- name: Dropbox | Dropbox Uploader
+  get_url: url=https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh dest=/etc/scripts/dropbox_uploader.sh mode=0775
+  tags: dropbox
+
+- name: Dropbox | Database Backup scripts
+  template:
+    src=backupPostgresToDropbox.sh.tpl
+    dest={{ scripts_path }}/backupPostgresToDropbox.sh
+    mode=755
+  tags: common

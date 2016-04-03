@@ -135,4 +135,3 @@
     dest=/etc/profile.d/scripts_path.sh
     mode=0775
   tags: common
-
