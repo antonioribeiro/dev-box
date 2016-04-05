@@ -1,0 +1,23 @@
+---
+
+- name: BlackfireIO | Installing apt-key
+  apt_key: url=https://packagecloud.io/gpg.key
+  tags: blackfireio
+
+- name: BlackfireIO | Installing apt package prerequisites
+  apt_repository: repo='deb http://packages.blackfire.io/debian any main'
+  tags: blackfireio
+
+- name: BlackfireIO | Install agent
+  apt:
+    pkg=blackfire-agent
+    state=latest
+  tags:
+    - blackfireio
+
+- name: BlackfireIO | Install probe
+  apt:
+    pkg=blackfire-php
+    state=latest
+  tags:
+    - blackfireio

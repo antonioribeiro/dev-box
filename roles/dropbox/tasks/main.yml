@@ -9,4 +9,4 @@
     src=backupPostgresToDropbox.sh.tpl
     dest={{ scripts_path }}/backupPostgresToDropbox.sh
     mode=755
-  tags: common
+  tags: dropbox

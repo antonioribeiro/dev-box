@@ -65,6 +65,16 @@
 
 ########################################################################################
 
+- name: install blackfireio
+  hosts: blackfireio
+  sudo: yes
+
+  roles:
+    - blackfireio
+
+
+########################################################################################
+
 - name: install codeception
   hosts: codeception
   sudo: yes

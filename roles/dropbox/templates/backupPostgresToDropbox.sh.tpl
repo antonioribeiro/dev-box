@@ -4,6 +4,8 @@
 #
 #  bash /var/www/dev-box/roles/dropbox/templates/backupPostgresToDropbox.sh.tpl kallzenter postgresql /var/www/kallzenter/
 #
+#  bash /etc/scripts/backupPostgresToDropbox.sh kallzenter_production postgresql /home/forge/kallzenter.com
+#
 #
 
 DATABASE=$1
