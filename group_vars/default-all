@@ -117,6 +117,32 @@ laravel_site_folder_name: laravel
 
 laravel_site_host_name: laravel.dev
 
+
+
+########################
+#
+# Letsencrypt
+#
+#
+
+# is the root path that gets served by your web server. Defaults to /var/www.
+letsencrypt_webroot_path: "/var/www"
+
+# needs to be set to your email address. Let's Encrypt wants it. Defaults to webmaster@{{ ansible_fqdn }}.
+letsencrypt_email: "acr+forge@antoniocarlosribeiro.com"
+
+# allows to specify a size for the generated key.
+letsencrypt_rsa_key_size: 4096
+
+# is a list of domains you wish to get a certificate for. It defaults to a single item with the value of {{ ansible_fqdn }}.
+letsencrypt_cert_domains: "devbox.antoniocarlosribeiro.com"
+
+# should probably be left alone, but if you set it, it will change where the letsencrypt program is installed.
+# letsencrypt_install_directory:
+
+# sets the auth server. Set to https://acme-staging.api.letsencrypt.org/directory to use the staging
+# letsencrypt_server
+
 ########################
 #
 # PHP - php.ini configuration

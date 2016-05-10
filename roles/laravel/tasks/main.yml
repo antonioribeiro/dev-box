@@ -114,13 +114,13 @@
 #     - laravel
 
 
-# ####### NGINX configuration
+####### NGINX configuration
 
-- name: Laravel | Create NGINX site
-  command: bash {{ scripts_path }}/serve.sh {{ laravel_site_host_name }} {{ webserver_document_root }}/{{ laravel_site_folder_name }}/public
-  when: nginx.rc == 0 # exists
-  tags:
-    - laravel
+# - name: Laravel | Create NGINX site
+#   command: bash {{ scripts_path }}/serve.sh {{ laravel_site_host_name }} {{ webserver_document_root }}/{{ laravel_site_folder_name }}/public
+#   when: nginx.rc == 0 # exists
+#   tags:
+#     - laravel
 
 - name: Laravel | Set directory permissions
   file:

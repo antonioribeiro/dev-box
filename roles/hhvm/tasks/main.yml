@@ -2,10 +2,12 @@
 
 - name: HHVM | Installing apt-key
   apt_key: url=http://dl.hhvm.com/conf/hhvm.gpg.key state=present
+  when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int < 16
   tags: hhvm
 
 - name: HHVM | Installing apt package prerequisites
   apt_repository: repo='deb http://dl.hhvm.com/ubuntu {{ ansible_distribution_release }} main' state=present
+  when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int < 16
   register: last_result
   tags: hhvm
 

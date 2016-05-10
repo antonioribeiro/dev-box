@@ -49,7 +49,7 @@
      - postgresql-{{ postgresql_version }}
      - postgresql-client-{{ postgresql_version }}
      - python-psycopg2
-     - php5-pgsql
+     - php-pgsql
      - libpq-dev
   tags: postgresql
 

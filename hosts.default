@@ -218,6 +218,16 @@ devbox
 
 #########################
 #
+# Letsencrypt
+#
+#
+
+[letsencrypt:children]
+ubuntudevbox
+
+
+#########################
+#
 # Memcached
 #
 #

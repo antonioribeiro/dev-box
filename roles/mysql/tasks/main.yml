@@ -27,7 +27,7 @@
     - mysql-server
     - mysql-client
     - python-mysqldb
-    - php5-mysql
+    - php-mysql
   tags: mysql
 
 - name: MySQL | Start the MySQL service
@@ -44,22 +44,18 @@
 
 - name: MySQL | Update mysql root password for all root accounts
   mysql_user:
+    name={{ mysql_root_username }}
     login_user={{ mysql_root_username }}
-    host={{ item }}
     login_password={{ mysql_root_password }}
+    host={{ item }}
+    user={{ mysql_root_username }}
     state=present
+    priv=*.*:ALL,GRANT
   with_items:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1
     - localhost
-  tags: mysql
-
-################# Aloow remote connection from your workstation
-
-- name: MySQL | Grant root remote access via your workstation
-  shell:
-    echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'{{ workstation_ip_address }}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u {{ mysql_root_username }} -p{{ mysql_root_password }}
   tags: mysql
 
 ################# Create secondary user

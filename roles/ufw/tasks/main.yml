@@ -1,7 +1,24 @@
 ---
 
-- name: memcached | Install
-  apt: 
-    pkg=memcached 
+- name: ufw | Install
+  apt:
+    pkg=ufw
     state=latest
-  tags: memcached
+  tags: ufw
+
+- name: ufw | Enable
+  ufw: state=enabled policy=deny
+  tags: ufw
+
+- name: ufw | Allow SSH
+  ufw: rule=allow port={{ item }}
+  with_items:
+     - 22
+     - 80
+     - 443
+     - 587
+     - 922
+     - 5432
+     - 23172
+     - 23173
+  tags: ufw
