@@ -89,8 +89,10 @@
      - php{{ php_packages_version }}-intl
      - php{{ php_packages_version }}-xsl
      - php{{ php_packages_version }}-mcrypt
+     - php{{ php_packages_version }}-mbstring
      - php-sqlite3
      - php-gd
+     - php-zip
      - php-pgsql
      - php-curl
      - php-imap

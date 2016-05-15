@@ -1,0 +1,40 @@
+---
+
+- name: xhprof | Remove temp dir
+  apt:
+    file: dest=/tmp/xhprof-php7
+    state: absent
+  tags: xhprof
+
+- name: xhprof | Clone repo
+  apt:
+    git: repo=https://github.com/RustJason/xhprof/ version=php7 dest=/tmp/xhprof-php7
+  tags: xhprof
+
+- name: xhprof | Clone repo
+  shell: >
+    {{ item }}
+    chdir=/tmp/xhprof-php7
+  with_items:
+    - phpize
+    - ./configure
+    - make
+  tags: xhprof
+
+#    creates={{ workspace }}/xdebug-{{ php_xdebug_version }}/modules/xdebug.so
+
+- name: Ensure Xdebug module path exists.
+  file:
+    path: "{{ php_xhprof_module_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+# - name: Move Xdebug module into place.
+#   shell: >
+#     cp {{ workspace }}/xdebug-{{ php_xdebug_version }}/modules/xdebug.so {{ php_xdebug_module_path }}/xdebug.so
+#     creates={{ php_xdebug_module_path }}/xdebug.so
+#   notify: restart webserver
+
+# - include: configure.yml

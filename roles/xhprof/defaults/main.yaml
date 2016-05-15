@@ -1,0 +1,20 @@
+---
+workspace: /root
+
+php_xhprof_version: 1.0.0
+
+php_xhprof_module_path: /usr/lib/php/20151012
+
+php_xhprof_coverage_enable: 1
+php_xhprof_default_enable: 1
+php_xhprof_cli_enable: 1
+
+php_xhprof_remote_enable: "false"
+php_xhprof_remote_connect_back: "false"
+php_xhprof_remote_host: localhost
+php_xhprof_remote_port: "9000"
+php_xhprof_remote_log: /tmp/xhprof.log
+php_xhprof_remote_autostart: "false"
+
+php_xhprof_max_nesting_level: 256
+

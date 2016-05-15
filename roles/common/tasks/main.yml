@@ -69,6 +69,8 @@
      - apt-show-versions
      - httpie
      - apache2-utils
+     - smbclient
+     - cifs-utils
   tags: common
 
 - name: install rar
