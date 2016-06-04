@@ -138,7 +138,6 @@
 - name: PHP | Install APC
   shell: printf "\n" | sudo pecl install apc
            creates=/usr/share/php/.registry/.channel.pecl.php.net/apc.reg
-  when: php_version == "5.4"
   tags: php
   when:
     (php_version == "5.4") or
@@ -194,11 +193,10 @@
     - '{{ php_config_directory }}/cgi/php.ini'
     - '{{ php_config_directory }}/cli/php.ini'
     - '{{ php_config_directory }}/fpm/php.ini'
-  when:
-     mcrypt.rc == 1 # not installed
   notify:
      - restart php
   when:
+    mcrypt.rc == 1  and
     (php_version == "5.4") or
     (php_version == "5.5") or
     (php_version == "5.6")
