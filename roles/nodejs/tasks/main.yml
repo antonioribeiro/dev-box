@@ -19,14 +19,25 @@
   apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
   tags: nodejs
 
-- name: Node.js | Add NodeSource deb repository
-  apt_repository: repo='deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main' state=present
+- name: Node.js | Set ansible_distribution_release
+  set_fact:
+      ansible_distribution_release: xenial
+  when: ansible_distribution_release == 'loki'
   tags: nodejs
 
-- name: Node.js | Add NodeSource deb-src repository
-  apt_repository: repo='deb-src https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main' state=present
-  tags: nodejs
+- name: Node.js | Add NodeSource deb repository
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
 
 - name: Node.js | Install Node.js
-  apt: pkg=nodejs state=installed update_cache=yes
+  apt: pkg=nodejs state=installed
+  tags: nodejs
+
+- name: Node.js | Install NPM
+  apt: pkg=npm state=installed
   tags: nodejs

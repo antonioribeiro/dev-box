@@ -40,12 +40,12 @@
 #  tags: laravel
 
 
-- name: Laravel | Craft site
-  shell: /usr/local/share/composer/vendor/bin/laravel new laravel
-    chdir={{ webserver_document_root }}
-    creates={{ webserver_document_root }}/{{ laravel_site_folder_name }}
-  tags:
-    - laravel
+# - name: Laravel | Craft site
+#   shell: /usr/local/share/composer/vendor/bin/laravel new laravel
+#     chdir={{ webserver_document_root }}
+#     creates={{ webserver_document_root }}/{{ laravel_site_folder_name }}
+#   tags:
+#     - laravel
 
 
 - name: Laravel | Artisan Anywhere

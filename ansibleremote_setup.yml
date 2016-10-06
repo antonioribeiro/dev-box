@@ -18,24 +18,24 @@
 
   - name: Install SSH | create user
     command: useradd -m {{ createuser }} creates=/home/{{ createuser }}
-    sudo: true
+    become: true
     when: ansibleremote_ssh_key_file.stat.exists == True
 
   - name: Install SSH | set user password
     shell: usermod -p $(echo '{{ createpassword }}' | openssl passwd -1 -stdin) {{ createuser }}
-    sudo: true
+    become: true
     when: ansibleremote_ssh_key_file.stat.exists == True
 
   - name: Install SSH | Creates .ssh directory
     file: path='/home/{{ createuser }}/.ssh/' state=directory owner='{{ createuser }}' group='{{ createuser }}'
-    sudo: true
+    become: true
 
   - name: Install SSH | authorized key upload
     authorized_key: user={{ createuser }}
       key="{{ lookup('file', 'ansibleremote_ssh_key.pub') }}"
       path='/home/{{ createuser }}/.ssh/authorized_keys'
       manage_dir=no
-    sudo: true
+    become: true
     when: ansibleremote_ssh_key_file.stat.exists == True
 
   - name: Sudoers | update sudoers file and validate
@@ -44,7 +44,7 @@
       line='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
       regexp='{{ createuser }} ALL=(ALL) NOPASSWD: ALL'
       state=present"
-    sudo: true
+    become: true
     when: ansibleremote_ssh_key_file.stat.exists == True
 
   - debug:

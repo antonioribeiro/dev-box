@@ -49,6 +49,7 @@
     login_password={{ mysql_root_password }}
     host={{ item }}
     user={{ mysql_root_username }}
+    password={{ mysql_root_password }}
     state=present
     priv=*.*:ALL,GRANT
   with_items:

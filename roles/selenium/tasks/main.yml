@@ -10,7 +10,7 @@
 
 - name: Selenium | Download
   connection: local
-  sudo: False
+  become: False
   get_url: url={{selenium_download_url}}  dest=/tmp/{{selenium_jar_file}} force=no
   tags: selenium
 

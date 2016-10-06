@@ -35,6 +35,11 @@
   apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
   tags: postgresql
 
+- name: PostgreSQL | Set ansible_distribution_release
+  set_fact:
+      ansible_distribution_release: xenial
+  when: ansible_distribution_release == 'loki'
+  tags: postgresql
 
 - name: PostgreSQL | Installing apt package source
   apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main" state=present
@@ -181,8 +186,8 @@
     login_user={{ postgresql_system_user }}
     login_password={{ postgresql_system_user_password }}
     db={{ postgresql_db_name }}
-  sudo_user: "{{ postgresql_system_user }}"
-  sudo: True
+  become_user: "{{ postgresql_system_user }}"
+  become: True
   tags: postgresql
 
 - name: PostgreSQL | ensure user has access to database
@@ -193,8 +198,8 @@
     password={{ postgresql_db_password }}
     role_attr_flags=SUPERUSER,CREATEDB
     state=present
-  sudo_user: "{{ postgresql_system_user }}"
-  sudo: True
+  become_user: "{{ postgresql_system_user }}"
+  become: True
   tags: postgresql
 
 ### PostgreSQL Studio ()

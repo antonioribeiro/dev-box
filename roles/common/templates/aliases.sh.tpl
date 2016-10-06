@@ -57,7 +57,8 @@ alias gf='git fetch --all'
 alias gl='git log'
 alias gll='git log --all --decorate --oneline -n 30'
 alias gpom='git push origin master'
-alias gpop='git push origin master:production'
+alias gpod="git push origin develop"
+alias gpomp='git push origin master:production'
 alias gr='git remote'
 alias gra='git remote add'
 alias grr='git remote rename'
@@ -111,7 +112,7 @@ alias gcod="git checkout -- ."
 alias gpum="git pull upstream master"
 
 # delete branch from github. follow with branch name
-alias gpod="git push origin --delete"
+alias gpodelete="git push origin --delete"
 
 # show git status without untracked files
 alias gsu="git status -uno"
@@ -519,7 +520,7 @@ alias cud="composer update --prefer-dist"
 alias cupd="composer update --prefer-dist"
 alias csu="sudo composer self-update"
 alias cr="composer require"
-alias composer="hhvm {{ composer_executable }}"
+#alias composer="hhvm {{ composer_executable }}"
 
 
 ############################################################

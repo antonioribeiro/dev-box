@@ -177,10 +177,6 @@
   shell: php -m | grep mcrypt
   register: mcrypt
   ignore_errors: true
-  when:
-    (php_version == "5.4") or
-    (php_version == "5.5") or
-    (php_version == "5.6")
   tags:
     - php
 

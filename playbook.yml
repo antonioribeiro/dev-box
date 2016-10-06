@@ -12,7 +12,7 @@
 
 - name: apply common configuration to all nodes
   hosts: all
-  sudo: yes
+  become: yes
 
   roles:
     - common
@@ -21,7 +21,7 @@
 
 - name: install apache2
   hosts: apache2
-  sudo: yes
+  become: yes
 
   roles:
     - apache2
@@ -31,7 +31,7 @@
 
 - name: install beanstalkd
   hosts: beanstalkd
-  sudo: yes
+  become: yes
 
   roles:
     - beanstalkd
@@ -47,7 +47,7 @@
 
 - name: install bittorrentsync
   hosts: bittorrentsync
-  sudo: yes
+  become: yes
 
   roles:
     - bittorrentsync
@@ -57,7 +57,7 @@
 
 - name: install bower
   hosts: bower
-  sudo: yes
+  become: yes
 
   roles:
     - bower
@@ -67,7 +67,7 @@
 
 - name: install blackfireio
   hosts: blackfireio
-  sudo: yes
+  become: yes
 
   roles:
     - blackfireio
@@ -77,7 +77,7 @@
 
 - name: install codeception
   hosts: codeception
-  sudo: yes
+  become: yes
 
   roles:
     - codeception
@@ -86,7 +86,7 @@
 
 - name: install coffee
   hosts: coffee
-  sudo: yes
+  become: yes
 
   roles:
     - coffee
@@ -95,7 +95,7 @@
 
 - name: install composer
   hosts: composer
-  sudo: yes
+  become: yes
 
   roles:
     - composer
@@ -104,7 +104,7 @@
 
 - name: install csstools
   hosts: csstools
-  sudo: yes
+  become: yes
 
   roles:
     - csstools
@@ -113,7 +113,7 @@
 
 - name: install docker
   hosts: docker
-  sudo: yes
+  become: yes
 
   roles:
     - docker
@@ -122,7 +122,7 @@
 
 - name: install dropbox
   hosts: dropbox
-  sudo: yes
+  become: yes
 
   roles:
     - dropbox
@@ -131,7 +131,7 @@
 
 - name: install grunt
   hosts: grunt
-  sudo: yes
+  become: yes
 
   roles:
     - grunt
@@ -140,7 +140,7 @@
 
 - name: install gulp
   hosts: gulp
-  sudo: yes
+  become: yes
 
   roles:
     - gulp
@@ -149,7 +149,7 @@
 
 - name: install hhvm
   hosts: hhvm
-  sudo: yes
+  become: yes
 
   roles:
     - hhvm
@@ -158,7 +158,7 @@
 
 - name: install java
   hosts: java
-  sudo: yes
+  become: yes
 
   roles:
     - java
@@ -167,7 +167,7 @@
 
 - name: install laravel
   hosts: laravel
-  sudo: yes
+  become: yes
 
   roles:
     - laravel
@@ -184,7 +184,7 @@
 
 - name: install letsencrypt
   hosts: letsencrypt
-  sudo: yes
+  become: yes
 
   roles:
     - letsencrypt
@@ -193,7 +193,7 @@
 
 - name: install memcached
   hosts: memcached
-  sudo: yes
+  become: yes
 
   roles:
     - memcached
@@ -202,7 +202,7 @@
 
 - name: install mysql
   hosts: mysql
-  sudo: yes
+  become: yes
 
   roles:
     - mysql
@@ -218,7 +218,7 @@
 
 - name: install newrelic
   hosts: newrelic
-  sudo: yes
+  become: yes
 
   roles:
     - newrelic
@@ -227,7 +227,7 @@
 
 - name: install nginx
   hosts: nginx
-  sudo: yes
+  become: yes
 
   roles:
     - nginx
@@ -240,7 +240,7 @@
 
 - name: install node.js
   hosts: nodejs
-  sudo: yes
+  become: yes
 
   roles:
     - nodejs
@@ -249,7 +249,7 @@
 
 - name: install phantomjs
   hosts: phantomjs
-  sudo: yes
+  become: yes
 
   roles:
     - phantomjs
@@ -258,7 +258,7 @@
 
 - name: install php
   hosts: php
-  sudo: yes
+  become: yes
 
   roles:
     - php
@@ -271,7 +271,7 @@
 
 - name: install phpcodesniffer
   hosts: phpcodesniffer
-  sudo: yes
+  become: yes
 
   roles:
     - phpcodesniffer
@@ -280,7 +280,7 @@
 
 - name: install phpmyadmin
   hosts: phpmyadmin
-  sudo: yes
+  become: yes
 
   roles:
     - phpmyadmin
@@ -296,7 +296,7 @@
 
 - name: install phpcsfixer
   hosts: phpcsfixer
-  sudo: yes
+  become: yes
 
   roles:
     - phpcsfixer
@@ -305,7 +305,7 @@
 
 - name: install phpspec
   hosts: phpspec
-  sudo: yes
+  become: yes
 
   roles:
     - phpspec
@@ -314,7 +314,7 @@
 
 - name: install phpunit
   hosts: phpunit
-  sudo: yes
+  become: yes
 
   roles:
     - phpunit
@@ -323,7 +323,7 @@
 
 - name: install postgresql
   hosts: postgresql
-  sudo: yes
+  become: yes
 
   roles:
     - postgresql
@@ -342,7 +342,7 @@
 
 - name: install python-fabric
   hosts: python-fabric
-  sudo: yes
+  become: yes
 
   roles:
     - python-fabric
@@ -351,7 +351,7 @@
 
 - name: install redis
   hosts: redis
-  sudo: yes
+  become: yes
 
   roles:
     - redis
@@ -360,7 +360,7 @@
 
 - name: install selenium
   hosts: selenium
-  sudo: yes
+  become: yes
 
   roles:
     - selenium
@@ -369,7 +369,7 @@
 
 - name: install squid
   hosts: squid
-  sudo: yes
+  become: yes
 
   roles:
     - squid
@@ -378,7 +378,7 @@
 
 - name: install supervisor
   hosts: supervisor
-  sudo: yes
+  become: yes
 
   roles:
     - supervisor
@@ -387,7 +387,7 @@
 
 - name: create swap memory
   hosts: swap
-  sudo: yes
+  become: yes
 
   roles:
     - swap
@@ -396,7 +396,7 @@
 
 - name: ufw
   hosts: ufw
-  sudo: yes
+  become: yes
 
   roles:
     - ufw
@@ -405,7 +405,7 @@
 
 - name: install webmin
   hosts: webmin
-  sudo: yes
+  become: yes
 
   roles:
     - webmin
@@ -414,7 +414,7 @@
 
 - name: install xhgui
   hosts: xhgui
-  sudo: yes
+  become: yes
 
   roles:
     - xhgui
@@ -423,7 +423,7 @@
 
 - name: install zsh
   hosts: zsh
-  sudo: yes
+  become: yes
 
   roles:
     - zsh
