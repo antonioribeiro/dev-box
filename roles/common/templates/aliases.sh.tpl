@@ -663,9 +663,9 @@ function mkrepo {
     #/ 
     ## Copy default files to repository
     #/ 
-    cp -f '$MKREPO_GIT_INIT_PATH/README.md' .
-    cp -f '$MKREPO_GIT_INIT_PATH/LICENSE.md' .
-    cp -f '$MKREPO_GIT_INIT_PATH/.gitignore' .
+    cp -f $MKREPO_GIT_INIT_PATH/README.md .
+    cp -f $MKREPO_GIT_INIT_PATH/LICENSE.md .
+    cp -f $MKREPO_GIT_INIT_PATH/.gitignore .
 
     #/ 
     ## Initialize Git repository
