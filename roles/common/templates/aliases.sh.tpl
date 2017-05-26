@@ -623,3 +623,69 @@ alias ulimit='ulimit -S'
 alias less='less -r'
 alias fuck='sudo $(history -p \!\!)'
 
+############################################################
+####
+####  mkrepo script for GitHub
+####
+
+export MKREPO_DEV_BASE_PATH=~/code/
+export MKREPO_GIT_INIT_PATH=/Users/antoniocarlos/Dropbox/development/.initgit/
+
+function mkrepo {
+    #/ 
+    ## Check if hub is installed
+    #/ 
+    if ! type hub &> /dev/null ; then
+        echo Looks like Hub is not installed, please install it and try again.
+        echo If you are using a macOS, you just run 'brew install hub'
+        return;
+    fi
+
+    #/ 
+    ## Get the repository name
+    #/ 
+    printf "GitHub repository name: "
+    read NAME
+
+    #/ 
+    ## Get the folder name
+    #/ 
+    printf "Local folder: $MKREPO_DEV_BASE_PATH"
+    read FOLDER
+
+    #/ 
+    ## Create and enters the folder
+    #/ 
+    cd $MKREPO_DEV_BASE_PATH
+    mkdir -p "$FOLDER"
+    cd "$FOLDER"
+
+    #/ 
+    ## Copy default files to repository
+    #/ 
+    cp -f '$MKREPO_GIT_INIT_PATH/README.md' .
+    cp -f '$MKREPO_GIT_INIT_PATH/LICENSE.md' .
+    cp -f '$MKREPO_GIT_INIT_PATH/.gitignore' .
+
+    #/ 
+    ## Initialize Git repository
+    #/ 
+    git init
+
+    #/ 
+    ## Create the repository on GitHub
+    #/ 
+    hub create $NAME
+
+    #/ 
+    ## Add all files and push to master on GitHub
+    #/ 
+    git add -A .
+    git commit -m "First commit."
+    git push -u origin master
+
+    #/ 
+    ## Show the repository on your default browser
+    #/ 
+    hub browse
+}
