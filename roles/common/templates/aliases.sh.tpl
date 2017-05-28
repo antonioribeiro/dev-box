@@ -628,44 +628,67 @@ alias fuck='sudo $(history -p \!\!)'
 ####  mkrepo script for GitHub
 ####
 
-export MKREPO_DEV_BASE_PATH=~/code/
-export MKREPO_GIT_INIT_PATH=/Users/antoniocarlos/Dropbox/development/.initgit/
+export MKREPO_REPOSITORIES_BASE_PATH=~/code/
+export MKREPO_SKELETON_PATH=/Users/antoniocarlos/Dropbox/development/.skeleton/
 
 function mkrepo {
+    #/ 
+    ## Splash
+    #/ 
+    echo "mkrepo 0.1.0"
+    echo "Base repositories path: $MKREPO_REPOSITORIES_BASE_PATH"
+    echo "Init files path: $MKREPO_SKELETON_PATH"
+    echo
+
     #/ 
     ## Check if hub is installed
     #/ 
     if ! type hub &> /dev/null ; then
         echo Looks like Hub is not installed, please install it and try again.
-        echo If you are using a macOS, you just run 'brew install hub'
+        echo "If you are using a macOS, you can probably just run 'brew install hub'"
+        return;
+    fi
+
+    VISIBILITY=${1:---public}
+    NAME=${2:-_empty_}
+    SUBFOLDER=${3:-_empty_}
+
+    if [ "$VISIBILITY" = "--help" ] || [ "$VISIBILITY" = "-help" ] || [ "$VISIBILITY" = "help" ]; then 
+        echo "usage: mkrepo [--private or --public or --help] [repository name] [subfolder] "
+        echo
+        echo "** If you pass more than one argument, all previous arguments become mandatory"
+        echo 
+
         return;
     fi
 
     #/ 
     ## Get the repository name
     #/ 
-    printf "GitHub repository name: "
-    read NAME
+    if [ "$NAME" = "_empty_" ]; then
+        printf "GitHub repository name: "
+        read NAME
+    fi
 
     #/ 
     ## Get the folder name
     #/ 
-    printf "Local folder: $MKREPO_DEV_BASE_PATH"
-    read FOLDER
+    if [ "$SUBFOLDER" = "_empty_" ]; then
+        printf "Local folder: $MKREPO_REPOSITORIES_BASE_PATH"
+        read SUBFOLDER
+    fi
 
     #/ 
     ## Create and enters the folder
     #/ 
-    cd $MKREPO_DEV_BASE_PATH
-    mkdir -p "$FOLDER"
-    cd "$FOLDER"
+    cd $MKREPO_REPOSITORIES_BASE_PATH
+    mkdir -p "$SUBFOLDER"
+    cd "$SUBFOLDER"
 
     #/ 
-    ## Copy default files to repository
+    ## Copy init files to repository
     #/ 
-    cp -f $MKREPO_GIT_INIT_PATH/README.md .
-    cp -f $MKREPO_GIT_INIT_PATH/LICENSE.md .
-    cp -f $MKREPO_GIT_INIT_PATH/.gitignore .
+    cp -a $MKREPO_SKELETON_PATH $MKREPO_REPOSITORIES_BASE_PATH/$SUBFOLDER
 
     #/ 
     ## Initialize Git repository
@@ -675,7 +698,11 @@ function mkrepo {
     #/ 
     ## Create the repository on GitHub
     #/ 
-    hub create $NAME
+    if [ "$VISIBILITY" = "--private" ]; then
+        hub create $NAME -p
+    else
+        hub create $NAME
+    fi
 
     #/ 
     ## Add all files and push to master on GitHub
